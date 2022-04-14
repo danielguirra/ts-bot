@@ -1,0 +1,36 @@
+{
+  "name": "ts-bot",
+  "scripts": {
+    "build": "npx tsc",
+    "dev-ts": "npx nodemon ./src/server.ts",
+    "dev": "npx nodemon ./bin/server.js",
+    "start": "node ./bin/server.js"
+  },
+  "packageManager": "yarn@3.2.0",
+  "dependencies": {
+    "@discordjs/builders": "^0.8.2",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "@discordjs/voice": "^0.6.0",
+    "@vitalets/google-translate-api": "^7.0.0",
+    "axios": "^0.21.4",
+    "bible-pt": "^1.2.1",
+    "canvas": "^2.8.0",
+    "cron": "^1.8.2",
+    "discord-api-types": "^0.24.0",
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "g-i-s": "^2.1.6",
+    "jsdom": "^17.0.0",
+    "latest-tweets": "^1.0.4",
+    "lerolero": "^0.1.0",
+    "lol-discord": "^0.1.5",
+    "node": "16.14.2",
+    "nodemailer": "^6.7.0",
+    "nodemon": "^2.0.13",
+    "pensador": "^1.0.4",
+    "pokemon.js": "^1.1.8",
+    "python": "^0.0.4",
+    "request": "^2.88.2"
+  }
+}
