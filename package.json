@@ -10,6 +10,7 @@
     "@discordjs/builders": "^0.8.2",
     "@discordjs/rest": "^0.1.0-canary.0",
     "@discordjs/voice": "^0.6.0",
+    "@types/cron": "^1.7.3",
     "@types/express": "^4.17.13",
     "@vitalets/google-translate-api": "^7.0.0",
     "axios": "^0.21.4",
@@ -21,7 +22,6 @@
     "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "g-i-s": "^2.1.6",
     "jsdom": "^17.0.0",
     "latest-tweets": "^1.0.4",
     "lerolero": "^0.1.0",
@@ -32,6 +32,7 @@
     "pensador": "^1.0.4",
     "pokemon.js": "^1.1.8",
     "python": "^0.0.4",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "simple-google-image-search": "^1.2.0"
   }
 }

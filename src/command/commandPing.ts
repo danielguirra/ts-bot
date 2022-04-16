@@ -1,10 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { Interaction, Message } from "discord.js";
 import { embedBuilder } from "../util/getEmbed";
-import { CommandBuilder } from "./commandBuilder";
-
-
-
 
 
 export const ping = {

@@ -13,3 +13,5 @@
 .env
 node_modules
 bin
+
+users.json

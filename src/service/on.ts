@@ -2,6 +2,8 @@ import { client } from "../client/client";
 import dotenv from "dotenv";
 import { channelItsGuildTextChannel } from "./channelItsGuildTextChannel";
 import { dateLastItsTrue } from "./dateLastItsTrue";
+import { dailySender } from "./dailySender";
+import { CronJob } from 'cron'
 dotenv.config();
 
 const token = process.env.BOTTOKEN;
@@ -22,8 +24,12 @@ export const on =
         );
         if (dateLastMessageChannelClimateItsTrue) {
             console.log("Clima diário não enviado");
+            dailySender(channelClimate, channeldolar, channellove, channeldia)
         } else {
             console.log("Clima será enviado");
+            new CronJob("00 00 11 * * *", () => {
+                dailySender(channelClimate, channeldolar, channellove, channeldia)
+            }).start();
         }
 
     });
