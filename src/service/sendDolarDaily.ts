@@ -1,6 +1,7 @@
-import { GuildTextBasedChannel } from "discord.js";
-import axios from 'axios'
-import { embedBuilder } from "../util/getEmbed";
+import axios from 'axios';
+import { GuildTextBasedChannel } from 'discord.js';
+
+import { embedBuilder } from '../util/getEmbed';
 
 
 

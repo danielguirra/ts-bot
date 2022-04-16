@@ -1,9 +1,11 @@
-import { client } from "../client/client";
-import dotenv from "dotenv";
-import { channelItsGuildTextChannel } from "./channelItsGuildTextChannel";
-import { dateLastItsTrue } from "./dateLastItsTrue";
-import { dailySender } from "./dailySender";
-import { CronJob } from 'cron'
+import { CronJob } from 'cron';
+import dotenv from 'dotenv';
+
+import { client } from '../client/client';
+import { channelItsGuildTextChannel } from './channelItsGuildTextChannel';
+import { dailySender } from './dailySender';
+import { dateLastItsTrue } from './dateLastItsTrue';
+
 dotenv.config();
 
 const token = process.env.BOTTOKEN;

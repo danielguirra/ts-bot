@@ -1,5 +1,6 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { embedBuilder } from "../util/getEmbed";
+import { SlashCommandBuilder } from '@discordjs/builders';
+
+import { embedBuilder } from '../util/getEmbed';
 
 
 export const ping = {

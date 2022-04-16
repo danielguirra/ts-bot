@@ -1,8 +1,10 @@
-import { client } from "../client/client";
-import dotenv from 'dotenv'
-import { RoleResolvable } from "discord.js";
-import { channelItsGuildTextChannel } from "./channelItsGuildTextChannel";
-import { embedBuilder } from "../util/getEmbed";
+import { RoleResolvable } from 'discord.js';
+import dotenv from 'dotenv';
+
+import { client } from '../client/client';
+import { embedBuilder } from '../util/getEmbed';
+import { channelItsGuildTextChannel } from './channelItsGuildTextChannel';
+
 dotenv.config()
 
 

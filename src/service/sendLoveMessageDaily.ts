@@ -1,7 +1,9 @@
-import { GuildTextBasedChannel } from "discord.js";
-import { embedBuilder } from "../util/getEmbed";
-import dotenv from 'dotenv'
-import axios from "axios";
+import axios from 'axios';
+import { GuildTextBasedChannel } from 'discord.js';
+import dotenv from 'dotenv';
+
+import { embedBuilder } from '../util/getEmbed';
+
 dotenv.config()
 
 const urlamor = `${process.env.URLAPIPENSADORIMAGE}/pensador/amor`

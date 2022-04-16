@@ -1,4 +1,4 @@
-import { GuildTextBasedChannel } from "discord.js";
+import { GuildTextBasedChannel } from 'discord.js';
 
 export async function channelItsGuildTextChannel(
     channel: any): Promise<GuildTextBasedChannel> {

@@ -1,6 +1,8 @@
-import express from "express";
-import dotenv from "dotenv";
-import { run } from "./index";
+import dotenv from 'dotenv';
+import express from 'express';
+
+import { run } from '.';
+
 dotenv.config();
 const port = process.env.PORT;
 const app = express();

@@ -1,7 +1,8 @@
-import { GuildTextBasedChannel } from "discord.js"
-import axios from "axios"
-import dotenv from 'dotenv'
-import { embedBuilder } from "../util/getEmbed"
+import axios from 'axios';
+import { GuildTextBasedChannel } from 'discord.js';
+import dotenv from 'dotenv';
+
+import { embedBuilder } from '../util/getEmbed';
 
 dotenv.config()
 

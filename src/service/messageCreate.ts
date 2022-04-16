@@ -1,6 +1,8 @@
-import { client } from "../client/client";
-import { commands } from "../command/commandBuilder";
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+
+import { client } from '../client/client';
+import { commands } from '../command/commandBuilder';
+
 dotenv.config()
 
 const prefix = process.env.PREFIX

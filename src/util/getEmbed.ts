@@ -1,4 +1,4 @@
-import { MessageEmbed, ColorResolvable } from "discord.js"
+import { ColorResolvable, MessageEmbed } from 'discord.js';
 
 
 export function embedBuilder(title: string,

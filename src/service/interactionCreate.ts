@@ -1,5 +1,5 @@
-import { client } from "../client/client";
-import { commands } from "../command/commandBuilder";
+import { client } from '../client/client';
+import { commands } from '../command/commandBuilder';
 
 export const interactionCreate = client.on('interaction', async (interaction) => {
     if (!interaction.isCommand()) return

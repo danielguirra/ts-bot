@@ -1,66 +1,71 @@
-import { embedBuilder } from "../util/getEmbed";
-import axios from "axios";
-import emojis from "../../util/json/weatherEmoji.json";
-import weatherCode from "../../util/json/weatherCode.json";
-import { GuildTextBasedChannel } from "discord.js";
-import dotenv from 'dotenv'
+import axios from 'axios';
+import { GuildTextBasedChannel } from 'discord.js';
+import dotenv from 'dotenv';
 
-dotenv.config()
+import weatherCode from '../../util/json/weatherCode.json';
+import emojis from '../../util/json/weatherEmoji.json';
+import { embedBuilder } from '../util/getEmbed';
+
+dotenv.config();
 let climate;
 
-export const sendClimate = async (channel: GuildTextBasedChannel, city: string) => {
-    let url = `https://pt.wttr.in/${city}+brazil?format=j1`;
-    if (city === "ribeirao") {
-        url = "https://pt.wttr.in/ribeir%C3%A3o%20preto%20brasil?format=j1";
-    }
-    if (!city) return "Erro sendClimateCurrentTime " + " Cidade? 🤔" + city;
-    if (city === "*climadodia")
-        return "Erro sendClimateCurrentTime " + " Cidade? 🤔";
-    return axios.get(url).then((clim) => {
-        try {
-            let climatePorHora = [];
-            let weather = clim.data.weather[0].hourly;
-            for (const iterator of weather) {
-                let horario;
-                function arrumahora(time: string) {
-                    if (time.length > 2) {
-                        horario = time.slice(0, 1);
-                        horario = horario + ":00";
-                    }
-                    if (time.length > 3) {
-                        horario = time.slice(0, 2);
-                        horario = horario + ":00";
-                    }
-                    if (time.length === 1) {
-                        horario = "00:00";
-                    }
-                }
-                arrumahora(iterator.time);
-                let heatIndex = iterator.FeelsLikeC;
-                let heatString = `${heatIndex}°`;
-                let emoji = getEmojiForWeatherCode(iterator.weatherCode);
-                let porHora = {
-                    hora: horario,
-                    humidade: iterator.humidity,
-                    text: iterator.lang_pt[0].value,
-                    temp: iterator.tempC,
-                    preciptacaoMM: iterator.precipMM,
-                    raiosUV: iterator.uvIndex,
-                    heatIndex: heatString.slice(0, 4),
-                    emoji,
-                };
-                climatePorHora.push(porHora);
-            }
+export const sendClimate = async (
+  channel: GuildTextBasedChannel,
+  city: string,
+) => {
+  let url = `https://pt.wttr.in/${city}+brazil?format=j1`;
+  if (city === 'ribeirao') {
+    url = 'https://pt.wttr.in/ribeir%C3%A3o%20preto%20brasil?format=j1';
+  }
+  if (!city) return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
+  if (city === '*climadodia')
+    return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔';
+  return axios.get(url).then(clim => {
+    try {
+      let climatePorHora = [];
+      let weather = clim.data.weather[0].hourly;
+      for (const iterator of weather) {
+        let horario;
+        function arrumahora(time: string) {
+          if (time.length > 2) {
+            horario = time.slice(0, 1);
+            horario = horario + ':00';
+          }
+          if (time.length > 3) {
+            horario = time.slice(0, 2);
+            horario = horario + ':00';
+          }
+          if (time.length === 1) {
+            horario = '00:00';
+          }
+        }
+        arrumahora(iterator.time);
+        let heatIndex = iterator.FeelsLikeC;
+        let heatString = `${heatIndex}°`;
+        let emoji = getEmojiForWeatherCode(iterator.weatherCode);
+        let porHora = {
+          hora: horario,
+          humidade: iterator.humidity,
+          text: iterator.lang_pt[0].value,
+          temp: iterator.tempC,
+          preciptacaoMM: iterator.precipMM,
+          raiosUV: iterator.uvIndex,
+          heatIndex: heatString.slice(0, 4),
+          emoji,
+        };
+        climatePorHora.push(porHora);
+      }
 
-            climate = {
-                temperaturaMediaC: clim.data.weather[0].avgtempC,
-                porHora: climatePorHora,
-            };
-            return {
-                embeds: [
-                    embedBuilder(
-                        `Clima de ${city} Hoje`,
-                        `
+      climate = {
+        temperaturaMediaC: clim.data.weather[0].avgtempC,
+        porHora: climatePorHora,
+      };
+      return (
+        {
+          embeds: [
+            embedBuilder(
+              `Clima de ${city} Hoje`,
+              `
         Temperatura média : ${climate.temperaturaMediaC}C°
 
         Hora:**${climate.porHora[0].hora}**
@@ -129,61 +134,62 @@ export const sendClimate = async (channel: GuildTextBasedChannel, city: string) 
         ----------------------------------------------------
         
         `,
-                        "",
-                        "",
-                        "https://static.escolakids.uol.com.br/conteudo_legenda/4e3d738c244f4c5f3b56f46260402cc4.jpg",
-                        ""
-                    ),
-                ],
-            } || '';
-        } catch (err) {
-            return 'Erro'
-        }
-    });
-}
-export const sendClimateCurrentTime =
-    async (channel: GuildTextBasedChannel, city: string) => {
-        let url = `https://pt.wttr.in/${city}+brazil?format=j1`;
-        if (city === "ribeirao") {
-            url = "https://pt.wttr.in/ribeir%C3%A3o%20preto%20brasil?format=j1";
-        }
-        if (!city)
-            return "Erro sendClimateCurrentTime " + " Cidade? 🤔" + city;
-        if (city === "*clima")
-            return "Erro sendClimateCurrentTime " + " Cidade? 🤔";
-        return axios.get(url).then((clim) => {
-            try {
-                let weather = clim.data.current_condition[0];
+              '',
+              '',
+              'https://static.escolakids.uol.com.br/conteudo_legenda/4e3d738c244f4c5f3b56f46260402cc4.jpg',
+              '',
+            ),
+          ],
+        } || ''
+      );
+    } catch (err) {
+      return 'Erro';
+    }
+  });
+};
+export const sendClimateCurrentTime = async (
+  channel: GuildTextBasedChannel,
+  city: string,
+) => {
+  let url = `https://pt.wttr.in/${city}+brazil?format=j1`;
+  if (city === 'ribeirao') {
+    url = 'https://pt.wttr.in/ribeir%C3%A3o%20preto%20brasil?format=j1';
+  }
+  if (!city) return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
+  if (city === '*clima') return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔';
+  return axios.get(url).then(clim => {
+    try {
+      let weather = clim.data.current_condition[0];
 
-                let heatIndex = weather.FeelsLikeC;
-                let emoji = getEmojiForWeatherCode(weather.weatherCode);
-                let heatString = `${heatIndex}`;
-                let { str_hora } = hourNow();
-                let climate = {
-                    temp_C: weather.temp_C,
-                    humidity: weather.humidity,
-                    text: weather.lang_pt[0].value,
-                    heatIndex: heatString.slice(0, 4),
-                    str_hora,
-                    emoji,
-                };
-                return {
-                    embeds: [
-                        embedBuilder(
-                            `Clima de ${city} agora ${str_hora}`,
-                            ` A temperatura está em :**${climate.temp_C}Cº**
+      let heatIndex = weather.FeelsLikeC;
+      let emoji = getEmojiForWeatherCode(weather.weatherCode);
+      let heatString = `${heatIndex}`;
+      let { str_hora } = hourNow();
+      let climate = {
+        temp_C: weather.temp_C,
+        humidity: weather.humidity,
+        text: weather.lang_pt[0].value,
+        heatIndex: heatString.slice(0, 4),
+        str_hora,
+        emoji,
+      };
+      return {
+        embeds: [
+          embedBuilder(
+            `Clima de ${city} agora ${str_hora}`,
+            ` A temperatura está em :**${climate.temp_C}Cº**
           Humidade em **${climate.humidity}%**
           **${climate.text}** ${climate.emoji}
           Sensação térmica de **${climate.heatIndex}Cº**
-        `
-                        ),
-                    ],
-                };
-            } catch (err) {
-                return 'erro'
-            }
-        });
-    };
+        `,
+          ),
+        ],
+      };
+    } catch (err) {
+      return 'erro';
+    }
+  });
+};
 
 /**
  *
@@ -191,9 +197,9 @@ export const sendClimateCurrentTime =
  * @returns promise:Emoji
  */
 function getEmojiForWeatherCode(codeEmojiWeather: number) {
-    const emoji: any = emojis
-    const weather: any = weatherCode
-    return emoji[0][weather[0][codeEmojiWeather]];
+  const emoji: any = emojis;
+  const weather: any = weatherCode;
+  return emoji[0][weather[0][codeEmojiWeather]];
 }
 /**
  *
@@ -202,36 +208,36 @@ function getEmojiForWeatherCode(codeEmojiWeather: number) {
  * @returns
  */
 function heatIndexCalculator(tempC: any, velWindKm: any) {
-    return (
-        33 + ((10 * Math.sqrt(velWindKm) + 10.45 - velWindKm) * (tempC - 33)) / 22
-    );
+  return (
+    33 + ((10 * Math.sqrt(velWindKm) + 10.45 - velWindKm) * (tempC - 33)) / 22
+  );
 }
 
 const getNameWeekFunc = (x: any) => {
-    return [
-        "Domingo",
-        "Segunda-Feira",
-        "Terça-Feira",
-        "Quarta-Feira",
-        "Quinta-Feira",
-        "Sexta-Feira",
-        "Sábado",
-    ][x];
+  return [
+    'Domingo',
+    'Segunda-Feira',
+    'Terça-Feira',
+    'Quarta-Feira',
+    'Quinta-Feira',
+    'Sexta-Feira',
+    'Sábado',
+  ][x];
 };
 function hourNow() {
-    const horaenv: any = process.env.HORA || 3
-    var data = new Date();
-    var dia = data.getDate(); // 1-31
-    var dia_sem = data.getDay(); // 0-6 (zero=domingo)
-    var mes = data.getMonth(); // 0-11 (zero=janeiro)
-    var ano4 = data.getFullYear(); // 4 dígitos
-    var hora: any = data.getHours(); // 0-23
-    hora = hora - horaenv
-    var min = data.getMinutes(); // 0-59
-    var seg = data.getSeconds(); // 0-59
-    const getNameWeek = getNameWeekFunc;
-    // Formata a data e a hora (note o mês + 1)
-    var str_data = dia + "/" + (mes + 1) + "/" + ano4;
-    var str_hora = hora + ":" + min + ":" + seg;
-    return { getNameWeek, dia_sem, str_data, str_hora };
+  const horaenv: any = process.env.HORA || 3;
+  var data = new Date();
+  var dia = data.getDate(); // 1-31
+  var dia_sem = data.getDay(); // 0-6 (zero=domingo)
+  var mes = data.getMonth(); // 0-11 (zero=janeiro)
+  var ano4 = data.getFullYear(); // 4 dígitos
+  var hora: any = data.getHours(); // 0-23
+  hora = hora - horaenv;
+  var min = data.getMinutes(); // 0-59
+  var seg = data.getSeconds(); // 0-59
+  const getNameWeek = getNameWeekFunc;
+  // Formata a data e a hora (note o mês + 1)
+  var str_data = dia + '/' + (mes + 1) + '/' + ano4;
+  var str_hora = hora + ':' + min + ':' + seg;
+  return { getNameWeek, dia_sem, str_data, str_hora };
 }

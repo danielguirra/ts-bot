@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message } from 'discord.js';
 
 export function dateLastItsTrue(lastMessageChannelClimate: Message) {
     const dateLastMessageChannelClimate = new Date(

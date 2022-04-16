@@ -1,5 +1,6 @@
-import { Collection, Interaction, Message } from "discord.js";
-import { ping } from "./commandPing";
+import { Collection, Interaction, Message } from 'discord.js';
+
+import { ping } from './commandPing';
 
 
 export class CommandBuilder {
@@ -7,7 +8,7 @@ export class CommandBuilder {
     public Message = Message.prototype
 }
 
-let allComands: any = {
+const allComands: any = {
     ping
 }
 
