@@ -1,8 +1,10 @@
-
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import { commands } from '../command/commandBuilder';
 import dotenv from 'dotenv';
+
+import { commands } from '../command/commandBuilder';
+
+
 dotenv.config();
 const clientId = process.env.CLIENTID;
 const guildId = process.env.GUILD;
