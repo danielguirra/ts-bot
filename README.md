@@ -44,12 +44,22 @@ I used this version of NodeJS, I don't guarantee it will work on older versions
 ## Install
 
     $ git clone https://github.com/danielguirra/ts-bot/
-    $ cd bot-discord
-    $ npm i
+    $ cd ts-bot
+    $ npm install
+    or
+    $ yarn install
+
+## Build
+
+    $ npm run build
 
 ## Running the project
 
-    $ node .
+    $ npm run start
+
+## Dev
+
+    $ npm run dev
 
 ## License
 
