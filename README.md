@@ -1,7 +1,7 @@
 # TS-BOT
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/danielguirra/ts-bot/)
-https://replit.com/github.com/danielguirra/ts-bot/
+[![Deploy](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9JhK9tseVXDkYrNSpZWiYQFLlgvvfA13UAtW9uFU2hKlY_-26VVxkXti94_gDxP_kWHo&usqp=CAU)](https://replit.com/github.com/danielguirra/ts-bot/)
 
 ## Summary
 
@@ -9,7 +9,7 @@ A bot that does server administration like banning, creating important tags with
 
 ### Requirements
 
-For development, you will only need Node.js and a node global package, installed in your environement.
+For development, you will only need Node.js and a node global package, installed in your environement, use .envexemple.
 
 Token Discord [Offical Discord Developer website](https://discord.com/developers)
 
