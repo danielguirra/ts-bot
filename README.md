@@ -1,6 +1,7 @@
 # TS-BOT
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/danielguirra/ts-bot/)
+
 [![Deploy](https://avatars.githubusercontent.com/u/983194?s=50&v=4)](https://replit.com/github.com/danielguirra/ts-bot/)
 
 ## Summary
