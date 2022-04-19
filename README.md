@@ -1,7 +1,7 @@
 # TS-BOT
 
 <p align="center">
-  <a href="https://discord.gg/QujfHqdUDg" target="blank"><img src="https://media.discordapp.net/attachments/703028863315345428/902183896077185134/launcher_icon.png" width="320" alt="Nest Logo" /></a>
+  <a href="https://discord.gg/QujfHqdUDg" target="blank"><img src="https://media.discordapp.net/attachments/703028863315345428/902183896077185134/launcher_icon.png" width="200" alt="Nest Logo" /></a>
 </p>
 ## Summary
 
