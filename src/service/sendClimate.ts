@@ -2,8 +2,8 @@ import axios from 'axios';
 import { GuildTextBasedChannel } from 'discord.js';
 import dotenv from 'dotenv';
 
-import weatherCode from '../../util/json/weatherCode.json';
-import emojis from '../../util/json/weatherEmoji.json';
+import weatherCode from '../../data/json/weatherCode.json';
+import emojis from '../../data/json/weatherEmoji.json';
 import { embedBuilder } from '../util/getEmbed';
 
 dotenv.config();

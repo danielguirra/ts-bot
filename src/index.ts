@@ -5,9 +5,9 @@ import { messageCreate } from './service/messageCreate';
 import { on } from './service/on';
 
 export const run = {
-    on,
-    guildMemberAdd,
-    deployCommand,
-    interactionCreate,
-    messageCreate
-}
+  on,
+  guildMemberAdd,
+  deployCommand,
+  interactionCreate,
+  messageCreate,
+};
