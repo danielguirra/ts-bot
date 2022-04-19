@@ -44,11 +44,9 @@ I used this version of NodeJS, I don't guarantee it will work on older versions
 
 You can deploy to Heroku or Replit or install locally yourself.
 
-Heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/danielguirra/ts-bot/)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/danielguirra/ts-bot/)Heroku
 
-Replit
-[![Deploy](https://avatars.githubusercontent.com/u/983194?s=50&v=4)](https://replit.com/github.com/danielguirra/ts-bot/)
+[![Deploy](https://avatars.githubusercontent.com/u/983194?s=50&v=4)](https://replit.com/github.com/danielguirra/ts-bot/)Replit
 
 ## Install
 
