@@ -1,5 +1,8 @@
 # TS-BOT
 
+<p align="center">
+  <a href="https://discord.gg/QujfHqdUDg" target="blank"><img src="https://cdn.discordapp.com/avatars/811255307673010246/8f145d7279847a9a6e46efd5ee3df6bf.webp" width="320" alt="Nest Logo" /></a>
+</p>
 ## Summary
 
 A bot that does server administration like banning, creating important tags with embed's, welcome message and much more.
