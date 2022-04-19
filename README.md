@@ -1,7 +1,7 @@
 # TS-BOT
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/danielguirra/ts-bot/)
-[![Deploy](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9JhK9tseVXDkYrNSpZWiYQFLlgvvfA13UAtW9uFU2hKlY_-26VVxkXti94_gDxP_kWHo&usqp=CAU)](https://replit.com/github.com/danielguirra/ts-bot/)
+[![Deploy](https://avatars.githubusercontent.com/u/983194?s=50&v=4)](https://replit.com/github.com/danielguirra/ts-bot/)
 
 ## Summary
 
