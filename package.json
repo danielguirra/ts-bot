@@ -7,8 +7,7 @@
   "license": "MIT",
   "author": {
     "name": "Daniel Guirra",
-    "email": "daniel.guirra777@gmail.com",
-    "url": "www.github.com/danielguirra"
+    "email": "daniel.guirra777@gmail.com"
   },
   "scripts": {
     "build": "node ./config/build",
