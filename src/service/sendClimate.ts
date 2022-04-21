@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GuildTextBasedChannel } from 'discord.js';
+import { GuildTextBasedChannel, TextBasedChannel } from 'discord.js';
 import dotenv from 'dotenv';
 
 import weatherCode from '../../data/json/weatherCode.json';
@@ -148,8 +148,9 @@ export const sendClimate = async (
   });
 };
 export const sendClimateCurrentTime = async (
-  channel: GuildTextBasedChannel,
-  city: string,
+  channel?: GuildTextBasedChannel,
+  city?: string,
+  channelSlash?: TextBasedChannel,
 ) => {
   let url = `https://pt.wttr.in/${city}+brazil?format=j1`;
   if (city === 'ribeirao') {
@@ -157,22 +158,23 @@ export const sendClimateCurrentTime = async (
   }
   if (!city) return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
   if (city === '*clima') return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔';
-  return axios.get(url).then(clim => {
-    try {
-      let weather = clim.data.current_condition[0];
+  const climateAxios = await axios.get(url);
+  try {
+    let weather = climateAxios.data.current_condition[0];
 
-      let heatIndex = weather.FeelsLikeC;
-      let emoji = getEmojiForWeatherCode(weather.weatherCode);
-      let heatString = `${heatIndex}`;
-      let { str_hora } = hourNow();
-      let climate = {
-        temp_C: weather.temp_C,
-        humidity: weather.humidity,
-        text: weather.lang_pt[0].value,
-        heatIndex: heatString.slice(0, 4),
-        str_hora,
-        emoji,
-      };
+    let heatIndex = weather.FeelsLikeC;
+    let emoji = getEmojiForWeatherCode(weather.weatherCode);
+    let heatString = `${heatIndex}`;
+    let { str_hora } = hourNow();
+    let climate = {
+      temp_C: weather.temp_C,
+      humidity: weather.humidity,
+      text: weather.lang_pt[0].value,
+      heatIndex: heatString.slice(0, 4),
+      str_hora,
+      emoji,
+    };
+    if (channelSlash) {
       return {
         embeds: [
           embedBuilder(
@@ -185,10 +187,23 @@ export const sendClimateCurrentTime = async (
           ),
         ],
       };
-    } catch (err) {
-      return 'erro';
     }
-  });
+    if (channel)
+      return channel.send({
+        embeds: [
+          embedBuilder(
+            `Clima de ${city} agora ${str_hora}`,
+            ` A temperatura está em :**${climate.temp_C}Cº**
+          Humidade em **${climate.humidity}%**
+          **${climate.text}** ${climate.emoji}
+          Sensação térmica de **${climate.heatIndex}Cº**
+        `,
+          ),
+        ],
+      });
+  } catch (err) {
+    return 'erro';
+  }
 };
 
 /**

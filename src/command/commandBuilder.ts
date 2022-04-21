@@ -1,5 +1,7 @@
 import { Collection, Interaction, Message } from 'discord.js';
 
+import { advice } from './commandAdvice';
+import { climate } from './commandClimate';
 import { ping } from './commandPing';
 
 export class CommandBuilder {
@@ -9,6 +11,8 @@ export class CommandBuilder {
 
 const allComands: any = {
   ping,
+  climate,
+  advice,
 };
 
 export const commands: any = new Collection();

@@ -3,7 +3,7 @@ import { GuildTextBasedChannel } from 'discord.js';
 import users from '../../users.json';
 import { client } from '../client/client';
 import { channelItsGuildTextChannel } from './channelItsGuildTextChannel';
-import { sendClimate, sendClimateCurrentTime } from './sendClimate';
+import { sendClimate } from './sendClimate';
 import { sendDaily } from './sendDaily';
 import { sendDolarDaily } from './sendDolarDaily';
 import { sendLoveMessageDaily } from './sendLoveMessageDaily';
@@ -24,7 +24,7 @@ export async function dailySender(
       const userSend = await client.users.fetch(user.id);
       const userChannel = await channelItsGuildTextChannel(userSend);
 
-      userSend.send(await sendClimateCurrentTime(userChannel, user.cidade));
+      userSend.send(await sendClimate(userChannel, user.cidade));
     }
   } catch (error) {}
 }
