@@ -2,7 +2,7 @@ import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import dotenv from 'dotenv';
 
-import { commands } from '../command/commandBuilder';
+import { commands } from '../command/Builder';
 
 dotenv.config();
 const clientId = process.env.CLIENTID;

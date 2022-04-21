@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
 import { client } from '../client/client';
-import { commands } from '../command/commandBuilder';
+import { commands } from '../command/Builder';
 
 dotenv.config();
 

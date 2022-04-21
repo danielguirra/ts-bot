@@ -34,7 +34,10 @@ export const advice = {
     });
   },
 };
-
+/**
+ *
+ * @returns Conselho um em portugues
+ */
 async function getAdvice() {
   const url = `https://api.adviceslip.com/advice`;
   const advice = await axios.get(url);

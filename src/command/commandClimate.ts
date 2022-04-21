@@ -15,7 +15,10 @@ export const climate = {
     .setName('clima')
     .setDescription('retorna o clima da cidade fornecida')
     .addStringOption(options =>
-      options.setName('city').setDescription('cidade para retornar'),
+      options
+        .setName('city')
+        .setDescription('cidade para retornar')
+        .setRequired(true),
     ),
   async executeMessageCommand(commandMessage: Message) {
     const channel = channelItsGuildTextChannel(commandMessage.channel);
