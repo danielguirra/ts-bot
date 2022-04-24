@@ -2,7 +2,9 @@
   "name": "ts-bot",
   "version": "1.0",
   "icon": "https://cdn.discordapp.com/avatars/811255307673010246/8f145d7279847a9a6e46efd5ee3df6bf.webp",
-"repository": {"url": "https://github.com/danielguirra/ts-bot"},
+  "repository": {
+    "url": "https://github.com/danielguirra/ts-bot"
+  },
   "description": "DiscordBot in TypeScript",
   "license": "MIT",
   "author": {
@@ -36,6 +38,7 @@
     "latest-tweets": "^1.0.4",
     "lerolero": "^0.1.0",
     "lol-discord": "^0.1.5",
+    "mongodb": "^4.5.0",
     "node": "16.14.2",
     "nodemailer": "^6.7.0",
     "nodemon": "^2.0.13",

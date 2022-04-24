@@ -1,4 +1,4 @@
-import { Collection, Interaction, Message } from 'discord.js';
+import { Collection } from 'discord.js';
 
 import { advice } from './commandAdvice';
 import { avatar } from './commandAvatar';
@@ -7,13 +7,12 @@ import { buzz } from './commandBuzz';
 import { clearChannel } from './commandClearChannel';
 import { climate } from './commandClimate';
 import { climateDaily } from './commandClimateDaily';
+import { coins } from './commandCoins';
+import { confiaWill } from './commandConfiaWill';
+import { day } from './commandDay';
 import { help } from './commandHelp';
 import { ping } from './commandPing';
-
-export class CommandBuilder {
-  public Inteaction = Interaction.prototype;
-  public Message = Message.prototype;
-}
+import { saveUser } from './commandSaveUser';
 
 const allComands: any = {
   ping,
@@ -25,6 +24,10 @@ const allComands: any = {
   buzz,
   climateDaily,
   clearChannel,
+  coins,
+  confiaWill,
+  day,
+  saveUser,
 };
 
 export const commands: any = new Collection();

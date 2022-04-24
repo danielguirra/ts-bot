@@ -12,13 +12,13 @@ const token = process.env.BOTTOKEN;
 
 export const on = client.on('ready', async () => {
   const guildID = await client.guilds.fetch(process.env.GUILD || '');
-  const channeldia = await channelItsGuildTextChannel(
+  const channelDaily = await channelItsGuildTextChannel(
     guildID.channels.resolve(process.env.DIA || ''),
   );
-  const channellove = await channelItsGuildTextChannel(
+  const channelLove = await channelItsGuildTextChannel(
     guildID.channels.resolve(process.env.LOVE || ''),
   );
-  const channeldolar = await channelItsGuildTextChannel(
+  const channelDolar = await channelItsGuildTextChannel(
     guildID.channels.resolve(process.env.DOLAR || ''),
   );
   const channelClimate = await channelItsGuildTextChannel(
@@ -33,11 +33,21 @@ export const on = client.on('ready', async () => {
   );
   if (dateLastMessageChannelClimateItsTrue) {
     console.log('Clima diário não enviado');
-    dailySender(channelClimate, channeldolar, channellove, channeldia);
+    dailySender({
+      channelClimate,
+      channelDolar,
+      channelLove,
+      channelDaily,
+    });
   } else {
     console.log('Clima será enviado');
     new CronJob('00 00 11 * * *', () => {
-      dailySender(channelClimate, channeldolar, channellove, channeldia);
+      dailySender({
+        channelClimate,
+        channelDolar,
+        channelLove,
+        channelDaily,
+      });
     }).start();
   }
 });

@@ -8,12 +8,17 @@ import { sendDaily } from './sendDaily';
 import { sendDolarDaily } from './sendDolarDaily';
 import { sendLoveMessageDaily } from './sendLoveMessageDaily';
 
-export async function dailySender(
-  channelClimate: GuildTextBasedChannel,
-  channelDolar: GuildTextBasedChannel,
-  channelLove: GuildTextBasedChannel,
-  channelDaily: GuildTextBasedChannel,
-) {
+export async function dailySender({
+  channelClimate,
+  channelDolar,
+  channelLove,
+  channelDaily,
+}: {
+  channelClimate: GuildTextBasedChannel;
+  channelDolar: GuildTextBasedChannel;
+  channelLove: GuildTextBasedChannel;
+  channelDaily: GuildTextBasedChannel;
+}): Promise<boolean> {
   try {
     sendDolarDaily(channelDolar);
     sendLoveMessageDaily(channelLove);
@@ -26,5 +31,9 @@ export async function dailySender(
 
       userSend.send(await sendClimate(userChannel, user.cidade));
     }
-  } catch (error) {}
+
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
