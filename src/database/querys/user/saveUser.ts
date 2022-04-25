@@ -9,7 +9,7 @@ export async function saveUserDb(user: IUser) {
     try {
       const save = await InsertOneUserApiMongoDb(userToSave.user);
       if (save) {
-        console.log(save);
+        return save;
       }
     } catch (error) {
       return error;

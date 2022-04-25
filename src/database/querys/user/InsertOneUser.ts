@@ -20,8 +20,8 @@ export async function InsertOneUserApiMongoDb(userToSave: IUser) {
       headers: headers,
     });
     if (save) {
-      return `Salvo no banco:  ${userToSave.username} 
-       ${save}`;
+      console.log(save.data);
+      return `Usuário ${userToSave.username}  salvo no banco com Sucesso!!`;
     }
   } catch (error) {
     return `Erro ao executar o post na Api para Salvar O Usuário \n

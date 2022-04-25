@@ -2,15 +2,10 @@
   "name": "ts-bot",
   "version": "1.0",
   "icon": "https://cdn.discordapp.com/avatars/811255307673010246/8f145d7279847a9a6e46efd5ee3df6bf.webp",
-  "repository": {
-    "url": "https://github.com/danielguirra/ts-bot"
-  },
+  "repository": "https://github.com/danielguirra/ts-bot",
   "description": "DiscordBot in TypeScript",
   "license": "MIT",
-  "author": {
-    "name": "Daniel Guirra",
-    "email": "daniel.guirra777@gmail.com"
-  },
+  "author": "Daniel Guirra <daniel.guirra777@gmail.com>",
   "scripts": {
     "build": "node ./config/build",
     "dev-ts": "npx nodemon ./src/server.ts",
@@ -48,5 +43,6 @@
     "python": "^0.0.4",
     "request": "^2.88.2",
     "simple-google-image-search": "^1.2.0"
-  }
+  },
+  "main": "index.js"
 }

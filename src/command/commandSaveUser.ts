@@ -38,9 +38,21 @@ export const saveUser = {
     const guild = commandMessage.guild;
 
     if (city && guild && user) {
-      const result = saveUserFunc(city, guild, user);
+      const result = await saveUserFunc(city, guild, user);
       const resultString = `${result}`;
-      return commandMessage.reply(resultString);
+      return commandMessage.reply({
+        embeds: [
+          embedBuilder(
+            'Banco de Dados Capivareis',
+            resultString,
+            '',
+            '',
+            '',
+            '',
+            'GREEN',
+          ),
+        ],
+      });
     }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
@@ -50,14 +62,26 @@ export const saveUser = {
     const guild = commandSlash.guild;
 
     if (city && guild && user) {
-      const result = saveUserFunc(city, guild, user, hour);
+      const result = await saveUserFunc(city, guild, user, hour);
       const resultString = `${result}`;
-      return commandSlash.reply(resultString);
+      return commandSlash.reply({
+        embeds: [
+          embedBuilder(
+            'Banco de Dados Capivareis',
+            resultString,
+            '',
+            '',
+            '',
+            '',
+            'GREEN',
+          ),
+        ],
+      });
     }
     return commandSlash.reply({ embeds: [embedBuilder('', '')] });
   },
 };
-function saveUserFunc(
+async function saveUserFunc(
   city: string,
   guild: Guild,
   user: User,
@@ -84,6 +108,6 @@ function saveUserFunc(
     userClimate: userClimateObjc,
   };
 
-  const result = saveUserDb(userObjc);
+  const result = await saveUserDb(userObjc);
   return result;
 }
