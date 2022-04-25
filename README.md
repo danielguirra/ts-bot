@@ -60,15 +60,15 @@ You can deploy to Heroku or Replit or install locally yourself.
     $ yarn install
 
 ## Build
-
+    $ yarn build
     $ npm run build
 
 ## Running the project
-
+    $ yarn start
     $ npm run start
 
 ## Dev
-
+    $ yarn dev
     $ npm run dev
 
 ## License
