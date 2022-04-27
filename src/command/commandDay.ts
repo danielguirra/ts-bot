@@ -12,44 +12,67 @@ import { dailySender } from '../service/dailySender';
  * @danielguirra
  */
 export const day = {
-  data: new SlashCommandBuilder().setName('day').setDescription('envia tudo'),
+  data: new SlashCommandBuilder()
+    .setName('day')
+    .setDescription('envia tudo do dia'),
   async executeMessageCommand(commandMessage: Message) {
-    const daily = await sender(commandMessage.client);
-    if (daily) {
+    const channels = await getChannels(commandMessage.client);
+
+    const day = await dailySender(channels);
+    if (day) {
       return commandMessage.reply({
-        embeds: [embedBuilder('Sim', 'Pronto meu chapa')],
+        embeds: [
+          embedBuilder(
+            'Tudo enviado',
+            `Tenha um bom dia ${commandMessage.author}`,
+            '',
+            '',
+            '',
+            '',
+            'YELLOW',
+          ),
+        ],
       });
     }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
-    const daily = await sender(commandSlash.client);
-    if (daily) {
+    const channels = await getChannels(commandSlash.client);
+
+    const day = await dailySender(channels);
+    if (day) {
       return commandSlash.reply({
-        embeds: [embedBuilder('Sim', 'Pronto meu chapa')],
+        embeds: [
+          embedBuilder(
+            'Tudo enviado',
+            `Tenha um bom dia ${commandSlash.user}`,
+            '',
+            '',
+            '',
+            '',
+            'YELLOW',
+          ),
+        ],
       });
     }
   },
 };
 
-async function sender(client: Client) {
+async function getChannels(client: Client) {
   const guildID = await client.guilds.fetch(process.env.GUILD || '');
-  const channelDaily = await channelItsGuildTextChannel(
-    guildID.channels.resolve(process.env.DIA || ''),
-  );
-  const channelLove = await channelItsGuildTextChannel(
-    guildID.channels.resolve(process.env.LOVE || ''),
-  );
-  const channelDolar = await channelItsGuildTextChannel(
-    guildID.channels.resolve(process.env.DOLAR || ''),
-  );
-  const channelClimate = await channelItsGuildTextChannel(
-    guildID.channels.resolve(process.env.CLIMA || ''),
-  );
-  const day = await dailySender({
-    channelClimate,
-    channelDolar,
-    channelLove,
-    channelDaily,
-  });
-  return day;
+
+  const climateObjc = {
+    channelDaily: await channelItsGuildTextChannel(
+      guildID.channels.resolve(process.env.DIA || ''),
+    ),
+    channelLove: await channelItsGuildTextChannel(
+      guildID.channels.resolve(process.env.LOVE || ''),
+    ),
+    channelDolar: await channelItsGuildTextChannel(
+      guildID.channels.resolve(process.env.DOLAR || ''),
+    ),
+    channelClimate: await channelItsGuildTextChannel(
+      guildID.channels.resolve(process.env.CLIMA || ''),
+    ),
+  };
+  return climateObjc;
 }

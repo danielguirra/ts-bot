@@ -13,6 +13,9 @@ export const messageCreate = client.on('messageCreate', async message => {
   if (!command) return;
   try {
     await commands.get(command).executeMessageCommand(message);
+    console.log(
+      'Comando : ' + (await commands.get(command).data.name) + ' foi usado',
+    );
   } catch (error) {
     return;
   }

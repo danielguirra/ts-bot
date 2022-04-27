@@ -10,6 +10,9 @@ import { climateDaily } from './commandClimateDaily';
 import { coins } from './commandCoins';
 import { confiaWill } from './commandConfiaWill';
 import { day } from './commandDay';
+import { dice } from './commandDice';
+import { dolar } from './commandDolar';
+import { email } from './commandEmail';
 import { help } from './commandHelp';
 import { ping } from './commandPing';
 import { saveUser } from './commandSaveUser';
@@ -28,6 +31,9 @@ const allComands: any = {
   confiaWill,
   day,
   saveUser,
+  dice,
+  dolar,
+  email,
 };
 
 export const commands: any = new Collection();

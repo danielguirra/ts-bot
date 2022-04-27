@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { saveUserDb } from '../database/querys/user/saveUser';
+import { verifyUser } from '../database/querys/user/verifyUser';
 import { IClimate } from '../interfaces/Climate';
 import { IDate } from '../interfaces/Date';
 import { IGuild } from '../interfaces/Guild';
@@ -56,7 +57,7 @@ export const saveUser = {
     }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
-    const hour = commandSlash.options.getInteger('hora');
+    const hour = commandSlash.options.getInteger('horas');
     const city = commandSlash.options.getString('cidade');
     const user = commandSlash.user;
     const guild = commandSlash.guild;
@@ -108,6 +109,13 @@ async function saveUserFunc(
     userClimate: userClimateObjc,
   };
 
-  const result = await saveUserDb(userObjc);
-  return result;
+  const verify = await verifyUser(userObjc);
+  if (!verify) {
+    console.log(verify);
+    const result = await saveUserDb(userObjc);
+    return result;
+  } else {
+    console.log(verify);
+    return `O usuário ${userObjc.username} já consta no banco `;
+  }
 }

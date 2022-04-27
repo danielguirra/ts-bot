@@ -21,14 +21,13 @@ export async function verifyUserExists(user: IUser) {
     const ver = await axios.post(urlFindOneApiMongoDb || '', data, {
       headers: headers,
     });
-    if (ver.data.findIndex((f: string) => f === user.id)) {
-      console.log('Verify executado retornou ' + ver);
+    if (ver.data.document.id === user.id) {
+      console.log('Verify executado retornou ' + ver.data.document.username);
       return true;
-    } else {
-      return false;
     }
   } catch (error) {
-    return error;
+    console.log('Usuário novo sendo salvo no Banco ID:' + user.id);
+    return false;
   }
 
   return false;

@@ -9,6 +9,7 @@ export const interactionCreate = client.on(
     if (!command) return;
     try {
       await command.executeSlashCommand(interaction);
+      console.log('Comando : ' + (await command.data.name) + ' foi usado');
     } catch (error) {
       return;
     }
