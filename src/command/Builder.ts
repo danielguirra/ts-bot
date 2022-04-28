@@ -1,40 +1,6 @@
 import { Collection } from 'discord.js';
 
-import { advice } from './commandAdvice';
-import { avatar } from './commandAvatar';
-import { ban } from './commandBan';
-import { buzz } from './commandBuzz';
-import { clearChannel } from './commandClearChannel';
-import { climate } from './commandClimate';
-import { climateDaily } from './commandClimateDaily';
-import { coins } from './commandCoins';
-import { confiaWill } from './commandConfiaWill';
-import { day } from './commandDay';
-import { dice } from './commandDice';
-import { dolar } from './commandDolar';
-import { email } from './commandEmail';
-import { help } from './commandHelp';
-import { ping } from './commandPing';
-import { saveUser } from './commandSaveUser';
-
-const allComands: any = {
-  ping,
-  climate,
-  advice,
-  help,
-  avatar,
-  ban,
-  buzz,
-  climateDaily,
-  clearChannel,
-  coins,
-  confiaWill,
-  day,
-  saveUser,
-  dice,
-  dolar,
-  email,
-};
+import { allComands } from './allComands';
 
 export const commands: any = new Collection();
 
