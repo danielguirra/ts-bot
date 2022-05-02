@@ -13,7 +13,7 @@ import { dolar } from './commandDolar';
 import { email } from './commandEmail';
 import { fry } from './commandFry';
 import { gif } from './commandGif';
-import { googleimage } from './commandGoogleImage';
+import { ime } from './commandGoogleImage';
 import { grandedia } from './commandGrandeDia';
 import { help } from './commandHelp';
 import { hour } from './commandHour';
@@ -57,7 +57,7 @@ export const allComands: any = {
   email,
   fry,
   gif,
-  googleimage,
+  ime,
   grandedia,
   hour,
   itsfine,

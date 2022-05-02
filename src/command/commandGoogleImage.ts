@@ -1,20 +1,39 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction, Message } from 'discord.js';
 
-import { embedBuilder } from '../../src/util/getEmbed';
+import { googleImage } from '../../googleImage';
 
-/**
- * Don't forget to export
- * Não esqueça de exportar
- * @param Command
- * @danielguirra
- */
-export const googleimage = {
-  data: new SlashCommandBuilder().setName('googleimage').setDescription('googleimage'),
+export const ime = {
+  data: new SlashCommandBuilder()
+    .setName('image')
+    .setDescription('image')
+    .addStringOption(option =>
+      option.setName('text').setDescription('imagem').setRequired(true),
+    ),
   async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply({ embeds: [embedBuilder('', '')] });
+    const text = commandMessage.content.replace('*image ', '');
+    googleImage(text, logResults);
+    function logResults(error: any, results: any) {
+      if (error) {
+        console.log(error);
+      } else {
+        const response = results.__wrapped__[0][0].url;
+        return commandMessage.reply(response);
+      }
+    }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
-    return commandSlash.reply({ embeds: [embedBuilder('', '')] });
+    const text = commandSlash.options.getString('text');
+    if (text) {
+      googleImage(text, logResults);
+      function logResults(error: any, results: any) {
+        if (error) {
+          console.log(error);
+        } else {
+          const response = results.__wrapped__[0][0].url;
+          return commandSlash.reply(response);
+        }
+      }
+    }
   },
 };
