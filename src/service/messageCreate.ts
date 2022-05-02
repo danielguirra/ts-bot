@@ -12,7 +12,7 @@ export const messageCreate = client.on('messageCreate', async message => {
   const command = args[0].toLowerCase();
   if (!command) return;
   try {
-    await commands.get(command).executeMessageCommand(message);
+    commands.get(command).executeMessageCommand(message);
     console.log(
       'Comando : ' + (await commands.get(command).data.name) + ' foi usado',
     );
