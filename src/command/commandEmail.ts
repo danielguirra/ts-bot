@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { client } from '../client/client';
-import { channelItsGuildTextChannel } from '../service/channelItsGuildTextChannel';
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 
 const emailbody: { text: string; email: string }[] = [];
 const regex = new RegExp(

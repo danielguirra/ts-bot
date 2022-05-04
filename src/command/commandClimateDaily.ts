@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction, Message } from 'discord.js';
 
-import { channelItsGuildTextChannel } from '../service/channelItsGuildTextChannel';
-import { sendClimate } from '../service/sendClimate';
+import { sendClimate } from '../service/send/sendClimate';
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 
 /**
  * Don't forget to export

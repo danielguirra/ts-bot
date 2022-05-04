@@ -2,8 +2,8 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { Client, CommandInteraction, Message } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
-import { channelItsGuildTextChannel } from '../service/channelItsGuildTextChannel';
 import { dailySender } from '../service/dailySender';
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 
 /**
  * Don't forget to export

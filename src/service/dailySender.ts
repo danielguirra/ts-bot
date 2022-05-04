@@ -1,12 +1,10 @@
 import { GuildTextBasedChannel } from 'discord.js';
 
-import { client } from '../client/client';
-import { channelItsGuildTextChannel } from './channelItsGuildTextChannel';
-import { sendClimate } from './sendClimate';
-import { sendDaily } from './sendDaily';
-import { sendDolarDaily } from './sendDolarDaily';
-import { sendLoveMessageDaily } from './sendLoveMessageDaily';
-import { users } from './usersDatabase';
+import { sendClimate } from './send/sendClimate';
+import { sendDaily } from './send/sendDaily';
+import { sendDolarDaily } from './send/sendDolarDaily';
+import { sendLoveMessageDaily } from './send/sendLoveMessageDaily';
+import { userSender } from './users/userSender';
 
 export async function dailySender({
   channelClimate,
@@ -25,13 +23,7 @@ export async function dailySender({
     sendClimate(channelClimate, 'franca');
     sendDaily(channelDaily);
 
-    const usersObjc: any = await users();
-    for (const user of usersObjc) {
-      const userSend = await client.users.fetch(user.id);
-      const userChannel = await channelItsGuildTextChannel(userSend);
-
-      userSend.send(await sendClimate(userChannel, user.userClimate.city));
-    }
+    await userSender();
 
     return true;
   } catch (error) {
