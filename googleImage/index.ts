@@ -1,5 +1,5 @@
 import cheerio from 'cheerio';
-import { CommandInteraction, GuildTextBasedChannel, Message } from 'discord.js';
+import { ColorResolvable, CommandInteraction, GuildTextBasedChannel, Message } from 'discord.js';
 import flatten = require('lodash');
 import * as queryString from 'querystring';
 import request = require('request');
@@ -49,7 +49,9 @@ export function googleImage(
 export async function googleImagePensador(
   titleFromEmbed: string,
   motivacao: IPensador,
-  command: CommandInteraction | Message,
+  command?: CommandInteraction | Message,
+  channel?: GuildTextBasedChannel,
+  color?: ColorResolvable,
 ) {
   await imageFunc(motivacao.author, resultfu);
   function resultfu(error: any, results: any) {
@@ -60,19 +62,37 @@ export async function googleImagePensador(
        * No Heroku results.__wrapped__[1][1].url
        */
       const image = results.__wrapped__[0][0].url;
-      command.reply({
-        embeds: [
-          embedBuilder(
-            titleFromEmbed,
-            motivacao.message,
-            image,
-            motivacao.author,
-            image,
-            image,
-            'RANDOM',
-          ),
-        ],
-      });
+      if (!color) color = 'RANDOM';
+      if (command) {
+        command.reply({
+          embeds: [
+            embedBuilder(
+              titleFromEmbed,
+              motivacao.message,
+              image,
+              motivacao.author,
+              image,
+              image,
+              color,
+            ),
+          ],
+        });
+      }
+      if (channel) {
+        channel.send({
+          embeds: [
+            embedBuilder(
+              titleFromEmbed,
+              motivacao.message,
+              image,
+              motivacao.author,
+              image,
+              image,
+              color,
+            ),
+          ],
+        });
+      }
     }
   }
 }

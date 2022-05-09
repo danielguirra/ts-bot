@@ -1,44 +1,22 @@
-import axios from 'axios';
 import { GuildTextBasedChannel } from 'discord.js';
 import dotenv from 'dotenv';
 
-import { embedBuilder } from '../../util/getEmbed';
+import { googleImagePensador } from '../../../googleImage';
+import { pensador } from '../../util/pensador';
 
 dotenv.config();
-
-const urlamor = `${process.env.URLAPIPENSADORIMAGE}/pensador/amor`;
-const urlimage = process.env.URLAPIPENSADORIMAGE + '/gis/';
 
 export const sendLoveMessageDaily = async (
   channelLove: GuildTextBasedChannel,
 ) => {
-  const data = await axios.get(urlamor);
-  const message = data.data.message;
-  const author = data.data.author;
-  const image = await axios.get(urlimage + author.trim());
-  const dataimage = image.data.url;
-
-  /**
-   * Para testes
-   */
-  const result = {
-    message,
-    author,
-    dataimage,
-  };
-
-  channelLove.send({
-    embeds: [
-      embedBuilder(
-        author,
-        `${message}`,
-        dataimage,
-        author,
-        dataimage,
-        dataimage,
-        '#C100CF',
-        dataimage,
-      ),
-    ],
-  });
+  const data: IPensador = await pensador.getFromMotivacionais();
+  const message = data.message;
+  const author = data.author;
+  const dataimage = await googleImagePensador(
+    data.author,
+    data,
+    undefined,
+    channelLove,
+    '#AF0F8F',
+  );
 };
