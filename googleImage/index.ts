@@ -25,6 +25,9 @@ export function googleImage(
     if (error) {
       console.log(error);
     } else {
+      /**
+       * No Heroku results.__wrapped__[1][1].url
+       */
       const response = results.__wrapped__[0][0].url;
       if (channel && mensage) {
         mensage.edit(`Achei aqui resultado de ${text}`);
@@ -53,6 +56,9 @@ export async function googleImagePensador(
     if (error) {
       console.log(error);
     } else {
+      /**
+       * No Heroku results.__wrapped__[1][1].url
+       */
       const image = results.__wrapped__[0][0].url;
       command.reply({
         embeds: [
