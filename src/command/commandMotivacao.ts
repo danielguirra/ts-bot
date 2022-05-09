@@ -18,7 +18,7 @@ export const motivacao = {
     const motivacaoFunc = await pensador.getFromMotivacionais();
     if (motivacaoFunc) {
       const embed = await googleImagePensador(
-        'Messagem Motivacional',
+        embedAux,
         motivacaoFunc,
         commandMessage,
       );
@@ -28,10 +28,14 @@ export const motivacao = {
     const motivacaoFunc = await pensador.getFromMotivacionais();
     if (motivacaoFunc) {
       const embed = await googleImagePensador(
-        'Messagem Motivacional',
+        embedAux,
         motivacaoFunc,
         commandSlash,
       );
     }
   },
+};
+
+const embedAux = {
+  embedTitle: 'Messagem Motivacional',
 };

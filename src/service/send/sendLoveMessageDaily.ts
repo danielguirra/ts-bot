@@ -13,10 +13,9 @@ export const sendLoveMessageDaily = async (
   const message = data.message;
   const author = data.author;
   const dataimage = await googleImagePensador(
-    data.author,
+    { embedTitle: data.author, embedColor: '#AF0F8F' },
     data,
     undefined,
     channelLove,
-    '#AF0F8F',
   );
 };

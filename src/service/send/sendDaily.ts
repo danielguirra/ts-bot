@@ -8,7 +8,7 @@ export const sendDaily = async (channelDaily: GuildTextBasedChannel) => {
   const message = data.message;
   const author = data.author;
   const dataimage = await googleImagePensador(
-    data.author,
+    { embedTitle: data.author },
     data,
     undefined,
     channelDaily,

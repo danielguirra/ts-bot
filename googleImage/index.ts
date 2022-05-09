@@ -40,20 +40,18 @@ export function googleImage(
 }
 /**
  *
- * @param titleFromEmbed
- * @param motivacao
+ * @param embed
+ * @param pensadorData
  * @param command
- *
- * @return embed
+ * @param channel
  */
 export async function googleImagePensador(
-  titleFromEmbed: string,
-  motivacao: IPensador,
+  embed: { embedTitle: string; embedColor?: ColorResolvable },
+  pensadorData: IPensador,
   command?: CommandInteraction | Message,
   channel?: GuildTextBasedChannel,
-  color?: ColorResolvable,
 ) {
-  await imageFunc(motivacao.author, resultfu);
+  await imageFunc(pensadorData.author, resultfu);
   function resultfu(error: any, results: any) {
     if (error) {
       console.log(error);
@@ -62,18 +60,18 @@ export async function googleImagePensador(
        * No Heroku results.__wrapped__[1][1].url
        */
       const image = results.__wrapped__[0][0].url;
-      if (!color) color = 'RANDOM';
+      if (!embed.embedColor) embed.embedColor = 'RANDOM';
       if (command) {
         command.reply({
           embeds: [
             embedBuilder(
-              titleFromEmbed,
-              motivacao.message,
+              embed.embedTitle,
+              pensadorData.message,
               image,
-              motivacao.author,
+              pensadorData.author,
               image,
               image,
-              color,
+              embed.embedColor,
             ),
           ],
         });
@@ -82,13 +80,13 @@ export async function googleImagePensador(
         channel.send({
           embeds: [
             embedBuilder(
-              titleFromEmbed,
-              motivacao.message,
+              embed.embedTitle,
+              pensadorData.message,
               image,
-              motivacao.author,
+              pensadorData.author,
               image,
               image,
-              color,
+              embed.embedColor,
             ),
           ],
         });
