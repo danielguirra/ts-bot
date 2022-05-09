@@ -9,7 +9,7 @@ dotenv.config();
 export const sendLoveMessageDaily = async (
   channelLove: GuildTextBasedChannel,
 ) => {
-  const data: IPensador = await pensador.getFromMotivacionais();
+  const data: IPensador = await pensador.getFromAmor();
   const message = data.message;
   const author = data.author;
   const dataimage = await googleImagePensador(
