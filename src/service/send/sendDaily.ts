@@ -3,16 +3,16 @@ import { GuildTextBasedChannel } from 'discord.js';
 import dotenv from 'dotenv';
 
 import { embedBuilder } from '../../util/getEmbed';
+import { pensador } from '../../util/pensador';
 
 dotenv.config();
 
-const url = `${process.env.URLAPIPENSADORIMAGE}/pensador/motivacao`;
 const urlimage = process.env.URLAPIPENSADORIMAGE + '/gis/';
 
 export const sendDaily = async (channelDaily: GuildTextBasedChannel) => {
-  const data = await axios.get(url);
-  const message = data.data.message;
-  const author = data.data.author;
+  const data: IPensador = await pensador.getFromMotivacionais();
+  const message = data.message;
+  const author = data.author;
   const dataimage = await axios.get(urlimage + author);
   const image = dataimage.data.url;
 

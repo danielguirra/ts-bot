@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction, Message } from 'discord.js';
 
-import { embedBuilder } from '../../src/util/getEmbed';
+import { googleImagePensador } from '../../googleImage';
+import { pensador } from '../util/pensador';
 
 /**
  * Don't forget to export
@@ -10,11 +11,27 @@ import { embedBuilder } from '../../src/util/getEmbed';
  * @danielguirra
  */
 export const motivacao = {
-  data: new SlashCommandBuilder().setName('motivacao').setDescription('motivacao'),
+  data: new SlashCommandBuilder()
+    .setName('motivacao')
+    .setDescription('motivacao uma mensagem motivacional será enviada'),
   async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply({ embeds: [embedBuilder('', '')] });
+    const motivacaoFunc = await pensador.getFromMotivacionais();
+    if (motivacaoFunc) {
+      const embed = await googleImagePensador(
+        'Messagem Motivacional',
+        motivacaoFunc,
+        commandMessage,
+      );
+    }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
-    return commandSlash.reply({ embeds: [embedBuilder('', '')] });
+    const motivacaoFunc = await pensador.getFromMotivacionais();
+    if (motivacaoFunc) {
+      const embed = await googleImagePensador(
+        'Messagem Motivacional',
+        motivacaoFunc,
+        commandSlash,
+      );
+    }
   },
 };

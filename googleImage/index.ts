@@ -1,13 +1,76 @@
 import cheerio from 'cheerio';
+import { CommandInteraction, GuildTextBasedChannel, Message } from 'discord.js';
 import flatten = require('lodash');
 import * as queryString from 'querystring';
 import request = require('request');
 
+import { embedBuilder } from '../src/util/getEmbed';
+
 var baseURL = 'http://images.google.com/search?';
 
 var imageFileExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg'];
-
-export const googleImage = function googleImage(opts: string, done: any) {
+/**
+ *
+ * @param text
+ * @param channel
+ * @param mensage
+ */
+export function googleImage(
+  text: string,
+  channel: GuildTextBasedChannel,
+  mensage: Message,
+) {
+  imageFunc(text, done);
+  function done(error: any, results?: any | undefined) {
+    if (error) {
+      console.log(error);
+    } else {
+      const response = results.__wrapped__[0][0].url;
+      if (channel && mensage) {
+        mensage.edit(`Achei aqui resultado de ${text}`);
+        return channel.send(response);
+      } else {
+        console.log('Erro channel or Message its null');
+      }
+    }
+  }
+}
+/**
+ *
+ * @param titleFromEmbed
+ * @param motivacao
+ * @param command
+ *
+ * @return embed
+ */
+export async function googleImagePensador(
+  titleFromEmbed: string,
+  motivacao: IPensador,
+  command: CommandInteraction | Message,
+) {
+  await imageFunc(motivacao.author, resultfu);
+  function resultfu(error: any, results: any) {
+    if (error) {
+      console.log(error);
+    } else {
+      const image = results.__wrapped__[0][0].url;
+      command.reply({
+        embeds: [
+          embedBuilder(
+            titleFromEmbed,
+            motivacao.message,
+            image,
+            motivacao.author,
+            image,
+            image,
+            'RANDOM',
+          ),
+        ],
+      });
+    }
+  }
+}
+export const imageFunc = async function googleImage(opts: string, done: any) {
   var searchTerm;
   var filterOutDomains = ['gstatic.com'];
 
@@ -89,6 +152,7 @@ export const googleImage = function googleImage(opts: string, done: any) {
       }
     }
   }
+  return;
 };
 
 function addSiteExcludePrefix(s: any) {

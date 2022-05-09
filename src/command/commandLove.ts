@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction, Message } from 'discord.js';
 
-import { embedBuilder } from '../../src/util/getEmbed';
+import { sendLoveMessageDaily } from '../service/send/sendLoveMessageDaily';
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 
 /**
  * Don't forget to export
@@ -10,11 +11,22 @@ import { embedBuilder } from '../../src/util/getEmbed';
  * @danielguirra
  */
 export const love = {
-  data: new SlashCommandBuilder().setName('love').setDescription('love'),
+  data: new SlashCommandBuilder()
+    .setName('love')
+    .setDescription('envia uma messagem de amor no canal'),
   async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply({ embeds: [embedBuilder('', '')] });
+    const love = commandMessage.content.replace('*love ', '');
+    if (love) {
+      const loveSend = await sendLoveMessageDaily(
+        await channelItsGuildTextChannel(commandMessage.channel),
+      );
+    }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
-    return commandSlash.reply({ embeds: [embedBuilder('', '')] });
+    commandSlash.reply('❤').then(async () => {
+      const loveSend = await sendLoveMessageDaily(
+        await channelItsGuildTextChannel(commandSlash.channel),
+      );
+    });
   },
 };

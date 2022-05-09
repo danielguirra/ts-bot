@@ -1,4 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
+import axios from 'axios';
+import cheerio from 'cheerio';
 import { CommandInteraction, Message } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
@@ -12,9 +14,31 @@ import { embedBuilder } from '../../src/util/getEmbed';
 export const joke = {
   data: new SlashCommandBuilder().setName('joke').setDescription('joke'),
   async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply({ embeds: [embedBuilder('', '')] });
+    const embed = await getJoke();
+    return commandMessage.reply({ embeds: [embed] });
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
-    return commandSlash.reply({ embeds: [embedBuilder('', '')] });
+    const embed = await getJoke();
+
+    return commandSlash.reply({ embeds: [embed] });
   },
 };
+
+async function getJoke() {
+  const logo =
+    'https://www.piadasnet.com/imagens/Logotipos/LogotipoBoneco_peq.png';
+  const url = 'https://www.piadasnet.com/piadas-curtas.htm';
+  const response = await axios.get(url, { responseType: 'arraybuffer' });
+  const $ = cheerio.load(response.data.toString('binary'));
+  const text = $('p[class=piada]').text();
+  return embedBuilder(
+    'Piadas Curtas',
+    text,
+    logo,
+    'PiadasNet',
+    logo,
+    undefined,
+    'YELLOW',
+    url,
+  );
+}

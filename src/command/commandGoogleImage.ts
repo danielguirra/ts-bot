@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction, Message } from 'discord.js';
 
 import { googleImage } from '../../googleImage';
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 
 export const ime = {
   data: new SlashCommandBuilder()
@@ -12,28 +13,29 @@ export const ime = {
     ),
   async executeMessageCommand(commandMessage: Message) {
     const text = commandMessage.content.replace('*image ', '');
-    googleImage(text, logResults);
-    function logResults(error: any, results: any) {
-      if (error) {
-        console.log(error);
-      } else {
-        const response = results.__wrapped__[0][0].url;
-        return commandMessage.reply(response);
-      }
+    if (text) {
+      await sendSearch(text, commandMessage.channel, commandMessage);
     }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
     const text = commandSlash.options.getString('text');
     if (text) {
-      googleImage(text, logResults);
-      function logResults(error: any, results: any) {
-        if (error) {
-          console.log(error);
-        } else {
-          const response = results.__wrapped__[0][0].url;
-          return commandSlash.reply(response);
-        }
-      }
+      await sendSearch(text, commandSlash.channel, commandSlash);
     }
   },
 };
+
+async function sendSearch(
+  text: string,
+  channel: any,
+  command: CommandInteraction | Message,
+) {
+  const channela = await channelItsGuildTextChannel(channel);
+  const men = command.reply('Pensquisando ...').then(async () => {
+    const id = channela.lastMessageId;
+    if (id) {
+      const mensage = await channela.messages.fetch(id);
+      googleImage(text, channela, mensage);
+    }
+  });
+}

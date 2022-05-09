@@ -13,6 +13,6 @@ if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
 }
 exec('npx tsc', f => {
-  if (f) console.log(f);
-  else console.log('construido com sucesso');
+  if (f) console.log(f.message);
+  else console.log('Build Ok');
 });
