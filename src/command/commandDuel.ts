@@ -1,6 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { createCanvas, loadImage } from 'canvas';
-import { CommandInteraction, Message, MessageAttachment, User } from 'discord.js';
+import { CommandInteraction, GuildTextBasedChannel, Message, MessageAttachment, User } from 'discord.js';
+
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadinCreator } from '../util/loadin';
 
 /**
  * Don't forget to export
@@ -16,22 +19,27 @@ export const duel = {
   async executeMessageCommand(commandMessage: Message) {
     const user2 = commandMessage.mentions.users.first();
     const user = commandMessage.author;
+    const channel = await channelItsGuildTextChannel(commandMessage.channel);
 
-    const resul = await canvasDuel(user, user2);
-
-    return commandMessage.reply({ files: [resul] });
+    const resul = await canvasDuel(user, user2, channel);
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
     const user2 = commandSlash.options.getUser('target');
     const user = commandSlash.user;
+    const channel = await channelItsGuildTextChannel(commandSlash.channel);
 
-    const resul = await canvasDuel(user, user2);
-
-    return commandSlash.reply({ files: [resul] });
+    const sender = await loadinCreator(commandSlash, {
+      channel,
+      image: canvasDuel(user, user2, channel),
+    });
   },
 };
 
-async function canvasDuel(user: User, user2: User | undefined | null) {
+async function canvasDuel(
+  user: User,
+  user2: User | undefined | null,
+  channel: GuildTextBasedChannel,
+) {
   const canvas = createCanvas(1980, 760);
   const context = canvas.getContext('2d');
   const background = await loadImage('./Slash/util/image/duelo.png');
@@ -52,5 +60,5 @@ async function canvasDuel(user: User, user2: User | undefined | null) {
   );
   const attachment = new MessageAttachment(canvas.toBuffer(), 'duel.png');
 
-  return attachment;
+  if (channel) channel.send({ files: [attachment] });
 }

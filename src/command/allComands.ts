@@ -24,6 +24,7 @@ import { lerolero } from './commandLeroLero';
 import { loreleagueoflegends } from './commandLoreLeagueOfLegends';
 import { love } from './commandLove';
 import { motivacao } from './commandMotivacao';
+import { pdl } from './commandPdl';
 import { peace } from './commandPeace';
 import { pensador } from './commandPensador';
 import { ping } from './commandPing';
@@ -78,4 +79,5 @@ export const allComands: any = {
   ugaovo,
   x1yasuo,
   youburro,
+  pdl,
 };

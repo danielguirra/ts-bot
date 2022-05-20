@@ -1,6 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { createCanvas, loadImage } from 'canvas';
-import { CommandInteraction, Message, MessageAttachment, User } from 'discord.js';
+import { CommandInteraction, GuildTextBasedChannel, Message, MessageAttachment, User } from 'discord.js';
+
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadinCreator } from '../util/loadin';
 
 /**
  * Don't forget to export
@@ -16,23 +19,28 @@ export const grandedia = {
       options.setName('mito').setDescription('a lenda').setRequired(true),
     ),
   async executeMessageCommand(commandMessage: Message) {
+    const channel = await channelItsGuildTextChannel(commandMessage.channel);
     const user = commandMessage.mentions.users.first();
     if (user) {
-      const image = await createCanvasGrandeDia(user);
-      return commandMessage.reply({ files: [image] });
+      const image = await createCanvasGrandeDia(user, channel);
     }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
     const user = commandSlash.options.getUser('user');
-
+    const channel = await channelItsGuildTextChannel(commandSlash.channel);
     if (user) {
-      const image = await createCanvasGrandeDia(user);
-      return commandSlash.reply({ files: [image] });
+      const sender = await loadinCreator(commandSlash, {
+        channel,
+        image: createCanvasGrandeDia(user, channel),
+      });
     }
   },
 };
 
-async function createCanvasGrandeDia(user: User) {
+async function createCanvasGrandeDia(
+  user: User,
+  channel?: GuildTextBasedChannel,
+) {
   const canvas = createCanvas(1186, 590);
   const context = canvas.getContext('2d');
   const background = await loadImage('https://i.im.ge/2021/09/24/TYiYOy.png');
@@ -53,5 +61,7 @@ async function createCanvasGrandeDia(user: User) {
   context.fillText(`@${user.tag}oficial`, 280, 298);
   context.strokeText(`@${user.tag}oficial`, 280, 298);
   const attachment = new MessageAttachment(canvas.toBuffer(), 'day.png');
-  return attachment;
+  if (!channel) return attachment;
+
+  channel.send({ files: [attachment] });
 }

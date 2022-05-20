@@ -1,6 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { createCanvas, loadImage } from 'canvas';
-import { CommandInteraction, Message, MessageAttachment } from 'discord.js';
+import { CommandInteraction, GuildTextBasedChannel, Message, MessageAttachment } from 'discord.js';
+
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 
 /**
  * Don't forget to export
@@ -17,34 +19,26 @@ export const fry = {
     ),
   async executeMessageCommand(commandMessage: Message) {
     const user = commandMessage.mentions.users.first();
-
+    const channel = await channelItsGuildTextChannel(commandMessage.channel);
     if (user) {
-      const canvas = await canvasCreatorFry(user.displayAvatarURL());
-      return commandMessage.reply({ files: [canvas] });
-    } else {
-      const canvas = await canvasCreatorFry(
-        commandMessage.author.displayAvatarURL(),
-      );
-      return commandMessage.reply({ files: [canvas] });
+      const canvas = await canvasCreatorFry(user.displayAvatarURL(), channel);
     }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
-    if (commandSlash.options.getUser('target')) {
-      const user = commandSlash.options.getUser('target');
-      if (user) {
-        const canvas = await canvasCreatorFry(user.displayAvatarURL());
-        return commandSlash.reply({ files: [canvas] });
-      } else {
-        const canvas = await canvasCreatorFry(
-          commandSlash.user.displayAvatarURL(),
-        );
-        return commandSlash.reply({ files: [canvas] });
-      }
+    const user = commandSlash.options.getUser('target');
+    const channel = await channelItsGuildTextChannel(commandSlash.channel);
+    if (user) {
+      commandSlash.reply('Carregando ...').then(async () => {
+        const canvas = await canvasCreatorFry(user.displayAvatarURL(), channel);
+      });
     }
   },
 };
 
-async function canvasCreatorFry(avatarUrl: string) {
+async function canvasCreatorFry(
+  avatarUrl: string,
+  channel?: GuildTextBasedChannel,
+) {
   const canvas = createCanvas(768, 480);
   const context = canvas.getContext('2d');
   const backgroud = await loadImage(
@@ -57,5 +51,7 @@ async function canvasCreatorFry(avatarUrl: string) {
 
   const attachment = new MessageAttachment(canvas.toBuffer(), 'burgues.png');
 
-  return attachment;
+  if (!channel) return attachment;
+
+  channel.send({ files: [attachment] });
 }

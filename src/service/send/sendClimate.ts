@@ -13,10 +13,10 @@ export const sendClimate = async (
   channel: GuildTextBasedChannel,
   city: string,
 ) => {
+  const cityName = city;
+  city = city?.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   let url = `https://pt.wttr.in/${city}+brazil?format=j1`;
-  if (city === 'ribeirao') {
-    url = 'https://pt.wttr.in/ribeir%C3%A3o%20preto%20brasil?format=j1';
-  }
+
   if (!city) return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
   if (city === '*climadodia')
     return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔';
@@ -64,7 +64,7 @@ export const sendClimate = async (
         {
           embeds: [
             embedBuilder(
-              `Clima de ${city} Hoje`,
+              `Clima de ${cityName} Hoje`,
               `
         Temperatura média : ${climate.temperaturaMediaC}C°
 
@@ -152,10 +152,10 @@ export const sendClimateCurrentTime = async (
   city?: string,
   channelSlash?: TextBasedChannel,
 ) => {
+  const cityName = city;
+
+  city = city?.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   let url = `https://pt.wttr.in/${city}+brazil?format=j1`;
-  if (city === 'ribeirao') {
-    url = 'https://pt.wttr.in/ribeir%C3%A3o%20preto%20brasil?format=j1';
-  }
   if (!city) return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
   if (city === '*clima') return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔';
   const climateAxios = await axios.get(url);
@@ -178,7 +178,7 @@ export const sendClimateCurrentTime = async (
       return {
         embeds: [
           embedBuilder(
-            `Clima de ${city} agora ${str_hora}`,
+            `Clima de ${cityName} agora ${str_hora}`,
             ` A temperatura está em :**${climate.temp_C}Cº**
           Humidade em **${climate.humidity}%**
           **${climate.text}** ${climate.emoji}

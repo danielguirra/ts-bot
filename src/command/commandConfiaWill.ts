@@ -1,6 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import Canvas from 'canvas';
-import { CommandInteraction, Message, MessageAttachment } from 'discord.js';
+import { CommandInteraction, GuildTextBasedChannel, Message, MessageAttachment } from 'discord.js';
+
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadinCreator } from '../util/loadin';
 
 /**
  * Don't forget to export
@@ -17,21 +20,27 @@ export const confiaWill = {
     ),
   async executeMessageCommand(commandMessage: Message) {
     const user = commandMessage.mentions.users.first()?.displayAvatarURL();
+    const channel = await channelItsGuildTextChannel(commandMessage.channel);
     if (user) {
-      const file = await confiaWillGetCanvas(user);
-      return commandMessage.reply({ files: [file] });
+      const file = await confiaWillGetCanvas(user, channel);
     }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
     const user = commandSlash.options.getUser('target')?.displayAvatarURL();
+    const channel = await channelItsGuildTextChannel(commandSlash.channel);
     if (user) {
-      const file = await confiaWillGetCanvas(user);
-      return commandSlash.reply({ files: [file] });
+      const sender = await loadinCreator(commandSlash, {
+        channel,
+        image: confiaWillGetCanvas(user, channel),
+      });
     }
   },
 };
 
-async function confiaWillGetCanvas(user: string) {
+async function confiaWillGetCanvas(
+  user: string,
+  channel: GuildTextBasedChannel,
+) {
   const canvas = Canvas.createCanvas(302, 167);
   const context = canvas.getContext('2d');
   const background = await Canvas.loadImage(
@@ -43,5 +52,5 @@ async function confiaWillGetCanvas(user: string) {
 
   const file = new MessageAttachment(canvas.toBuffer(), 'confia.png');
 
-  return file;
+  return channel.send({ files: [file] });
 }
