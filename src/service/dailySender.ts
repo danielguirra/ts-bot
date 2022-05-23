@@ -7,21 +7,18 @@ import { sendLoveMessageDaily } from './send/sendLoveMessageDaily';
 import { userSender } from './users/userSender';
 
 export async function dailySender({
-  channelClimate,
   channelDolar,
   channelLove,
   channelDaily,
 }: {
-  channelClimate: GuildTextBasedChannel;
   channelDolar: GuildTextBasedChannel;
   channelLove: GuildTextBasedChannel;
   channelDaily: GuildTextBasedChannel;
 }): Promise<boolean> {
   try {
-    sendDolarDaily(channelDolar);
-    sendLoveMessageDaily(channelLove);
-    sendClimate(channelClimate, 'franca');
-    sendDaily(channelDaily);
+   await sendDolarDaily(channelDolar);
+    await sendLoveMessageDaily(channelLove);
+    await sendDaily(channelDaily);
 
     await userSender();
 
