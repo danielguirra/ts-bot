@@ -173,16 +173,24 @@ export const sendClimateCurrentTime = async (
       heatIndex: heatString.slice(0, 4),
       str_hora,
       emoji,
+      avgTempC:climateAxios.data.weather[0].avgtempC,
+      tempMinC:climateAxios.data.weather[0].mintempC,
+      tempMaxC:climateAxios.data.weather[0].maxtempC,
     };
+   
     if (channelSlash) {
       return {
         embeds: [
           embedBuilder(
             `Clima de ${cityName} agora ${str_hora}`,
-            ` A temperatura está em :**${climate.temp_C}Cº**
-          Humidade em **${climate.humidity}%**
-          **${climate.text}** ${climate.emoji}
-          Sensação térmica de **${climate.heatIndex}Cº**
+            ` A temperatura está por volta de :**${climate.temp_C}Cº**
+            Mínima de Hoje é  :**${climate.tempMinC}**
+            Média de Hoje é :**${climate.avgTempC}**
+            Máxima de Hoje é  :**${climate.tempMaxC}**
+            
+            Humidade em **${climate.humidity}%**
+             **${climate.text}** ${climate.emoji}
+            Sensação térmica de **${climate.heatIndex}Cº**
         `,
           ),
         ],
@@ -226,6 +234,11 @@ function heatIndexCalculator(tempC: any, velWindKm: any) {
   return (
     33 + ((10 * Math.sqrt(velWindKm) + 10.45 - velWindKm) * (tempC - 33)) / 22
   );
+}
+
+
+function maxTemp(allClimateOfDay:object) {
+  
 }
 
 const getNameWeekFunc = (x: any) => {
