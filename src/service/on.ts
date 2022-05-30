@@ -34,7 +34,7 @@ export const on = client.on('ready', async () => {
   if (dateLastMessageChannelClimateItsTrue) {
     console.log('Clima diário não enviado');
     dailySender({
-      channelClimate,
+      
       channelDolar,
       channelLove,
       channelDaily,
@@ -43,7 +43,7 @@ export const on = client.on('ready', async () => {
     console.log('Clima será enviado');
     new CronJob(`00 00 08 * * *`, () => {
       dailySender({
-        channelClimate,
+        
         channelDolar,
         channelLove,
         channelDaily,
