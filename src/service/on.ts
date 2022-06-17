@@ -9,11 +9,9 @@ import { dailySender } from './dailySender';
 dotenv.config();
 
 const token = process.env.BOTTOKEN;
-<<<<<<< HEAD
+
 const hour: any = process.env.HORA || 0;
-=======
-const hour:any = process.env.HORA || 0
->>>>>>> 9b6347b8a5ca97e5fabcaac3a922ae3fffccc330
+
 export const on = client.on('ready', async () => {
   const guildID = await client.guilds.fetch(process.env.GUILD || '');
   const channelDaily = await channelItsGuildTextChannel(
@@ -38,7 +36,6 @@ export const on = client.on('ready', async () => {
   if (dateLastMessageChannelClimateItsTrue) {
     console.log('Clima diário não enviado');
     dailySender({
-      
       channelDolar,
       channelLove,
       channelDaily,
@@ -47,7 +44,6 @@ export const on = client.on('ready', async () => {
     console.log('Clima será enviado');
     new CronJob(`00 00 08 * * *`, () => {
       dailySender({
-        
         channelDolar,
         channelLove,
         channelDaily,
