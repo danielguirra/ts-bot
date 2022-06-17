@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction, Message } from 'discord.js';
 
-import { embedBuilder } from '../../src/util/getEmbed';
+import { googleImagePensador } from '../../googleImage';
+import { pensador as uga } from '../util/pensador';
 
 /**
  * Don't forget to export
@@ -10,11 +11,23 @@ import { embedBuilder } from '../../src/util/getEmbed';
  * @danielguirra
  */
 export const pensador = {
-  data: new SlashCommandBuilder().setName('pensador').setDescription('pensador'),
+  data: new SlashCommandBuilder()
+    .setName('pensador')
+    .setDescription('pensador'),
   async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply({ embeds: [embedBuilder('', '')] });
+    const soltas = await uga.getFromSoltas();
+    if (soltas) {
+      const embed = await googleImagePensador(embedAux, soltas, commandMessage);
+    }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
-    return commandSlash.reply({ embeds: [embedBuilder('', '')] });
+    const soltas = await uga.getFromSoltas();
+    if (soltas) {
+      const embed = await googleImagePensador(embedAux, soltas, commandSlash);
+    }
   },
+};
+
+const embedAux = {
+  embedTitle: 'Pensador Frases Soltas',
 };

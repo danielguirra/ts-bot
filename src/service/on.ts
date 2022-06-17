@@ -9,7 +9,7 @@ import { dailySender } from './dailySender';
 dotenv.config();
 
 const token = process.env.BOTTOKEN;
-
+const hour: any = process.env.HORA || 0;
 export const on = client.on('ready', async () => {
   const guildID = await client.guilds.fetch(process.env.GUILD || '');
   const channelDaily = await channelItsGuildTextChannel(
@@ -41,7 +41,7 @@ export const on = client.on('ready', async () => {
     });
   } else {
     console.log('Clima será enviado');
-    new CronJob('00 00 11 * * *', () => {
+    new CronJob(`00 00 08 * * *`, () => {
       dailySender({
         channelClimate,
         channelDolar,
