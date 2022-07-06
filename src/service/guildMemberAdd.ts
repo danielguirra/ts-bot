@@ -8,7 +8,9 @@ import { embedBuilder } from '../util/getEmbed';
 dotenv.config();
 
 export const guildMemberAdd = client.on('guildMemberAdd', async newMember => {
-  const roleNewMember: RoleResolvable = process.env.ROLECAPIVARA || '';
+  const roleC = process.env.ROLECAPIVARINHA 
+  if (typeof roleC === 'string') {
+    const roleNewMember: RoleResolvable = process.env.ROLECAPIVARINHA || '';
   const bem = channelItsGuildTextChannel(
     newMember.guild.channels.cache.find(channel =>
       channel.name.includes('bem-vindo'),
@@ -43,4 +45,6 @@ export const guildMemberAdd = client.on('guildMemberAdd', async newMember => {
       ],
     });
   }
+  }
+  
 });
