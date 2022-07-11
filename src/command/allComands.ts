@@ -1,6 +1,7 @@
 import { advice } from './commandAdvice';
 import { avatar } from './commandAvatar';
 import { ban } from './commandBan';
+import { bible } from './commandBible';
 import { buzz } from './commandBuzz';
 import { clearChannel } from './commandClearChannel';
 import { climate } from './commandClimate';
@@ -80,4 +81,5 @@ export const allComands: any = {
   x1yasuo,
   youburro,
   pdl,
+  bible,
 };

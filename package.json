@@ -14,7 +14,7 @@
     "commandCreator": "node ./util/commandBaseTs/commandCreatorForName.js"
   },
   "dependencies": {
-    "@discordjs/builders": "^0.8.2",
+    "@discordjs/builders": "^0.15.0",
     "@discordjs/rest": "^0.1.0-canary.0",
     "@discordjs/voice": "^0.6.0",
     "@types/cheerio": "^0.22.31",
@@ -32,7 +32,7 @@
     "corepack": "^0.10.0",
     "cron": "^1.8.2",
     "discord-api-types": "^0.24.0",
-    "discord.js": "^13.1.0",
+    "discord.js": "^13.8.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "g-i-s": "^2.1.6",
