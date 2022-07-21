@@ -15,7 +15,8 @@ import { embedBuilder } from '../../src/util/getEmbed';
 export const loreleagueoflegends = {
   data: new SlashCommandBuilder()
     .setName('loreleagueoflegends')
-    .setDescription('loreleagueoflegends'),
+    .setDescription('loreleagueoflegends')
+    .addStringOption(options => options.setName('champion').setRequired(true)),
   async executeMessageCommand(commandMessage: Message) {
     const champ = commandMessage.content.replace('*lore ', '');
     if (champ) {
@@ -24,7 +25,7 @@ export const loreleagueoflegends = {
     }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
-    const champ = commandSlash.options.getString('champ');
+    const champ = commandSlash.options.getString('champion');
     if (champ) {
       const lore = await getLore(champ);
       return commandSlash.reply({ embeds: [lore] });
