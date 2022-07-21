@@ -66,6 +66,8 @@ export const bible = {
           ],
         });
       });
+    } else {
+      return commandSlash.reply('Verifique os dados');
     }
   },
 };
