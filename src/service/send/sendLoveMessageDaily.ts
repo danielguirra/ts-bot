@@ -2,6 +2,7 @@ import { GuildTextBasedChannel } from 'discord.js';
 import dotenv from 'dotenv';
 
 import { googleImagePensador } from '../../../googleImage';
+import { IPensador } from '../../interfaces/PensadorMessage';
 import { pensador } from '../../util/pensador';
 
 dotenv.config();

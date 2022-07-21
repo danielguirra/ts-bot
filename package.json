@@ -10,7 +10,7 @@
     "build": "node ./config/build",
     "dev": "npx nodemon ./bin/src/server.js",
     "start": "node ./config/build && node ./bin/src/server.js",
-    "startNotBuild": "node ./bin/src/server.js",
+    "startNotBuild": "npx ts-node ./src/server.ts",
     "commandCreator": "node ./util/commandBaseTs/commandCreatorForName.js"
   },
   "dependencies": {

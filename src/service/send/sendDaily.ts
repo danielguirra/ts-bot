@@ -1,6 +1,7 @@
 import { GuildTextBasedChannel } from 'discord.js';
 
 import { googleImagePensador } from '../../../googleImage';
+import { IPensador } from '../../interfaces/PensadorMessage';
 import { pensador } from '../../util/pensador';
 
 export const sendDaily = async (channelDaily: GuildTextBasedChannel) => {

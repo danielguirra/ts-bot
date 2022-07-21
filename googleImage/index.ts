@@ -4,6 +4,7 @@ import flatten = require('lodash');
 import * as queryString from 'querystring';
 import request = require('request');
 
+import { IPensador } from '../src/interfaces/PensadorMessage';
 import { embedBuilder } from '../src/util/getEmbed';
 
 var baseURL = 'http://images.google.com/search?';
@@ -28,7 +29,9 @@ export function googleImage(
       /**
        * No Heroku results.__wrapped__[1][1].url
        */
-      const response = results.__wrapped__[0][0].url;
+      let c = 0;
+      if (results.__wrapped__[0].length === 0) c++;
+      const response = results.__wrapped__[c][0].url;
       if (channel && mensage) {
         mensage.edit(`Achei aqui resultado de ${text}`);
         return channel.send(response);
@@ -59,7 +62,10 @@ export async function googleImagePensador(
       /**
        * No Heroku results.__wrapped__[1][1].url
        */
-      const image = results.__wrapped__[0][0].url;
+
+      let c = 0;
+      if (results.__wrapped__[0].length === 0) c++;
+      const image = results.__wrapped__[c][0].url;
       if (!embed.embedColor) embed.embedColor = 'RANDOM';
       if (command) {
         command.reply({

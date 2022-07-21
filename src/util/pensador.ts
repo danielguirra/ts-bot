@@ -1,6 +1,8 @@
 import axios from 'axios';
 import striptags from 'striptags';
 
+import { IPensador } from '../interfaces/PensadorMessage';
+
 const urlPensador = 'https://www.pensador.com/blog.php';
 
 export const pensador = {
