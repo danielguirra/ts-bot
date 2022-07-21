@@ -1,3 +1,4 @@
+import { CronJob } from 'cron';
 import dotenv from 'dotenv';
 
 import { client } from '../client/client';
@@ -41,13 +42,13 @@ export const on = client.on('ready', async () => {
     });
   } else {
     console.log('Clima será enviado');
-    // new CronJob(`00 35 08 * * *`, () => {
-    dailySender({
-      channelDolar,
-      channelLove,
-      channelDaily,
-    });
-    // }).start();
+    new CronJob(`00 35 08 * * *`, () => {
+      dailySender({
+        channelDolar,
+        channelLove,
+        channelDaily,
+      });
+    }).start();
   }
 });
 
