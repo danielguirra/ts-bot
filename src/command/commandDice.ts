@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 
@@ -30,8 +29,9 @@ export const dice = {
       });
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    const num: any = commandSlash.options.getInteger('value');
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
+    const num: any = commandSlash.options.get('value');
     if (num >= 2) {
       const resultado = sorteador(num);
       return commandSlash.reply({

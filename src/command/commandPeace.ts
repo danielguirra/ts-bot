@@ -1,6 +1,13 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { createCanvas, loadImage } from 'canvas';
-import { CommandInteraction, GuildMember, GuildTextBasedChannel, Message, MessageAttachment, User } from 'discord.js';
+import {
+  AttachmentBuilder,
+  GuildMember,
+  GuildTextBasedChannel,
+  Interaction,
+  Message,
+  SlashCommandBuilder,
+  User,
+} from 'discord.js';
 
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { loadinCreator } from '../util/loadin';
@@ -14,7 +21,7 @@ import { loadinCreator } from '../util/loadin';
 export const peace = {
   data: new SlashCommandBuilder()
     .setName('peace')
-    .setDescription('peace')
+    .setDescription('retona uma imagem')
     .addUserOption(options =>
       options.setName('target').setDescription('cidadão').setRequired(true),
     ),
@@ -27,7 +34,8 @@ export const peace = {
       );
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const user = commandSlash.options.getUser('target');
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
     if (user) {
@@ -49,11 +57,13 @@ async function getCanvasPeace(
 
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-  const avatar = await loadImage(user.displayAvatarURL({ format: 'png' }));
+  const avatar = await loadImage(user.displayAvatarURL({ extension: 'png' }));
   context.drawImage(avatar, 690, 320, 230, 230);
 
-  const attachment = new MessageAttachment(canvas.toBuffer(), 'paz-image.png');
-  if (!channel) return attachment;
+  const attachment = new AttachmentBuilder(canvas.toBuffer(), {
+    name: 'paz-image.png',
+  });
+  if (!channel) return;
 
   return channel.send({ files: [attachment] });
 }

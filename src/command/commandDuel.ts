@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { createCanvas, loadImage } from 'canvas';
-import { CommandInteraction, GuildTextBasedChannel, Message, MessageAttachment, User } from 'discord.js';
+import { AttachmentBuilder, GuildTextBasedChannel, Interaction, Message, SlashCommandBuilder, User } from 'discord.js';
 
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { loadinCreator } from '../util/loadin';
@@ -23,7 +22,8 @@ export const duel = {
 
     const resul = await canvasDuel(user, user2, channel);
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const user2 = commandSlash.options.getUser('target');
     const user = commandSlash.user;
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
@@ -44,21 +44,16 @@ async function canvasDuel(
   const context = canvas.getContext('2d');
   const background = await loadImage('./Slash/util/image/duelo.png');
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
-  context.drawImage(
-    user.displayAvatarURL({ format: 'png' }),
-    260,
-    200,
-    250,
-    250,
+  const user1 = await loadImage(user.displayAvatarURL({ extension: 'png' }));
+  context.drawImage(user1, 260, 200, 250, 250);
+  if (!user2) return;
+  const user2Image = await loadImage(
+    user2.displayAvatarURL({ extension: 'png' }),
   );
-  context.drawImage(
-    user2?.displayAvatarURL({ format: 'png' }),
-    1460,
-    200,
-    250,
-    250,
-  );
-  const attachment = new MessageAttachment(canvas.toBuffer(), 'duel.png');
+  context.drawImage(user2Image, 1460, 200, 250, 250);
+  const attachment = new AttachmentBuilder(canvas.toBuffer(), {
+    name: 'duel.png',
+  });
 
   if (channel) channel.send({ files: [attachment] });
 }

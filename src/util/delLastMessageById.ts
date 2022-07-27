@@ -1,9 +1,10 @@
-import { GuildTextBasedChannel } from 'discord.js';
+import { GuildTextBasedChannel, TextBasedChannel } from 'discord.js';
 
 export async function deleter(
-  channel: GuildTextBasedChannel,
+  channel: GuildTextBasedChannel | TextBasedChannel | null,
 ): Promise<boolean> {
-  const idMessage = await channel.lastMessageId;
+  if (!channel) return false;
+  const idMessage = channel.lastMessageId;
   if (idMessage) {
     const messageForDelete = await channel.messages.fetch(idMessage);
     const itsdelete = await messageForDelete.delete();

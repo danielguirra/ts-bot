@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { googleImagePensador } from '../../googleImage';
 import { pensador } from '../util/pensador';
@@ -24,7 +23,8 @@ export const motivacao = {
       );
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const motivacaoFunc = await pensador.getFromMotivacionais();
     if (motivacaoFunc) {
       const embed = await googleImagePensador(

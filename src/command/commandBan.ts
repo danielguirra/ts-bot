@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Guild, Message, User } from 'discord.js';
+import { CommandInteraction, Guild, Message, SlashCommandBuilder, User } from 'discord.js';
 
 /**
  * Don't forget to export

@@ -1,7 +1,6 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import axios from 'axios';
 import cheerio from 'cheerio';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 
@@ -17,7 +16,8 @@ export const joke = {
     const embed = await getJoke();
     return commandMessage.reply({ embeds: [embed] });
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const embed = await getJoke();
 
     return commandSlash.reply({ embeds: [embed] });
@@ -38,7 +38,7 @@ async function getJoke() {
     'PiadasNet',
     logo,
     undefined,
-    'YELLOW',
+    'Yellow',
     url,
   );
 }

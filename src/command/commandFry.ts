@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { createCanvas, loadImage } from 'canvas';
-import { CommandInteraction, GuildTextBasedChannel, Message, MessageAttachment } from 'discord.js';
+import { AttachmentBuilder, GuildTextBasedChannel, Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 
@@ -21,15 +20,22 @@ export const fry = {
     const user = commandMessage.mentions.users.first();
     const channel = await channelItsGuildTextChannel(commandMessage.channel);
     if (user) {
-      const canvas = await canvasCreatorFry(user.displayAvatarURL(), channel);
+      const canvas = await canvasCreatorFry(
+        user.displayAvatarURL({ extension: 'png' }),
+        channel,
+      );
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const user = commandSlash.options.getUser('target');
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
     if (user) {
       commandSlash.reply('Carregando ...').then(async () => {
-        const canvas = await canvasCreatorFry(user.displayAvatarURL(), channel);
+        const canvas = await canvasCreatorFry(
+          user.displayAvatarURL({ extension: 'png' }),
+          channel,
+        );
       });
     }
   },
@@ -46,10 +52,12 @@ async function canvasCreatorFry(
   );
 
   context.drawImage(backgroud, 0, 0, canvas.width, canvas.height);
+  const user = await loadImage(avatarUrl);
+  context.drawImage(user, 260, 170, 180, 180);
 
-  context.drawImage(avatarUrl, 260, 170, 180, 180);
-
-  const attachment = new MessageAttachment(canvas.toBuffer(), 'burgues.png');
+  const attachment = new AttachmentBuilder(canvas.toBuffer(), {
+    name: 'burgues.png',
+  });
 
   if (!channel) return attachment;
 

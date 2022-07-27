@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { sendDolarDaily } from '../service/send/sendDolarDaily';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
@@ -19,7 +18,8 @@ export const dolar = {
     const embed = await sendDolarDaily(channel, true);
     return commandMessage.reply(embed || '');
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
     const embed = await sendDolarDaily(channel, true);
     return commandSlash.reply(embed || '');

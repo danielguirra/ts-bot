@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
@@ -32,10 +31,9 @@ export const clearChannel = {
       channel.bulkDelete(1);
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    const num: number = stringForNumber(
-      commandSlash.options.getInteger('value'),
-    );
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
+    const num: number = stringForNumber(commandSlash.options.get('value'));
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
     const del = await channel.bulkDelete(num);
     if (del) {

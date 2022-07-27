@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Guild, Message } from 'discord.js';
+import { Guild, Interaction, Message, SlashCommandBuilder } from 'discord.js';
 import dotenv from 'dotenv';
 
 import { embedBuilder } from '../../src/util/getEmbed';
@@ -28,7 +27,8 @@ export const help = {
       ],
     });
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const helpFun = getHelp(commandSlash.guild);
 
     return commandSlash.reply({

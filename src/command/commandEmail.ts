@@ -1,5 +1,12 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, GuildTextBasedChannel, Message, PartialMessage, User } from 'discord.js';
+import {
+  CommandInteraction,
+  GuildTextBasedChannel,
+  Interaction,
+  Message,
+  PartialMessage,
+  SlashCommandBuilder,
+  User,
+} from 'discord.js';
 import nodemailer from 'nodemailer';
 
 import { embedBuilder } from '../../src/util/getEmbed';
@@ -66,11 +73,12 @@ export const email = {
           });
       });
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const text = commandSlash.options.getString('texto') || '';
     const email = commandSlash.options.getString('destinatário') || '';
     if (!regex.test(email)) return commandSlash.reply('Verifique o email');
-    const filter = (m: Message) => m.author.id === commandSlash.user.id;
+    const filter = (m: Message) => m.author.id === commandSlash.client.user?.id;
     commandSlash.channel?.send({
       embeds: [
         embedBuilder(

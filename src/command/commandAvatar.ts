@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
 
 /**
  * Don't forget to export
@@ -22,13 +21,13 @@ export const avatar = {
   async executeMessageCommand(commandMessage: Message) {
     const user = commandMessage.mentions.users.first();
     if (user) {
-      return commandMessage.reply(user.displayAvatarURL());
+      return commandMessage.reply(user.displayAvatarURL({ extension: 'png' }));
     }
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
     const user: any = commandSlash.options.getUser('user');
     if (user) {
-      return commandSlash.reply(user.displayAvatarURL());
+      return commandSlash.reply(user.displayAvatarURL({ extension: 'png' }));
     }
   },
 };

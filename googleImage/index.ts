@@ -66,7 +66,7 @@ export async function googleImagePensador(
       let c = 0;
       if (results.__wrapped__[0].length === 0) c++;
       const image = results.__wrapped__[c][0].url;
-      if (!embed.embedColor) embed.embedColor = 'RANDOM';
+      if (!embed.embedColor) embed.embedColor = 'Random';
       if (command) {
         command.reply({
           embeds: [

@@ -1,4 +1,4 @@
-import { CommandInteraction, GuildTextBasedChannel, Message } from 'discord.js';
+import { CommandInteraction, GuildTextBasedChannel, Message, TextBasedChannel } from 'discord.js';
 
 import { deleter } from './delLastMessageById';
 
@@ -7,7 +7,7 @@ export async function loadinCreator(
   exec: image,
 ) {
   command.reply('Carregando...').then(async () => {
-    const last = exec.channel;
+    const last: TextBasedChannel | null = exec.channel;
     if (last) {
       const deletera = await deleter(last);
       const imageSender = await exec.image;
@@ -16,6 +16,6 @@ export async function loadinCreator(
 }
 
 interface image {
-  channel: GuildTextBasedChannel;
+  channel: GuildTextBasedChannel | TextBasedChannel | null;
   image: any;
 }

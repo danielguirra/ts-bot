@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { createCanvas, loadImage } from 'canvas';
-import { CommandInteraction, GuildTextBasedChannel, Message, MessageAttachment, User } from 'discord.js';
+import { AttachmentBuilder, GuildTextBasedChannel, Interaction, Message, SlashCommandBuilder, User } from 'discord.js';
 
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { loadinCreator } from '../util/loadin';
@@ -25,7 +24,8 @@ export const grandedia = {
       const image = await createCanvasGrandeDia(user, channel);
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const user = commandSlash.options.getUser('user');
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
     if (user) {
@@ -45,13 +45,10 @@ async function createCanvasGrandeDia(
   const context = canvas.getContext('2d');
   const background = await loadImage('https://i.im.ge/2021/09/24/TYiYOy.png');
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
-  context.drawImage(
-    user.displayAvatarURL({ format: 'png' }),
-    60,
-    160,
-    210,
-    210,
+  const userImage = await loadImage(
+    user.displayAvatarURL({ extension: 'png' }),
   );
+  context.drawImage(userImage, 60, 160, 210, 210);
   context.font = '38px comic';
   context.fillText(`${user.tag}`, 280, 248);
   context.strokeText(`${user.tag}`, 280, 248);
@@ -60,7 +57,9 @@ async function createCanvasGrandeDia(
   context.strokeStyle = '#808080';
   context.fillText(`@${user.tag}oficial`, 280, 298);
   context.strokeText(`@${user.tag}oficial`, 280, 298);
-  const attachment = new MessageAttachment(canvas.toBuffer(), 'day.png');
+  const attachment = new AttachmentBuilder(canvas.toBuffer(), {
+    name: 'dia.png',
+  });
   if (!channel) return attachment;
 
   channel.send({ files: [attachment] });

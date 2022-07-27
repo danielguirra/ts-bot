@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import axios from 'axios';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import roles from '../../data/json/champRole.json';
 import names from '../../data/json/nameslol.json';
@@ -16,7 +15,12 @@ export const loreleagueoflegends = {
   data: new SlashCommandBuilder()
     .setName('loreleagueoflegends')
     .setDescription('loreleagueoflegends')
-    .addStringOption(options => options.setName('champion').setRequired(true)),
+    .addStringOption(options =>
+      options
+        .setName('champion')
+        .setRequired(true)
+        .setDescription('nome do champ'),
+    ),
   async executeMessageCommand(commandMessage: Message) {
     const champ = commandMessage.content.replace('*lore ', '');
     if (champ) {
@@ -24,8 +28,9 @@ export const loreleagueoflegends = {
       return commandMessage.reply({ embeds: [lore] });
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    const champ = commandSlash.options.getString('champion');
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
+    const champ: any = commandSlash.options.get('champion');
     if (champ) {
       const lore = await getLore(champ);
       return commandSlash.reply({ embeds: [lore] });

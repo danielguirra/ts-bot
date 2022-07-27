@@ -1,5 +1,5 @@
 import { REST } from '@discordjs/rest';
-import { Routes } from 'discord-api-types/v9';
+import { Routes } from 'discord.js';
 import dotenv from 'dotenv';
 
 import { commands } from '../command/Builder';
@@ -7,9 +7,10 @@ import { commands } from '../command/Builder';
 dotenv.config();
 const clientId = process.env.CLIENTID;
 const guildId = process.env.GUILD;
-const rest = new REST({ version: '9' }).setToken(process.env.BOTTOKEN || '');
+const rest = new REST({ version: '10' }).setToken(process.env.BOTTOKEN || '');
 
 const allComands = [];
+let c = 0;
 for (const key of commands) {
   allComands.push(key[1].data.toJSON());
 }

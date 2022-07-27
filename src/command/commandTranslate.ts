@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 
@@ -10,7 +9,9 @@ import { embedBuilder } from '../../src/util/getEmbed';
  * @danielguirra
  */
 export const translate = {
-  data: new SlashCommandBuilder().setName('translate').setDescription('translate'),
+  data: new SlashCommandBuilder()
+    .setName('translate')
+    .setDescription('translate'),
   async executeMessageCommand(commandMessage: Message) {
     return commandMessage.reply({ embeds: [embedBuilder('', '')] });
   },

@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Guild, Message, User } from 'discord.js';
+import { Guild, Interaction, Message, SlashCommandBuilder, User } from 'discord.js';
 import dotenv from 'dotenv';
 
 import { embedBuilder } from '../../src/util/getEmbed';
@@ -50,13 +49,14 @@ export const saveUser = {
             '',
             '',
             '',
-            'GREEN',
+            'Green',
           ),
         ],
       });
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const hour = commandSlash.options.getInteger('horas');
     const city = commandSlash.options.getString('cidade');
     const user = commandSlash.user;
@@ -74,7 +74,7 @@ export const saveUser = {
             '',
             '',
             '',
-            'GREEN',
+            'Green',
           ),
         ],
       });

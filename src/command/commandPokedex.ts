@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 import { getPokemon, Pokemon } from 'pkmonjs';
 
 import { embedBuilder } from '../../src/util/getEmbed';
@@ -32,7 +31,8 @@ export const pokedex = {
       return commandMessage.reply('verify pokemon name');
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const poke = commandSlash.options.getString('pokemon');
 
     if (poke) {
@@ -75,7 +75,7 @@ function embedBuilderPokedex(pokemon: Pokemon) {
     pokemon.name,
     pokemon.image.default,
     pokemon.image.default,
-    'RED',
+    'Red',
     'https://www.pokemon.com/br/pokedex/' + pokemon.name,
   );
 }

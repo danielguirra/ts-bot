@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { sendClimateCurrentTime } from '../service/send/sendClimate';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
@@ -26,8 +25,9 @@ export const climate = {
     const climate = await sendClimateCurrentTime(await channel, city);
     return climate;
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    const city: string = commandSlash.options.getString('city') || 'franca';
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
+    const city: any = commandSlash.options.getString('city') || 'franca';
     const channel = commandSlash.channel || undefined;
     const climate = await sendClimateCurrentTime(undefined, city, channel);
     const climateToSend = await climateItsTrue(climate);

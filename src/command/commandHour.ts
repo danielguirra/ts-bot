@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 import dotenv from 'dotenv';
 
 import { embedBuilder } from '../../src/util/getEmbed';
@@ -28,7 +27,8 @@ export const hour = {
       ],
     });
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     var { getNameWeek, dia_sem, str_data, str_hora } = hourNow();
     return commandSlash.reply({
       embeds: [

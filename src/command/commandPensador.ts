@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { googleImagePensador } from '../../googleImage';
 import { pensador as uga } from '../util/pensador';
@@ -20,7 +19,8 @@ export const pensador = {
       const embed = await googleImagePensador(embedAux, soltas, commandMessage);
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const soltas = await uga.getFromSoltas();
     if (soltas) {
       const embed = await googleImagePensador(embedAux, soltas, commandSlash);

@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { sendLoveMessageDaily } from '../service/send/sendLoveMessageDaily';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
@@ -22,7 +21,8 @@ export const love = {
       );
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     commandSlash.reply('❤').then(async () => {
       const loveSend = await sendLoveMessageDaily(
         await channelItsGuildTextChannel(commandSlash.channel),

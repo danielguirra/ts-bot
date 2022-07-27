@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import axios from 'axios';
-import { CommandInteraction, Message } from 'discord.js';
+import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { translateText } from '../util/translate';
@@ -16,7 +15,7 @@ export const advice = {
     .setName('conselho')
     .setDescription('Conselho aletório'),
   async executeMessageCommand(commandMessage: Message) {
-    const avatar = commandMessage.author.displayAvatarURL();
+    const avatar = commandMessage.author.displayAvatarURL({ extension: 'png' });
     const tag = commandMessage.author.username;
     const advice = await getAdvice();
 
@@ -25,7 +24,8 @@ export const advice = {
     });
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
-    const avatar = commandSlash.user.displayAvatarURL();
+    if (!commandSlash.isChatInputCommand()) return;
+    const avatar = commandSlash.user.displayAvatarURL({ extension: 'png' });
     const tag = commandSlash.user.username;
     const advice = await getAdvice();
 

@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { Client, CommandInteraction, Message } from 'discord.js';
+import { Client, Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { dailySender } from '../service/dailySender';
@@ -29,13 +28,14 @@ export const day = {
             '',
             '',
             '',
-            'YELLOW',
+            'Yellow',
           ),
         ],
       });
     }
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const channels = await getChannels(commandSlash.client);
 
     const day = await dailySender(channels);
@@ -49,7 +49,7 @@ export const day = {
             '',
             '',
             '',
-            'YELLOW',
+            'Yellow',
           ),
         ],
       });

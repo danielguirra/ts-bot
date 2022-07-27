@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../util/getEmbed';
 
@@ -10,7 +9,8 @@ export const ping = {
     .addStringOption(options =>
       options.setName('teste').setDescription('bananasplit'),
     ),
-  async executeSlashCommand(commandSlash: CommandInteraction): Promise<any> {
+  async executeSlashCommand(commandSlash: Interaction): Promise<any> {
+    if (!commandSlash.isChatInputCommand()) return;
     const result: string = commandSlash.options.getString('teste') || '';
     return commandSlash.reply({ embeds: [embedBuilder('TypeScript', result)] });
   },

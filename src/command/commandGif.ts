@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import axios from 'axios';
-import { CommandInteraction, Message } from 'discord.js';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 const tenor = process.env.TENORKEY;
 /**
@@ -22,7 +21,8 @@ export const gif = {
 
     return commandMessage.reply(gif);
   },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
+  async executeSlashCommand(commandSlash: Interaction) {
+    if (!commandSlash.isChatInputCommand()) return;
     const text = commandSlash.options.getString('text') || undefined;
     const gif = await getGif(text);
 
