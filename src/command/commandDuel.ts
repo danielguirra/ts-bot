@@ -19,19 +19,21 @@ export const duel = {
     const user2 = commandMessage.mentions.users.first();
     const user = commandMessage.author;
     const channel = await channelItsGuildTextChannel(commandMessage.channel);
-
-    const resul = await canvasDuel(user, user2, channel);
+    if (channel) {
+      const resul = await canvasDuel(user, user2, channel);
+    }
   },
   async executeSlashCommand(commandSlash: Interaction) {
     if (!commandSlash.isChatInputCommand()) return;
     const user2 = commandSlash.options.getUser('target');
     const user = commandSlash.user;
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
-
-    const sender = await loadinCreator(commandSlash, {
-      channel,
-      image: canvasDuel(user, user2, channel),
-    });
+    if (channel) {
+      const sender = await loadinCreator(commandSlash, {
+        channel,
+        image: canvasDuel(user, user2, channel),
+      });
+    }
   },
 };
 
