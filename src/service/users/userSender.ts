@@ -8,7 +8,7 @@ export async function userSender() {
   for (const user of usersObjc) {
     const userSend = await client.users.fetch(user.id);
     const userChannel = await channelItsGuildTextChannel(userSend);
-
-    userSend.send(await sendClimate(userChannel, user.userClimate.city));
+    if (userChannel)
+      userSend.send(await sendClimate(userChannel, user.userClimate.city));
   }
 }

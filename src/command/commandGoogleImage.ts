@@ -31,11 +31,13 @@ async function sendSearch(
   command: CommandInteraction | Message,
 ) {
   const channela = await channelItsGuildTextChannel(channel);
-  const men = command.reply('Pensquisando ...').then(async () => {
-    const id = channela.lastMessageId;
-    if (id) {
-      const mensage = await channela.messages.fetch(id);
-      googleImage(text, channela, mensage);
-    }
-  });
+  if (channela) {
+    const men = command.reply('Pensquisando ...').then(async () => {
+      const id = channela.lastMessageId;
+      if (id) {
+        const mensage = await channela.messages.fetch(id);
+        googleImage(text, channela, mensage);
+      }
+    });
+  }
 }

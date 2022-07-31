@@ -37,16 +37,18 @@ export const pokedex = {
 
     if (poke) {
       const channel = await channelItsGuildTextChannel(commandSlash.channel);
-      const sender = commandSlash.reply('Pesquisando...').then(async () => {
-        const last = channel.lastMessage;
-        try {
-          const pokedex = await getPokemon(poke);
-          const embed = embedBuilderPokedex(pokedex);
-          last?.edit({ embeds: [embed] });
-        } catch (error) {
-          last?.edit('verify pokemon name');
-        }
-      });
+      if (channel) {
+        const sender = commandSlash.reply('Pesquisando...').then(async () => {
+          const last = channel.lastMessage;
+          try {
+            const pokedex = await getPokemon(poke);
+            const embed = embedBuilderPokedex(pokedex);
+            last?.edit({ embeds: [embed] });
+          } catch (error) {
+            last?.edit('verify pokemon name');
+          }
+        });
+      }
     }
   },
 };

@@ -22,18 +22,20 @@ export const climateDaily = {
   async executeMessageCommand(commandMessage: Message) {
     const city = commandMessage.content.replace('*clima ', '') || 'franca';
     const channel = await channelItsGuildTextChannel(commandMessage.channel);
+    if (channel) {
+      const clima: any = await sendClimate(channel, city);
 
-    const clima: any = await sendClimate(channel, city);
-
-    return commandMessage.reply({ embeds: [clima] });
+      return commandMessage.reply({ embeds: [clima] });
+    }
   },
   async executeSlashCommand(commandSlash: Interaction) {
     if (!commandSlash.isChatInputCommand()) return;
     const city: any = commandSlash.options.get('cidade') || 'franca';
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
+    if (channel) {
+      const clima: any = await sendClimate(channel, city);
 
-    const clima: any = await sendClimate(channel, city);
-
-    return commandSlash.reply({ embeds: [clima] });
+      return commandSlash.reply({ embeds: [clima] });
+    }
   },
 };

@@ -15,13 +15,17 @@ export const dolar = {
     .setDescription('retorna valor do dolar atual'),
   async executeMessageCommand(commandMessage: Message) {
     const channel = await channelItsGuildTextChannel(commandMessage.channel);
-    const embed = await sendDolarDaily(channel, true);
-    return commandMessage.reply(embed || '');
+    if (channel) {
+      const embed = await sendDolarDaily(channel, true);
+      return commandMessage.reply(embed || '');
+    }
   },
   async executeSlashCommand(commandSlash: Interaction) {
     if (!commandSlash.isChatInputCommand()) return;
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
-    const embed = await sendDolarDaily(channel, true);
-    return commandSlash.reply(embed || '');
+    if (channel) {
+      const embed = await sendDolarDaily(channel, true);
+      return commandSlash.reply(embed || '');
+    }
   },
 };

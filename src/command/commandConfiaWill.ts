@@ -22,7 +22,7 @@ export const confiaWill = {
       .first()
       ?.displayAvatarURL({ extension: 'png' });
     const channel = await channelItsGuildTextChannel(commandMessage.channel);
-    if (user) {
+    if (user && channel) {
       const file = await confiaWillGetCanvas(user, channel);
     }
   },
@@ -32,7 +32,7 @@ export const confiaWill = {
       .getUser('target')
       ?.displayAvatarURL({ extension: 'png' });
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
-    if (user) {
+    if (user && channel) {
       const sender = await loadinCreator(commandSlash, {
         channel,
         image: confiaWillGetCanvas(user, channel),

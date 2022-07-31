@@ -15,18 +15,18 @@ export const love = {
     .setDescription('envia uma messagem de amor no canal'),
   async executeMessageCommand(commandMessage: Message) {
     const love = commandMessage.content.replace('*love ', '');
-    if (love) {
-      const loveSend = await sendLoveMessageDaily(
-        await channelItsGuildTextChannel(commandMessage.channel),
-      );
+    const channel = await channelItsGuildTextChannel(commandMessage.channel);
+    if (love && channel) {
+      const loveSend = await sendLoveMessageDaily(channel);
     }
   },
   async executeSlashCommand(commandSlash: Interaction) {
+    const channel = await channelItsGuildTextChannel(commandSlash.channel);
     if (!commandSlash.isChatInputCommand()) return;
-    commandSlash.reply('❤').then(async () => {
-      const loveSend = await sendLoveMessageDaily(
-        await channelItsGuildTextChannel(commandSlash.channel),
-      );
-    });
+    if (channel) {
+      commandSlash.reply('❤').then(async () => {
+        const loveSend = await sendLoveMessageDaily(channel);
+      });
+    }
   },
 };

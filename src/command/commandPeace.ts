@@ -27,18 +27,16 @@ export const peace = {
     ),
   async executeMessageCommand(commandMessage: Message) {
     const user = commandMessage.mentions.users.first();
-    if (user) {
-      const image = await getCanvasPeace(
-        user,
-        await channelItsGuildTextChannel(commandMessage.channel),
-      );
+    const channel = await channelItsGuildTextChannel(commandMessage.channel);
+    if (user && channel) {
+      const image = await getCanvasPeace(user, channel);
     }
   },
   async executeSlashCommand(commandSlash: Interaction) {
     if (!commandSlash.isChatInputCommand()) return;
     const user = commandSlash.options.getUser('target');
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
-    if (user) {
+    if (user && channel) {
       const sender = await loadinCreator(commandSlash, {
         channel,
         image: getCanvasPeace(user, channel),

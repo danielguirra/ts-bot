@@ -20,7 +20,7 @@ export const grandedia = {
   async executeMessageCommand(commandMessage: Message) {
     const channel = await channelItsGuildTextChannel(commandMessage.channel);
     const user = commandMessage.mentions.users.first();
-    if (user) {
+    if (user && channel) {
       const image = await createCanvasGrandeDia(user, channel);
     }
   },
@@ -28,7 +28,7 @@ export const grandedia = {
     if (!commandSlash.isChatInputCommand()) return;
     const user = commandSlash.options.getUser('user');
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
-    if (user) {
+    if (user && channel) {
       const sender = await loadinCreator(commandSlash, {
         channel,
         image: createCanvasGrandeDia(user, channel),

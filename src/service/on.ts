@@ -1,4 +1,5 @@
 import { CronJob } from 'cron';
+import { Channel } from 'discord.js';
 import dotenv from 'dotenv';
 
 import { client } from '../client/client';
@@ -14,41 +15,52 @@ const hour: any = process.env.HORA || 0;
 
 export const on = client.on('ready', async () => {
   const guildID = await client.guilds.fetch(process.env.GUILD || '');
-  const channelDaily = await channelItsGuildTextChannel(
+  const channelDaily: Channel | null = await channelItsGuildTextChannel(
     guildID.channels.resolve(process.env.DIA || ''),
   );
-  const channelLove = await channelItsGuildTextChannel(
+  const channelLove: Channel | null = await channelItsGuildTextChannel(
     guildID.channels.resolve(process.env.LOVE || ''),
   );
-  const channelDolar = await channelItsGuildTextChannel(
+  const channelDolar: Channel | null = await channelItsGuildTextChannel(
     guildID.channels.resolve(process.env.DOLAR || ''),
   );
-  const channelClimate = await channelItsGuildTextChannel(
+  const channelClimate: Channel | null = await channelItsGuildTextChannel(
     guildID.channels.resolve(process.env.CLIMA || ''),
   );
-  const lastMessageIdChannelClimate = channelClimate.lastMessageId;
-  const lastMessageChannelClimate = await channelClimate.messages.fetch(
-    lastMessageIdChannelClimate || '',
-  );
-  const dateLastMessageChannelClimateItsTrue = dateLastItsTrue(
-    lastMessageChannelClimate,
-  );
-  if (dateLastMessageChannelClimateItsTrue) {
-    console.log('Clima diário não enviado');
-    dailySender({
-      channelDolar,
-      channelLove,
-      channelDaily,
-    });
-  } else {
-    console.log('Clima será enviado');
-    new CronJob(`00 35 08 * * *`, () => {
+  if (channelClimate && channelDolar && channelLove && channelDaily) {
+    const lastMessageIdChannelClimate = channelClimate.lastMessageId;
+    const lastMessageChannelClimate = await channelClimate.messages.fetch(
+      lastMessageIdChannelClimate || '',
+    );
+    const dateLastMessageChannelClimateItsTrue = dateLastItsTrue(
+      lastMessageChannelClimate,
+    );
+    if (dateLastMessageChannelClimateItsTrue) {
+      console.log('Clima diário não enviado');
       dailySender({
         channelDolar,
         channelLove,
         channelDaily,
       });
-    }).start();
+    } else {
+      console.log('Clima será enviado');
+      new CronJob(`00 35 08 * * *`, () => {
+        dailySender({
+          channelDolar,
+          channelLove,
+          channelDaily,
+        });
+      }).start();
+    }
+  } else {
+    let erro = {
+      chDaily: channelDaily,
+      chDolar: channelDolar,
+      chLove: channelLove,
+      chClimate: channelClimate,
+    };
+    console.log(`Erro verificar variáveis de ambiente ou 'channel' `);
+    return console.log(erro);
   }
 });
 

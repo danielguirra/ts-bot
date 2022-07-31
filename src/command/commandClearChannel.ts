@@ -24,22 +24,26 @@ export const clearChannel = {
       commandMessage.content.replace('*cls ', ''),
     );
     const channel = await channelItsGuildTextChannel(commandMessage.channel);
-    const del = await channel.bulkDelete(num);
-    if (del) {
-      commandMessage.reply('Foi apagado ' + num);
-      const time = await new Promise(f => setTimeout(f, 1000));
-      channel.bulkDelete(1);
+    if (channel) {
+      const del = await channel.bulkDelete(num);
+      if (del) {
+        commandMessage.reply('Foi apagado ' + num);
+        const time = await new Promise(f => setTimeout(f, 1000));
+        channel.bulkDelete(1);
+      }
     }
   },
   async executeSlashCommand(commandSlash: Interaction) {
     if (!commandSlash.isChatInputCommand()) return;
     const num: number = stringForNumber(commandSlash.options.get('value'));
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
-    const del = await channel.bulkDelete(num);
-    if (del) {
-      commandSlash.reply('Foi apagado ' + num);
-      const time = await new Promise(f => setTimeout(f, 1000));
-      channel.bulkDelete(1);
+    if (channel) {
+      const del = await channel.bulkDelete(num);
+      if (del) {
+        commandSlash.reply('Foi apagado ' + num);
+        const time = await new Promise(f => setTimeout(f, 1000));
+        channel.bulkDelete(1);
+      }
     }
     return commandSlash.reply({ embeds: [embedBuilder('', '')] });
   },

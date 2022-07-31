@@ -187,11 +187,12 @@ async function messageReactionAddConstructorForEmail(
       }
     }
     if (reaction.emoji.name === '✅') {
-      const sender = sendAfterReaction(
-        text,
-        email,
-        await channelItsGuildTextChannel(reaction.message.channel),
-      );
+      const cha = await channelItsGuildTextChannel(reaction.message.channel);
+      if (cha) {
+        const sender = sendAfterReaction(text, email, cha);
+      } else {
+        console.log(cha);
+      }
     }
     if (reaction.emoji.name === '🤔') {
       const teste = await reaction.message.channel.send({
@@ -219,11 +220,12 @@ async function messageReactionAddConstructorForEmail(
       }
     }
     if (reaction.emoji.name === '🤔') {
-      const channelMessage = (
-        await channelItsGuildTextChannel(reaction.message.channel)
-      ).messages;
-      const messageForDelete = await channelMessage.resolve(idMessageForDelete);
-      messageForDelete?.delete();
+      const cha = await channelItsGuildTextChannel(reaction.message.channel);
+      if (cha) {
+        const channelMessage = cha.messages;
+        const messageForDelete = channelMessage.resolve(idMessageForDelete);
+        messageForDelete?.delete();
+      }
     }
   });
 }

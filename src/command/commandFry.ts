@@ -19,7 +19,7 @@ export const fry = {
   async executeMessageCommand(commandMessage: Message) {
     const user = commandMessage.mentions.users.first();
     const channel = await channelItsGuildTextChannel(commandMessage.channel);
-    if (user) {
+    if (user && channel) {
       const canvas = await canvasCreatorFry(
         user.displayAvatarURL({ extension: 'png' }),
         channel,
@@ -30,7 +30,7 @@ export const fry = {
     if (!commandSlash.isChatInputCommand()) return;
     const user = commandSlash.options.getUser('target');
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
-    if (user) {
+    if (user && channel) {
       commandSlash.reply('Carregando ...').then(async () => {
         const canvas = await canvasCreatorFry(
           user.displayAvatarURL({ extension: 'png' }),

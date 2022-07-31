@@ -20,10 +20,12 @@ export const climate = {
         .setRequired(true),
     ),
   async executeMessageCommand(commandMessage: Message) {
-    const channel = channelItsGuildTextChannel(commandMessage.channel);
-    const city: string = commandMessage.content.replace('*clima ', '');
-    const climate = await sendClimateCurrentTime(await channel, city);
-    return climate;
+    const channel = await channelItsGuildTextChannel(commandMessage.channel);
+    if (channel) {
+      const city: string = commandMessage.content.replace('*clima ', '');
+      const climate = await sendClimateCurrentTime(channel, city);
+      return climate;
+    }
   },
   async executeSlashCommand(commandSlash: Interaction) {
     if (!commandSlash.isChatInputCommand()) return;
