@@ -7,11 +7,12 @@
   "license": "MIT",
   "author": "Daniel Guirra <daniel.guirra777@gmail.com>",
   "scripts": {
-    "build": "node ./config/build",
-    "dev": "npx nodemon ./src/server.ts",
-    "start": "node ./config/build && node ./bin/src/server.js",
-    "startNotBuild": "npx ts-node ./src/server.ts",
-    "commandCreator": "node ./util/commandBaseTs/commandCreatorForName.js"
+    "Build": "node ./config/build.js",
+    "DevOnBuild": "npx nodemon ./bin/src/server.js",
+    "DevTsNotBuild": "npx nodemon ./src/server.ts",
+    "StartAndBuild": "node ./config/build && node ./bin/src/server.js",
+    "StartTsNotBuild": "npx ts-node ./src/server.ts",
+    "CommandCreator": "node ./util/commandBaseTs/commandCreatorForName.js"
   },
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
