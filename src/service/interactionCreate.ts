@@ -5,6 +5,7 @@ import { commands } from '../command/Builder';
 
 export const interactionCreate = client.on(
   'interactionCreate',
+
   async interaction => {
     if (interaction.type === InteractionType.ApplicationCommand) {
       if (!interaction.isChatInputCommand()) return;
