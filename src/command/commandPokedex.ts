@@ -54,6 +54,9 @@ export const pokedex = {
 };
 
 function embedBuilderPokedex(pokemon: Pokemon) {
+  let ty1 = pokemon.stats.types.name.type1;
+  if (typeof pokemon.stats.types.name.type2 === 'string')
+    ty1 = `${ty1}, ${pokemon.stats.types.name.type2}`;
   return embedBuilder(
     pokemon.name.toLocaleUpperCase(),
     `${pokemon.description}
@@ -72,6 +75,7 @@ function embedBuilderPokedex(pokemon: Pokemon) {
 
     Generation:${pokemon.generation.name}
 
+    Types:**${ty1}**
     `,
     pokemon.image.default,
     pokemon.name,

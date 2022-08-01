@@ -2192,10 +2192,10 @@ picomatch@^2.0.4, picomatch@^2.2.1:
   resolved "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
-pkmonjs@^1.1.13:
-  version "1.1.13"
-  resolved "https://registry.npmjs.org/pkmonjs/-/pkmonjs-1.1.13.tgz"
-  integrity sha512-AGt+WZpd/hoK9aBOtFVVXOPneXZ2lG7uKcZ2WPBx4gsTIR/sw7t/t4KglJ6tQRDbmrAeCgCD2k+Vc48RAqDv+w==
+pkmonjs@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/pkmonjs/-/pkmonjs-1.2.4.tgz#913096f642bf974f866b3d2b17b2325e0dedb57e"
+  integrity sha512-czZviapUWH2psijBk2ztbOR9VB6sKLHcwubY/Rlq5R0Qi9vyZynSRTIfnglrlpz/ukegFZRTvq2aFuaR4jzm6Q==
   dependencies:
     "@types/jsdom" "^16.2.14"
     axios "^0.27.2"
