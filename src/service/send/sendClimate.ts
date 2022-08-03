@@ -7,19 +7,20 @@ import emojis from '../../../data/json/weatherEmoji.json';
 import { embedBuilder } from '../../util/getEmbed';
 
 dotenv.config();
-let climate;
 
 export const sendClimate = async (
   channel: GuildTextBasedChannel,
   city: string,
 ) => {
-  const cityName = city;
+  if (!city || city === '*climadodia') {
+    console.log('Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city);
+    return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
+  }
+
+  const cityNameToReturnInEmbed = city;
   city = city?.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   let url = `https://pt.wttr.in/${city}+brazil?format=j1`;
 
-  if (!city) return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
-  if (city === '*climadodia')
-    return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔';
   return axios.get(url).then(clim => {
     try {
       let climatePorHora = [];
@@ -56,7 +57,7 @@ export const sendClimate = async (
         climatePorHora.push(porHora);
       }
 
-      climate = {
+      let climate = {
         temperaturaMediaC: clim.data.weather[0].avgtempC,
         porHora: climatePorHora,
       };
@@ -64,7 +65,7 @@ export const sendClimate = async (
         {
           embeds: [
             embedBuilder(
-              `Clima de ${cityName} Hoje`,
+              `Clima de ${cityNameToReturnInEmbed} Hoje`,
               `
         Temperatura média : ${climate.temperaturaMediaC}C°
 
@@ -143,7 +144,8 @@ export const sendClimate = async (
         } || ''
       );
     } catch (err) {
-      return 'Erro';
+      console.log(err);
+      return false;
     }
   });
 };
@@ -152,12 +154,15 @@ export const sendClimateCurrentTime = async (
   city?: string,
   channelSlash?: TextBasedChannel,
 ) => {
-  const cityName = city;
+  if (!city || city === '*clima') {
+    console.log('Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city);
+    return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
+  }
+  const cityNameToReturnInEmbed = city;
 
   city = city?.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  let url = `https://pt.wttr.in/${city}+brazil?format=j1`;
-  if (!city) return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
-  if (city === '*clima') return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔';
+  const url = `https://pt.wttr.in/${city}+brazil?format=j1`;
+
   const climateAxios = await axios.get(url);
   try {
     let weather = climateAxios.data.current_condition[0];
@@ -173,17 +178,15 @@ export const sendClimateCurrentTime = async (
       heatIndex: heatString.slice(0, 4),
       str_hora,
       emoji,
-      avgTempC:climateAxios.data.weather[0].avgtempC,
-      tempMinC:climateAxios.data.weather[0].mintempC,
-      tempMaxC:climateAxios.data.weather[0].maxtempC,
+      avgTempC: climateAxios.data.weather[0].avgtempC,
+      tempMinC: climateAxios.data.weather[0].mintempC,
+      tempMaxC: climateAxios.data.weather[0].maxtempC,
     };
-   
+
     if (channelSlash) {
-      return {
-        embeds: [
-          embedBuilder(
-            `Clima de ${cityName} agora ${str_hora}`,
-            ` A temperatura está por volta de :**${climate.temp_C}Cº**
+      return embedBuilder(
+        `Clima de ${cityNameToReturnInEmbed} agora ${str_hora}`,
+        ` A temperatura está por volta de :**${climate.temp_C}Cº**
             Mínima de Hoje é  :**${climate.tempMinC}**
             Média de Hoje é :**${climate.avgTempC}**
             Máxima de Hoje é  :**${climate.tempMaxC}**
@@ -192,34 +195,38 @@ export const sendClimateCurrentTime = async (
              **${climate.text}** ${climate.emoji}
             Sensação térmica de **${climate.heatIndex}Cº**
         `,
-          ),
-        ],
-      };
+      );
     }
     if (channel)
-      return channel.send({
-        embeds: [
-          embedBuilder(
-            `Clima de ${city} agora ${str_hora}`,
-            ` A temperatura está em :**${climate.temp_C}Cº**
+      try {
+        channel.send({
+          embeds: [
+            embedBuilder(
+              `Clima de ${cityNameToReturnInEmbed} agora ${str_hora}`,
+              ` A temperatura está em :**${climate.temp_C}Cº**
           Humidade em **${climate.humidity}%**
           **${climate.text}** ${climate.emoji}
           Sensação térmica de **${climate.heatIndex}Cº**
         `,
-          ),
-        ],
-      });
+            ),
+          ],
+        });
+        return true;
+      } catch (error) {
+        return false;
+      }
   } catch (err) {
-    return 'erro';
+    console.log(err);
+    return false;
   }
 };
 
 /**
  *
  * @param {*} codeEmojiWeather:number
- * @returns promise:Emoji
+ * @return Emoji | String
  */
-function getEmojiForWeatherCode(codeEmojiWeather: number) {
+function getEmojiForWeatherCode(codeEmojiWeather: number): string {
   const emoji: any = emojis;
   const weather: any = weatherCode;
   return emoji[0][weather[0][codeEmojiWeather]];
@@ -234,11 +241,6 @@ function heatIndexCalculator(tempC: any, velWindKm: any) {
   return (
     33 + ((10 * Math.sqrt(velWindKm) + 10.45 - velWindKm) * (tempC - 33)) / 22
   );
-}
-
-
-function maxTemp(allClimateOfDay:object) {
-  
 }
 
 const getNameWeekFunc = (x: any) => {

@@ -1,5 +1,14 @@
 import Canvas, { createCanvas, loadImage } from 'canvas';
-import { AttachmentBuilder, Interaction, Message, SlashCommandBuilder, TextBasedChannel } from 'discord.js';
+import {
+  AttachmentBuilder,
+  Interaction,
+  Message,
+  SlashCommandBuilder,
+  TextBasedChannel,
+} from 'discord.js';
+import { loadin } from '../service/send/loadin';
+import { senderSlash } from '../service/send/senderSlash';
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 
 import { loadinCreator } from '../util/loadin';
 
@@ -24,7 +33,10 @@ export const buzz = {
     const channel = commandMessage.channel;
 
     if (user1 && user2) {
-      const image = await buzzBuilder(user1, user2, channel);
+      const image = await buzzImageCanvasBuilder(user1, user2);
+      if (image) {
+        await channel.send({ files: [image] });
+      }
     }
   },
   async executeSlashCommand(commandSlash: Interaction) {
@@ -33,29 +45,28 @@ export const buzz = {
       .getUser('target')
       ?.displayAvatarURL({ extension: 'png' });
     const user2 = commandSlash.user.displayAvatarURL({ extension: 'png' });
-    const channel = commandSlash.channel;
-    if (user1 && user2) {
-      const sender = await loadinCreator(commandSlash, {
-        channel,
-        image: buzzBuilder(user1, user2, channel),
+    const user = commandSlash.options.getUser('target');
+    const channel = await channelItsGuildTextChannel(commandSlash.channel);
+    if (user1 && user2 && channel && user) {
+      return loadin(commandSlash)?.then(async () => {
+        const canvas = await buzzImageCanvasBuilder(user1, user2);
+        if (canvas) {
+          await senderSlash(channel, canvas, user);
+        }
       });
     }
   },
 };
 
-async function buzzBuilder(
-  user1: string,
-  user2: string,
-  channel: TextBasedChannel | null,
-) {
+async function buzzImageCanvasBuilder(user1: string, user2: string) {
   const canvas = createCanvas(500, 250);
   const context = canvas.getContext('2d');
 
-  const buzz = await loadImage('./util/image/buzz.png');
-  context.drawImage(buzz, 250, 0, 250, 255);
-  const raibow = await loadImage('./util/image/arco.png');
+  const buzzImage = await loadImage('./util/image/buzz.png');
+  context.drawImage(buzzImage, 250, 0, 250, 255);
+  const raibowImage = await loadImage('./util/image/arco.png');
 
-  context.drawImage(raibow, 0, 0, 250, 250);
+  context.drawImage(raibowImage, 0, 0, 250, 250);
   const user1Image = await loadImage(user1);
   context.drawImage(user1Image, 90, 130, 66, 66);
   const user2Image = await loadImage(user2);
@@ -64,6 +75,5 @@ async function buzzBuilder(
   const attachment = new AttachmentBuilder(canvas.toBuffer(), {
     name: 'guei.png',
   });
-  if (!channel) return;
-  return channel.send({ files: [attachment] });
+  return attachment;
 }

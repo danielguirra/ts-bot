@@ -17,7 +17,7 @@ export const advice = {
   async executeMessageCommand(commandMessage: Message) {
     const avatar = commandMessage.author.displayAvatarURL({ extension: 'png' });
     const tag = commandMessage.author.username;
-    const advice = await getAdvice();
+    const advice = await getRandomAdvice();
 
     return commandMessage.reply({
       embeds: [embedBuilder('Conselho', advice, avatar, tag)],
@@ -27,7 +27,7 @@ export const advice = {
     if (!commandSlash.isChatInputCommand()) return;
     const avatar = commandSlash.user.displayAvatarURL({ extension: 'png' });
     const tag = commandSlash.user.username;
-    const advice = await getAdvice();
+    const advice = await getRandomAdvice();
 
     return commandSlash.reply({
       embeds: [embedBuilder('Conselho', advice, avatar, tag)],
@@ -38,7 +38,7 @@ export const advice = {
  *
  * @returns Conselho um em portugues
  */
-async function getAdvice() {
+async function getRandomAdvice() {
   const url = `https://api.adviceslip.com/advice`;
   const advice = await axios.get(url);
   const text = advice.data.slip.advice;

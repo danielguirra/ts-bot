@@ -20,14 +20,14 @@ export const clearChannel = {
         .setRequired(true),
     ),
   async executeMessageCommand(commandMessage: Message) {
-    const num: number = stringForNumber(
+    const numberMessageToDelete: number = stringForNumber(
       commandMessage.content.replace('*cls ', ''),
     );
     const channel = await channelItsGuildTextChannel(commandMessage.channel);
     if (channel) {
-      const del = await channel.bulkDelete(num);
+      const del = await channel.bulkDelete(numberMessageToDelete);
       if (del) {
-        commandMessage.reply('Foi apagado ' + num);
+        commandMessage.reply('Foi apagado ' + numberMessageToDelete);
         const time = await new Promise(f => setTimeout(f, 1000));
         channel.bulkDelete(1);
       }
@@ -35,12 +35,14 @@ export const clearChannel = {
   },
   async executeSlashCommand(commandSlash: Interaction) {
     if (!commandSlash.isChatInputCommand()) return;
-    const num: number = stringForNumber(commandSlash.options.get('value'));
+    const numberMessageToDelete: number = stringForNumber(
+      commandSlash.options.get('value'),
+    );
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
     if (channel) {
-      const del = await channel.bulkDelete(num);
+      const del = await channel.bulkDelete(numberMessageToDelete);
       if (del) {
-        commandSlash.reply('Foi apagado ' + num);
+        commandSlash.reply('Foi apagado ' + numberMessageToDelete);
         const time = await new Promise(f => setTimeout(f, 1000));
         channel.bulkDelete(1);
       }

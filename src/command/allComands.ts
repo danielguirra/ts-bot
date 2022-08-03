@@ -12,6 +12,7 @@ import { confiaWill } from './commandConfiaWill';
 import { day } from './commandDay';
 import { dice } from './commandDice';
 import { dolar } from './commandDolar';
+import { duel } from './commandDuel';
 import { email } from './commandEmail';
 import { fry } from './commandFry';
 import { gif } from './commandGif';
@@ -84,4 +85,5 @@ export const allComands: any = {
   pdl,
   bible,
   bibleverday,
+  duel,
 };

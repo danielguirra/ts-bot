@@ -13,7 +13,7 @@ export const gif = {
     .setName('gif')
     .setDescription('procura no tenor por gif')
     .addStringOption(option =>
-      option.setName('text').setDescription('digite algo'),
+      option.setName('text').setDescription('digite algo').setRequired(true),
     ),
   async executeMessageCommand(commandMessage: Message) {
     const gifText = commandMessage.content.replace('*gif ', '');

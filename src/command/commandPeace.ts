@@ -8,6 +8,8 @@ import {
   SlashCommandBuilder,
   User,
 } from 'discord.js';
+import { loadin } from '../service/send/loadin';
+import { senderSlash } from '../service/send/senderSlash';
 
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { loadinCreator } from '../util/loadin';
@@ -29,7 +31,10 @@ export const peace = {
     const user = commandMessage.mentions.users.first();
     const channel = await channelItsGuildTextChannel(commandMessage.channel);
     if (user && channel) {
-      const image = await getCanvasPeace(user, channel);
+      const image = await getCanvasPeace(user);
+      if (image) {
+        await channel.send({ files: [image] });
+      }
     }
   },
   async executeSlashCommand(commandSlash: Interaction) {
@@ -37,18 +42,17 @@ export const peace = {
     const user = commandSlash.options.getUser('target');
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
     if (user && channel) {
-      const sender = await loadinCreator(commandSlash, {
-        channel,
-        image: getCanvasPeace(user, channel),
+      return loadin(commandSlash)?.then(async () => {
+        const canvas = await getCanvasPeace(user);
+        if (canvas) {
+          await senderSlash(channel, canvas, user);
+        }
       });
     }
   },
 };
 
-async function getCanvasPeace(
-  user: User | GuildMember,
-  channel?: GuildTextBasedChannel,
-) {
+async function getCanvasPeace(user: User | GuildMember) {
   const canvas = createCanvas(1000, 600);
   const context = canvas.getContext('2d');
   const background = await loadImage('https://i.im.ge/2021/09/24/T3b3qM.png');
@@ -61,7 +65,5 @@ async function getCanvasPeace(
   const attachment = new AttachmentBuilder(canvas.toBuffer(), {
     name: 'paz-image.png',
   });
-  if (!channel) return;
-
-  return channel.send({ files: [attachment] });
+  return attachment;
 }

@@ -24,7 +24,7 @@ export const loreleagueoflegends = {
   async executeMessageCommand(commandMessage: Message) {
     const champ = commandMessage.content.replace('*lore ', '');
     if (champ) {
-      const lore = await getLore(champ);
+      const lore = await getLoreChampionLeagueOfLegends(champ);
       return commandMessage.reply({ embeds: [lore] });
     }
   },
@@ -32,13 +32,13 @@ export const loreleagueoflegends = {
     if (!commandSlash.isChatInputCommand()) return;
     const champ: any = commandSlash.options.get('champion');
     if (champ) {
-      const lore = await getLore(champ);
+      const lore = await getLoreChampionLeagueOfLegends(champ);
       return commandSlash.reply({ embeds: [lore] });
     }
   },
 };
 
-async function getLore(champ: string) {
+async function getLoreChampionLeagueOfLegends(champ: string) {
   const nameChamp: any = names;
   const x = nameChamp[champ];
 

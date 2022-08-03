@@ -13,7 +13,10 @@ export const dice = {
     .setName('d20')
     .setDescription('rola um d20 ou um valor passado')
     .addIntegerOption(options =>
-      options.setName('value').setDescription('valor a ser sorteado'),
+      options
+        .setName('value')
+        .setDescription('valor a ser sorteado')
+        .setRequired(true),
     ),
   async executeMessageCommand(commandMessage: Message) {
     const num: any = commandMessage.content.replace('*sorteio ', '');

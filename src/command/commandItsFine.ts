@@ -1,5 +1,15 @@
 import { createCanvas, loadImage } from 'canvas';
-import { AttachmentBuilder, Interaction, Message, SlashCommandBuilder } from 'discord.js';
+import { channel } from 'diagnostics_channel';
+import {
+  AttachmentBuilder,
+  Interaction,
+  Message,
+  SlashCommandBuilder,
+} from 'discord.js';
+import { loadin } from '../service/send/loadin';
+import { senderSlash } from '../service/send/senderSlash';
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadinCreator } from '../util/loadin';
 
 /**
  * Don't forget to export
@@ -14,7 +24,8 @@ export const itsfine = {
     .addUserOption(option =>
       option
         .setName('user')
-        .setDescription('cidadão que está bem mesmo no inferno'),
+        .setDescription('cidadão que está bem mesmo no inferno')
+        .setRequired(true),
     ),
   async executeMessageCommand(commandMessage: Message) {
     const user = commandMessage.mentions.users.first();
@@ -27,10 +38,15 @@ export const itsfine = {
   async executeSlashCommand(commandSlash: Interaction) {
     if (!commandSlash.isChatInputCommand()) return;
     const user = commandSlash.options.getUser('user');
-    if (user) {
-      const avatar = user.displayAvatarURL({ extension: 'png' });
-      const image = await createCanvasItsFine(avatar);
-      commandSlash.reply({ files: [image] });
+    const channel = await channelItsGuildTextChannel(commandSlash.channel);
+    if (user && channel) {
+      return loadin(commandSlash)?.then(async () => {
+        const avatar = user.displayAvatarURL({ extension: 'png' });
+        const image = await createCanvasItsFine(avatar);
+        if (image) {
+          await senderSlash(channel, image, user);
+        }
+      });
     }
   },
 };

@@ -1,7 +1,17 @@
 import { createCanvas, loadImage } from 'canvas';
-import { AttachmentBuilder, GuildTextBasedChannel, Interaction, Message, SlashCommandBuilder } from 'discord.js';
+import {
+  AttachmentBuilder,
+  GuildTextBasedChannel,
+  Interaction,
+  InteractionResponse,
+  Message,
+  SlashCommandBuilder,
+} from 'discord.js';
 
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadinCreator } from '../util/loadin';
+import { senderSlash } from '../service/send/senderSlash';
+import { loadin } from '../service/send/loadin';
 
 /**
  * Don't forget to export
@@ -14,7 +24,10 @@ export const fry = {
     .setName('fry')
     .setDescription('fry futurama take my money')
     .addUserOption(options =>
-      options.setName('target').setDescription('cidadão burgues'),
+      options
+        .setName('target')
+        .setDescription('cidadão burgues')
+        .setRequired(true),
     ),
   async executeMessageCommand(commandMessage: Message) {
     const user = commandMessage.mentions.users.first();
@@ -31,11 +44,13 @@ export const fry = {
     const user = commandSlash.options.getUser('target');
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
     if (user && channel) {
-      commandSlash.reply('Carregando ...').then(async () => {
+      return loadin(commandSlash)?.then(async () => {
         const canvas = await canvasCreatorFry(
           user.displayAvatarURL({ extension: 'png' }),
-          channel,
         );
+        if (canvas) {
+          await senderSlash(channel, canvas, user);
+        }
       });
     }
   },

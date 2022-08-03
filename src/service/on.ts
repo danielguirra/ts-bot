@@ -60,6 +60,7 @@ export const on = client.on('ready', async () => {
       chClimate: channelClimate,
     };
     console.log(`Erro verificar variáveis de ambiente ou 'channel' `);
+    console.log(erro);
     return console.log(erro);
   }
 });
