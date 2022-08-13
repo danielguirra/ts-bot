@@ -51,9 +51,6 @@ export function hourNow() {
   var mes = data.getMonth(); // 0-11 (zero=janeiro)
   var ano4 = data.getFullYear(); // 4 dígitos
   var hora: any = data.getHours();
-  if (process.env.HORA != '0') {
-    hora = hora - env;
-  }
   var min = data.getMinutes(); // 0-59
   var seg = data.getSeconds(); // 0-59
 

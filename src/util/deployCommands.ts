@@ -10,7 +10,7 @@ const guildId = process.env.GUILD;
 const rest = new REST({ version: '10' }).setToken(process.env.BOTTOKEN || '');
 
 const allComands = [];
-let c = 0;
+
 for (const key of commands) {
   allComands.push(key[1].data.toJSON());
 }
