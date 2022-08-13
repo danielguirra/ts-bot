@@ -36,10 +36,10 @@ NodeJS
 I used this version of NodeJS, I don't guarantee it will work on older versions
 
     $ node --version
-    v16.14.2
+    v16.16.0
 
     $ npm --version
-    v8.5.5s
+    v8.15.1
 
 ## Deploy
 
@@ -60,14 +60,17 @@ You can deploy to Heroku or Replit or install locally yourself.
     $ yarn install
 
 ## Build
+
     $ yarn build
     $ npm run build
 
 ## Running the project
+
     $ yarn start
     $ npm run start
 
 ## Dev
+
     $ yarn dev
     $ npm run dev
 
