@@ -99,10 +99,7 @@ async function leagueoflegendsChamp(champ: string) {
   const loading = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champ}_0.jpg`;
   const splash = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champ}_0.jpg`;
 
-  const response = await axios.get(json);
-  const data = await response.data;
   const porofessorUrl = `https://www.leagueofgraphs.com/pt/champions/builds/${champ.toLowerCase()}`;
-  const champdata = data.data;
 
   return {
     icone,
