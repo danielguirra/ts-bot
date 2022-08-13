@@ -8,3 +8,7 @@ export interface IUser {
   discriminator: string;
   userClimate: IClimate;
 }
+
+export interface IUserArray {
+  document: Array<IUser>;
+}

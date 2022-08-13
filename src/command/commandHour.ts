@@ -43,7 +43,7 @@ export const hour = {
   },
 };
 
-function hourNow() {
+export function hourNow() {
   var env: any = process.env.HORA;
   var data = new Date();
   var dia = data.getDate(); // 1-31
@@ -63,7 +63,7 @@ function hourNow() {
   return { getNameWeek, dia_sem, str_data, str_hora };
 }
 
-const getNameWeek = (x: any) => {
+export const getNameWeek = (x: any) => {
   return [
     'Domingo',
     'Segunda-Feira',

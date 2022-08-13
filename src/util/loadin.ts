@@ -1,10 +1,4 @@
-import { Channel } from 'diagnostics_channel';
-import {
-  CommandInteraction,
-  GuildTextBasedChannel,
-  Message,
-  TextBasedChannel,
-} from 'discord.js';
+import { CommandInteraction, GuildTextBasedChannel, Message, TextBasedChannel } from 'discord.js';
 
 import { deleter } from './delLastMessageById';
 

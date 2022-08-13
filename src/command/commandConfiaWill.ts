@@ -1,17 +1,9 @@
 import Canvas, { loadImage } from 'canvas';
-import {
-  AttachmentBuilder,
-  GuildTextBasedChannel,
-  Interaction,
-  Message,
-  SlashCommandBuilder,
-  User,
-} from 'discord.js';
+import { AttachmentBuilder, Interaction, Message, SlashCommandBuilder, User } from 'discord.js';
 
-import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
-import { loadinCreator } from '../util/loadin';
 import { loadin } from '../service/send/loadin';
 import { senderSlash } from '../service/send/senderSlash';
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 
 /**
  * Don't forget to export
