@@ -1,6 +1,13 @@
 {
   "wukong": "MonkeyKing",
   "reksai": "RekSai",
+  "rek'sai": "RekSai",
+  "kai'sa": "Kaisa",
+  "dr. mundo": "DrMundo",
+  "cho'gath": "Chogath",
+  "kog'maw": "KogMaw",
+  "kha'zix": "Khazix",
+  "bel'veth": "Belveth",
   "xinzao": "Xin Zao",
   "masteryi": "Master Yi",
   "twistedfate": "Twisted Fate",
@@ -9,6 +16,6 @@
   "leesin": "LeeSin",
   "kogmaw": "KogMaw",
   "aurelionsol": "AurelionSol",
-  "jarvan":"JarvanIV",
-  "jarvaniv":"JarvanIV"
+  "jarvan": "JarvanIV",
+  "jarvaniv": "JarvanIV"
 }

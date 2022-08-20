@@ -102,10 +102,10 @@ const hours = async (user: User, activities: Array<Activity>) => {
 
           if (user.id === userNick.id) {
             channelLeague.send(
-              `'https://porofessor.gg/pt/live/br/${u.nickLol.replace(
+              `https://porofessor.gg/pt/live/br/${u.nickLol.replace(
                 / /g,
                 '%20',
-              )}'`,
+              )}`,
             );
           } else {
             return;
@@ -119,11 +119,13 @@ const hours = async (user: User, activities: Array<Activity>) => {
 
   async function leagueoflegendsChamp(champ: string) {
     const nameChamp: any = names;
-    const x = nameChamp[champ];
+    const x = nameChamp[champ.toLowerCase()];
     if (x) {
       champ = x;
+    }else{
+        champ = champ.split(' ').join('');
     }
-    champ = champ.split(' ').join('');
+  
 
     const version = await axios.get(
       'https://ddragon.leagueoflegends.com/api/versions.json',
