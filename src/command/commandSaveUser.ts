@@ -31,6 +31,12 @@ export const saveUser = {
         .setName('cidade')
         .setDescription('sua cidade meu nobre')
         .setRequired(true),
+    )
+    .addStringOption(options =>
+      options
+        .setName('nicklol')
+        .setDescription('seu nick league of legends')
+        .setRequired(true),
     ),
   async executeMessageCommand(commandMessage: Message) {
     const city = commandMessage.content.replace('*salvabanco ', '');
@@ -59,11 +65,19 @@ export const saveUser = {
     if (!commandSlash.isChatInputCommand()) return;
     const hour = commandSlash.options.getInteger('horas');
     const city = commandSlash.options.getString('cidade');
+    const nickLol = commandSlash.options.getString('nicklol');
     const user = commandSlash.user;
     const guild = commandSlash.guild;
 
-    if (city && guild && user) {
-      const result = await saveUserFunc(city, guild, user, hour);
+    if (city && guild && user && nickLol) {
+      const result = await saveUserFunc(
+        city,
+        guild,
+        user,
+        hour,
+        undefined,
+        nickLol,
+      );
       const resultString = `${result}`;
       return commandSlash.reply({
         embeds: [
@@ -88,6 +102,7 @@ async function saveUserFunc(
   user: User,
   hour: any = 8,
   sendItsTrue: boolean = true,
+  nickLol?: string,
 ) {
   const dateObjc: IDate = {
     hour: hour,
@@ -101,12 +116,14 @@ async function saveUserFunc(
     id: guild?.id,
     name: guild?.name,
   };
+  if (!nickLol) nickLol = '';
   const userObjc: IUser = {
     id: user.id,
     guild: guildObjc,
     username: user.username,
     discriminator: user.discriminator,
     userClimate: userClimateObjc,
+    nickLol: nickLol,
   };
 
   const verify = await verifyUser(userObjc);

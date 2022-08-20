@@ -6,6 +6,7 @@ export interface IUser {
   guild: IGuild;
   username: string;
   discriminator: string;
+  nickLol: string;
   userClimate: IClimate;
 }
 
