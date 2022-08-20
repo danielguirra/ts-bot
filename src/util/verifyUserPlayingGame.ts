@@ -66,7 +66,7 @@ const hours = async (user: User, activities: Array<Activity>) => {
           Estado: ${activities[0].state}
           **Clique no titulo para abrir porofessor**
               são : ${str_hora}
-              selecione para pegar a fila do porofessor ✔
+              selecione para pegar a fila do porofessor '✅'
               `,
 
           icone,
