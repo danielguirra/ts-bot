@@ -24,44 +24,39 @@ export const on = client.on('ready', async () => {
   const channelDolar: Channel | null = await channelItsGuildTextChannel(
     guildID.channels.resolve(process.env.DOLAR || ''),
   );
-  const channelClimate: Channel | null = await channelItsGuildTextChannel(
-    guildID.channels.resolve(process.env.CLIMA || ''),
-  );
-  if (channelClimate && channelDolar && channelLove && channelDaily) {
-    const lastMessageIdChannelClimate = channelClimate.lastMessageId;
-    const lastMessageChannelClimate = await channelClimate.messages.fetch(
-      lastMessageIdChannelClimate || '',
-    );
-    const dateLastMessageChannelClimateItsTrue = dateLastItsTrue(
-      lastMessageChannelClimate,
-    );
-    if (dateLastMessageChannelClimateItsTrue) {
-      console.log('Clima diário não enviado');
-      dailySender({
-        channelDolar,
-        channelLove,
-        channelDaily,
-      });
-    } else {
-      console.log('Clima será enviado');
-      new CronJob(`00 35 08 * * *`, () => {
+
+  if (channelDolar && channelLove && channelDaily) {
+    // const lastMessageIdChannelClimate = channelClimate.lastMessageId;
+    // const lastMessageChannelClimate = await channelClimate.messages.fetch(
+    //   lastMessageIdChannelClimate || '',
+    // );
+    // const dateLastMessageChannelClimateItsTrue = dateLastItsTrue(
+    //   lastMessageChannelClimate,
+    // );
+
+    try {
+      console.log('Clima diário será enviado');
+      new CronJob(`59 59 07 * * *`, () => {
         dailySender({
           channelDolar,
           channelLove,
           channelDaily,
         });
+        console.log('Clima diário foi enviado');
       }).start();
+    } catch (error) {
+      console.log(`Erro ao enviar o as diárias tentando novamente`);
+      try {
+        dailySender({
+          channelDolar,
+          channelLove,
+          channelDaily,
+        });
+      } catch (error) {
+        console.log(`Erro ao enviar novamente`);
+      }
+      console.log(error);
     }
-  } else {
-    let erro = {
-      chDaily: channelDaily,
-      chDolar: channelDolar,
-      chLove: channelLove,
-      chClimate: channelClimate,
-    };
-    console.log(`Erro verificar variáveis de ambiente ou 'channel' `);
-    console.log(erro);
-    return console.log(erro);
   }
 });
 
