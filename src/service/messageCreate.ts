@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 
 import { client } from '../client/client';
 import { commands } from '../command/Builder';
+import { logDate } from './logDate';
 
 dotenv.config();
 
@@ -14,8 +15,12 @@ export const messageCreate = client.on('messageCreate', async message => {
   if (!command) return;
   try {
     commands.get(command).executeMessageCommand(message);
+
     console.log(
-      'Comando : ' + (await commands.get(command).data.name) + ' foi usado',
+      logDate +
+        'Comando Message: ' +
+        (await commands.get(command).data.name) +
+        ' foi usado',
     );
   } catch (error) {
     return;

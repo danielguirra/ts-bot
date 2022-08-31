@@ -3,6 +3,7 @@ import { Routes } from 'discord.js';
 import dotenv from 'dotenv';
 
 import { commands } from '../command/Builder';
+import { logDate } from '../service/logDate';
 
 dotenv.config();
 const clientId = process.env.CLIENTID;
@@ -18,5 +19,5 @@ export const deployCommand = rest
   .put(Routes.applicationGuildCommands(clientId || '', guildId || ''), {
     body: allComands,
   })
-  .then(() => console.log('Os Comandos Foram Atualizados'))
+  .then(() => console.log(logDate + 'Os Comandos Foram Atualizados'))
   .catch(console.error);

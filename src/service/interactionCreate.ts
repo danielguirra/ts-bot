@@ -2,6 +2,7 @@ import { InteractionType } from 'discord.js';
 
 import { client } from '../client/client';
 import { commands } from '../command/Builder';
+import { logDate } from './logDate';
 
 export const interactionCreate = client.on(
   'interactionCreate',
@@ -13,7 +14,13 @@ export const interactionCreate = client.on(
       if (!command) return;
       try {
         await command.executeSlashCommand(interaction);
-        console.log('Comando : ' + (await command.data.name) + ' foi usado');
+
+        console.log(
+          logDate +
+            'Comando Slash: ' +
+            (await command.data.name) +
+            ' foi usado',
+        );
       } catch (error) {
         return;
       }
