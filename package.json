@@ -14,6 +14,9 @@
     "startnotbuild": "npx ts-node ./src/server.ts",
     "commandCreator": "node ./util/commandBaseTs/commandCreatorForName.js"
   },
+  "engines": {
+    "node": "16.14.2"
+  },
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
     "@discordjs/voice": "^0.6.0",
@@ -44,7 +47,6 @@
     "moment": "^2.29.4",
     "nodemailer": "^6.7.0",
     "nodemon": "^2.0.13",
-    "node": "16.14.2",
     "pensador": "^1.0.4",
     "pkmonjs": "^1.2.11",
     "pokemon.js": "^1.1.8",
