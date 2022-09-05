@@ -42,7 +42,6 @@
     "lodash": "^4.17.21",
     "lol-discord": "^0.1.5",
     "moment": "^2.29.4",
-    "node": "16.14.2",
     "nodemailer": "^6.7.0",
     "nodemon": "^2.0.13",
     "pensador": "^1.0.4",
