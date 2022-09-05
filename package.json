@@ -44,6 +44,7 @@
     "moment": "^2.29.4",
     "nodemailer": "^6.7.0",
     "nodemon": "^2.0.13",
+    "node": "16.14.2",
     "pensador": "^1.0.4",
     "pkmonjs": "^1.2.11",
     "pokemon.js": "^1.1.8",
