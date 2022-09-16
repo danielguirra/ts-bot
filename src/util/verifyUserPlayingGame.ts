@@ -4,8 +4,6 @@ import { Activity, Channel, User } from 'discord.js';
 import names from '../../data/json/nameslol.json';
 import { client } from '../client/client';
 import { getNameWeek, hourNow } from '../command/commandHour';
-import { IUser } from '../interfaces/User';
-import { users } from '../service/users/usersDatabase';
 import { channelItsGuildTextChannel } from './channelItsGuildTextChannel';
 import { embedBuilder } from './getEmbed';
 
@@ -50,69 +48,64 @@ const hours = async (user: User, activities: Array<Activity>) => {
     const channelLeague: Channel | null = await channelItsGuildTextChannel(
       guildID.channels.resolve(process.env.LEAGUE || ''),
     );
-    const {
-      icone,
-      splash,
-      loading,
-      champ,
-      porofessorUrl,
-    } = await leagueoflegendsChamp(activities[0].assets.largeText);
+    const { icone, splash, loading, champ, porofessorUrl } =
+      await leagueoflegendsChamp(activities[0].assets.largeText);
     if (!channelLeague) return;
     const messageEdited = channelLeague.send({
       embeds: [
         embedBuilder(
-          'Builds para ' + activities[0].assets.largeText,
-          ` ${activities[0].details}
+          `Builds para ` + activities[0].assets.largeText,
+          ` ${user}
+          
+          ${activities[0].details}
           Estado: ${activities[0].state}
           **Clique no titulo para abrir porofessor**
               são : ${str_hora}
-              selecione para pegar a fila do porofessor '✅'
               `,
 
           icone,
           champ,
           loading,
-          splash,
+          undefined,
           'Random',
           porofessorUrl,
         ),
       ],
     });
-    (await messageEdited).react('✅');
-    channelLeague.send(`${user}`);
-    client.on('messageReactionAdd', async (reaction, userReact) => {
-      if (user != userReact) return;
-      if (reaction.message.id != (await messageEdited).id) return;
-      if (reaction.partial) {
-        try {
-          await reaction.fetch();
-        } catch (error) {
-          console.error(
-            'Something went wrong when fetching the message:',
-            error,
-          );
-          return;
-        }
-      }
-      if (reaction.emoji.name === '✅') {
-        const usersNicks: any = await users();
-        for (const userNick of usersNicks) {
-          let u: IUser = userNick;
-          u.nickLol;
+    // (await messageEdited).react('✅');
+    // client.on('messageReactionAdd', async (reaction, userReact) => {
+    //   if (user != userReact) return;
+    //   if (reaction.message.id != (await messageEdited).id) return;
+    //   if (reaction.partial) {
+    //     try {
+    //       await reaction.fetch();
+    //     } catch (error) {
+    //       console.error(
+    //         'Something went wrong when fetching the message:',
+    //         error,
+    //       );
+    //       return;
+    //     }
+    //   }
+    //   if (reaction.emoji.name === '✅') {
+    //     const usersNicks: any = await users();
+    //     for (const userNick of usersNicks) {
+    //       let u: IUser = userNick;
+    //       u.nickLol;
 
-          if (user.id === userNick.id) {
-            channelLeague.send(
-              `https://porofessor.gg/pt/live/br/${u.nickLol.replace(
-                / /g,
-                '%20',
-              )}`,
-            );
-          } else {
-            return;
-          }
-        }
-      }
-    });
+    //       if (user.id === userNick.id) {
+    //         channelLeague.send(
+    //           `https://porofessor.gg/pt/live/br/${u.nickLol.replace(
+    //             / /g,
+    //             '%20',
+    //           )}`,
+    //         );
+    //       } else {
+    //         return;
+    //       }
+    //     }
+    //   }
+    // });
 
     return;
   }
@@ -122,16 +115,15 @@ const hours = async (user: User, activities: Array<Activity>) => {
     const x = nameChamp[champ.toLowerCase()];
     if (x) {
       champ = x;
-    }else{
-        champ = champ.split(' ').join('');
+    } else {
+      champ = champ.split(' ').join('');
     }
-  
 
     const version = await axios.get(
       'https://ddragon.leagueoflegends.com/api/versions.json',
     );
     const icone = `http://ddragon.leagueoflegends.com/cdn/${version['data'][0]}/img/champion/${champ}.png`;
-    const loading = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champ}_0.jpg`;
+    const loading = `http://ddragon.leagueoflegends.com/cdn/img/champion/tiles/${champ}_0.jpg`;
     const splash = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champ}_0.jpg`;
 
     const porofessorUrl = `https://www.leagueofgraphs.com/pt/champions/builds/${champ.toLowerCase()}`;

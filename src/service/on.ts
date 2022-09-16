@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 
 import { client } from '../client/client';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
-import { dateLastItsTrue } from '../util/dateLastItsTrue';
 import { dailySender } from './dailySender';
 import { logDate } from './logDate';
 
@@ -36,17 +35,17 @@ export const on = client.on('ready', async () => {
     // );
 
     try {
-      console.log(logDate + 'Clima diário será enviado');
+      console.log(logDate() + 'Clima diário será enviado');
       new CronJob(`59 59 07 * * *`, () => {
         dailySender({
           channelDolar,
           channelLove,
           channelDaily,
         });
-        console.log(logDate + 'Clima diário foi enviado');
+        console.log(logDate() + 'Clima diário foi enviado');
       }).start();
     } catch (error) {
-      console.log(logDate + `Erro ao enviar o as diárias tentando novamente`);
+      console.log(logDate() + `Erro ao enviar o as diárias tentando novamente`);
       try {
         dailySender({
           channelDolar,
@@ -56,7 +55,7 @@ export const on = client.on('ready', async () => {
       } catch (error) {
         console.log(logDate + `Erro ao enviar novamente`);
       }
-      console.log(logDate + error);
+      console.log(logDate());
     }
   }
 });
