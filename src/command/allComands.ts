@@ -32,6 +32,7 @@ import { peace } from './commandPeace';
 import { pensador } from './commandPensador';
 import { ping } from './commandPing';
 import { pokedex } from './commandPokedex';
+import { queuqlol } from './commandQueuqLol';
 import { saveUser } from './commandSaveUser';
 import { siginificado } from './commandSiginificado';
 import { sinonimo } from './commandSinonimo';
@@ -86,4 +87,5 @@ export const allComands: any = {
   bible,
   bibleverday,
   duel,
+  queuqlol,
 };
