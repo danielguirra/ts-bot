@@ -5,7 +5,7 @@ import { deleter } from './delLastMessageById';
 export async function loadinCreator(
   command: Message | CommandInteraction,
   exec: func,
-  sender?: TextBasedChannel,
+  sender?: any,
 ) {
   command.reply('Carregando...').then(async () => {
     const last: TextBasedChannel | null = exec.channel;

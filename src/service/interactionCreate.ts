@@ -16,7 +16,7 @@ export const interactionCreate = client.on(
         await command.executeSlashCommand(interaction);
 
         console.log(
-          logDate +
+          logDate() +
             'Comando Slash: ' +
             (await command.data.name) +
             ' foi usado',

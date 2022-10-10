@@ -34,6 +34,7 @@ import { ping } from './commandPing';
 import { pokedex } from './commandPokedex';
 import { queuqlol } from './commandQueuqLol';
 import { saveUser } from './commandSaveUser';
+import { serverupdate } from './commandServerupdate';
 import { siginificado } from './commandSiginificado';
 import { sinonimo } from './commandSinonimo';
 import { skillchampleagueoflegends } from './commandSkillChampLeagueOfLegends';
@@ -88,4 +89,5 @@ export const allComands: any = {
   bibleverday,
   duel,
   queuqlol,
+  serverupdate,
 };
