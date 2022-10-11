@@ -8,7 +8,7 @@ export const att = (x: string) => {
     `* * ${x} * * *`,
     () => {
       exec(
-        'cd .. && cd .. && cd .. && cd .. && cd sbond && cd receitas-gostosas-api && bash git.sh',
+        'cd .. && cd .. && cd .. && cd .. && cd .. && cd sbond && cd receitas-gostosas-api && bash git.sh',
         (err, out, er) => {
           if (err) console.log(err);
           if (out) {
