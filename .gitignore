@@ -12,7 +12,6 @@
 
 .env
 node_modules
-bin
 logs.txt
 
 users.json
