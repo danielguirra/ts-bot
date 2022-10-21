@@ -7,7 +7,7 @@
   "license": "MIT",
   "author": "Daniel Guirra <daniel.guirra777@gmail.com>",
   "scripts": {
-    "build": "node ./config/build.js",
+    "build": "node ./build.js",
     "devjs": "npx nodemon ./bin/src/server.js",
     "devts": "npx nodemon ./src/server.ts",
     "start": "node ./config/build && node ./bin/src/server.js",

@@ -1,1 +1,1 @@
-sudo docker run -d -p"3000:3000" --name receitas-api  ts-bot/node-web:latest
+sudo docker run -d -p"4040:4040" --name ts-bot  ts-bot/node-web:latest

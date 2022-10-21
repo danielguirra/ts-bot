@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:16-slim
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -8,12 +8,14 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install -f --production
+RUN yarn --prod
 # If you are building your code for production
 # RUN npm ci --only=production
 
 # Bundle app source
 COPY . .
 
-EXPOSE 3000
+EXPOSE 4040
+
+RUN yarn run build
 CMD [ "node", "server.js" ]
