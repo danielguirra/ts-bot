@@ -1,0 +1,1 @@
+sudo docker build -t ts-bot/node-web -f Dockerfile .
