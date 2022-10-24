@@ -1,21 +1,51 @@
-FROM node:16-slim
+###################
+# BUILD FOR LOCAL DEVELOPMENT
+###################
 
-# Create app directory
+FROM node:16-slim As development
+
 WORKDIR /usr/src/app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
+
+RUN yarn
+
+COPY --chown=node:node . .
+
+USER node
+
+###################
+# BUILD FOR PRODUCTION
+###################
+
+FROM node:16-slim As build
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node package*.json ./
+
+COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
+
+COPY --chown=node:node . .
+
+RUN yarn run build
+
+ENV NODE_ENV production
 
 RUN yarn --prod
-# If you are building your code for production
-# RUN npm ci --only=production
 
-# Bundle app source
-COPY . .
+USER node
+
+###################
+# PRODUCTION
+###################
+
+FROM node:16-slim As production
+
+COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node --from=build /usr/src/app/bin ./bin
+COPY --chown=node:node --from=build /usr/src/app/.env ./.env
 
 EXPOSE 4040
 
-RUN yarn run build
-CMD [ "node", "server.js" ]
+CMD [ "node", "bin/src/server.js" ]
