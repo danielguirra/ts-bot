@@ -31,7 +31,6 @@ import { pdl } from './commandPdl';
 import { peace } from './commandPeace';
 import { pensador } from './commandPensador';
 import { ping } from './commandPing';
-import { pokedex } from './commandPokedex';
 import { queuqlol } from './commandQueuqLol';
 import { saveUser } from './commandSaveUser';
 import { serverupdate } from './commandServerupdate';
@@ -43,6 +42,8 @@ import { translate } from './commandTranslate';
 import { ugaovo } from './commandUgaOvo';
 import { x1yasuo } from './commandX1Yasuo';
 import { youburro } from './commandYouBurro';
+import { qrpass } from './commandPasswordByQRCODE';
+import { pass } from './commandPassword';
 
 export const allComands: any = {
   ping,
@@ -75,7 +76,6 @@ export const allComands: any = {
   motivacao,
   peace,
   pensador,
-  pokedex,
   siginificado,
   sinonimo,
   skillchampleagueoflegends,
@@ -90,4 +90,6 @@ export const allComands: any = {
   duel,
   queuqlol,
   serverupdate,
+  qrpass,
+  pass,
 };
