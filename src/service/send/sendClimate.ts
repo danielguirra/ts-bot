@@ -158,66 +158,71 @@ export const sendClimateCurrentTime = async (
     console.log('Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city);
     return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
   }
-  const cityNameToReturnInEmbed = city;
-
-  city = city?.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  const url = `https://pt.wttr.in/${city}+brazil?format=j1`;
-
-  const climateAxios = await axios.get(url);
   try {
-    let weather = climateAxios.data.current_condition[0];
+    const cityNameToReturnInEmbed = city;
 
-    let heatIndex = weather.FeelsLikeC;
-    let emoji = getEmojiForWeatherCode(weather.weatherCode);
-    let heatString = `${heatIndex}`;
-    let { str_hora } = hourNow();
-    let climate = {
-      temp_C: weather.temp_C,
-      humidity: weather.humidity,
-      text: weather.lang_pt[0].value,
-      heatIndex: heatString.slice(0, 4),
-      str_hora,
-      emoji,
-      avgTempC: climateAxios.data.weather[0].avgtempC,
-      tempMinC: climateAxios.data.weather[0].mintempC,
-      tempMaxC: climateAxios.data.weather[0].maxtempC,
-    };
+    city = city?.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const url = `https://pt.wttr.in/${city}+brazil?format=j1`;
 
-    if (channelSlash) {
-      return embedBuilder(
-        `Clima de ${cityNameToReturnInEmbed} agora ${str_hora}`,
-        ` A temperatura está por volta de :**${climate.temp_C}Cº**
-            Mínima de Hoje é  :**${climate.tempMinC}**
-            Média de Hoje é :**${climate.avgTempC}**
-            Máxima de Hoje é  :**${climate.tempMaxC}**
-            
-            Humidade em **${climate.humidity}%**
-             **${climate.text}** ${climate.emoji}
-            Sensação térmica de **${climate.heatIndex}Cº**
-        `,
-      );
-    }
-    if (channel)
-      try {
-        channel.send({
-          embeds: [
-            embedBuilder(
-              `Clima de ${cityNameToReturnInEmbed} agora ${str_hora}`,
-              ` A temperatura está em :**${climate.temp_C}Cº**
-          Humidade em **${climate.humidity}%**
-          **${climate.text}** ${climate.emoji}
-          Sensação térmica de **${climate.heatIndex}Cº**
-        `,
-            ),
-          ],
-        });
-        return true;
-      } catch (error) {
-        return false;
+    const climateAxios = await axios.get(url);
+    try {
+      let weather = climateAxios.data.current_condition[0];
+
+      let heatIndex = weather.FeelsLikeC;
+      let emoji = getEmojiForWeatherCode(weather.weatherCode);
+      let heatString = `${heatIndex}`;
+      let { str_hora } = hourNow();
+      let climate = {
+        temp_C: weather.temp_C,
+        humidity: weather.humidity,
+        text: weather.lang_pt[0].value,
+        heatIndex: heatString.slice(0, 4),
+        str_hora,
+        emoji,
+        avgTempC: climateAxios.data.weather[0].avgtempC,
+        tempMinC: climateAxios.data.weather[0].mintempC,
+        tempMaxC: climateAxios.data.weather[0].maxtempC,
+      };
+
+      if (channelSlash) {
+        return embedBuilder(
+          `Clima de ${cityNameToReturnInEmbed} agora ${str_hora}`,
+          ` A temperatura está por volta de :**${climate.temp_C}Cº**
+	            Mínima de Hoje é  :**${climate.tempMinC}**
+	            Média de Hoje é :**${climate.avgTempC}**
+	            Máxima de Hoje é  :**${climate.tempMaxC}**
+	            
+	            Humidade em **${climate.humidity}%**
+	             **${climate.text}** ${climate.emoji}
+	            Sensação térmica de **${climate.heatIndex}Cº**
+	        `,
+        );
       }
-  } catch (err) {
-    console.log(err);
-    return false;
+      if (channel)
+        try {
+          channel.send({
+            embeds: [
+              embedBuilder(
+                `Clima de ${cityNameToReturnInEmbed} agora ${str_hora}`,
+                ` A temperatura está em :**${climate.temp_C}Cº**
+	          Humidade em **${climate.humidity}%**
+	          **${climate.text}** ${climate.emoji}
+	          Sensação térmica de **${climate.heatIndex}Cº**
+	        `,
+              ),
+            ],
+          });
+          return true;
+        } catch (error) {
+          return false;
+        }
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  } catch (error) {
+    console.log(error)
+    return false
   }
 };
 
