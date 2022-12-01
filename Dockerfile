@@ -2,7 +2,7 @@
 # BUILD FOR LOCAL DEVELOPMENT
 ###################
 
-FROM node:18-slim As development
+FROM node:gallium-slim As development
 
 WORKDIR /usr/src/app
 
@@ -18,7 +18,7 @@ USER node
 # BUILD FOR PRODUCTION
 ###################
 
-FROM node:18-slim As build
+FROM node:gallium-slim As build
 
 WORKDIR /usr/src/app
 
@@ -40,12 +40,12 @@ USER node
 # PRODUCTION
 ###################
 
-FROM node:18-slim As production
+FROM node:gallium-slim As production
 
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
-COPY --chown=node:node --from=build /usr/src/app/bin ./bin
+COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 COPY --chown=node:node --from=build /usr/src/app/.env ./.env
 
 EXPOSE 4040
 
-CMD [ "node", "bin/src/server.js" ]
+CMD [ "node", "dist/src/server.js" ]

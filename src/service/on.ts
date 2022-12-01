@@ -11,8 +11,6 @@ dotenv.config();
 
 const token = process.env.BOTTOKEN;
 
-const hour: any = process.env.HORA || 0;
-
 export const on = client.on('ready', async () => {
   const guildID = await client.guilds.fetch(process.env.GUILD || '');
   const channelDaily: Channel | null = await channelItsGuildTextChannel(
@@ -26,28 +24,24 @@ export const on = client.on('ready', async () => {
   );
 
   if (channelDolar && channelLove && channelDaily) {
-    // const lastMessageIdChannelClimate = channelClimate.lastMessageId;
-    // const lastMessageChannelClimate = await channelClimate.messages.fetch(
-    //   lastMessageIdChannelClimate || '',
-    // );
-    // const dateLastMessageChannelClimateItsTrue = dateLastItsTrue(
-    //   lastMessageChannelClimate,
-    // );
-
     try {
       console.log(logDate() + 'Clima diário será enviado');
-      new CronJob(`59 59 07 * * *`, () => {
+      new CronJob(`00 00 08 * * *`, () => {
         dailySender({
           channelDolar,
           channelLove,
           channelDaily,
+        }).then((v) => {
+          if (v) console.log(logDate() + 'Foi enviado tudo')
+        }).catch(v => {
+          if (v) throw new Error(`${logDate()}  Erro ao enviar o as diárias tentando novamente`)
         });
-        console.log(logDate() + 'Clima diário foi enviado');
+
       }).start();
     } catch (error) {
-      console.log(logDate() + `Erro ao enviar o as diárias tentando novamente`);
+      console.log(error)
       try {
-        dailySender({
+        await dailySender({
           channelDolar,
           channelLove,
           channelDaily,

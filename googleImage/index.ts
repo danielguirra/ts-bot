@@ -41,13 +41,6 @@ export function googleImage(
     }
   }
 }
-/**
- *
- * @param embed
- * @param pensadorData
- * @param command
- * @param channel
- */
 export async function googleImagePensador(
   embed: { embedTitle: string; embedColor?: ColorResolvable },
   pensadorData: IPensador,
@@ -59,43 +52,43 @@ export async function googleImagePensador(
     if (error) {
       console.log(error);
     } else {
-      /**
-       * No Heroku results.__wrapped__[1][1].url
-       */
-
-      let c = 0;
-      if (results.__wrapped__[0].length === 0) c++;
-      const image = results.__wrapped__[c][0].url;
-      if (!embed.embedColor) embed.embedColor = 'Random';
-      if (command) {
-        command.reply({
-          embeds: [
-            embedBuilder(
-              embed.embedTitle,
-              pensadorData.message,
-              image,
-              pensadorData.author,
-              image,
-              image,
-              embed.embedColor,
-            ),
-          ],
-        });
-      }
-      if (channel) {
-        channel.send({
-          embeds: [
-            embedBuilder(
-              embed.embedTitle,
-              pensadorData.message,
-              image,
-              pensadorData.author,
-              image,
-              image,
-              embed.embedColor,
-            ),
-          ],
-        });
+      try {
+        let c = 0;
+        if (results.__wrapped__[0].length === 0) c++;
+        const image = results.__wrapped__[c][0].url;
+        if (!embed.embedColor) embed.embedColor = 'Random';
+        if (command) {
+          command.reply({
+            embeds: [
+              embedBuilder(
+                embed.embedTitle,
+                pensadorData.message,
+                image,
+                pensadorData.author,
+                image,
+                image,
+                embed.embedColor,
+              ),
+            ],
+          });
+        }
+        if (channel) {
+          channel.send({
+            embeds: [
+              embedBuilder(
+                embed.embedTitle,
+                pensadorData.message,
+                image,
+                pensadorData.author,
+                image,
+                image,
+                embed.embedColor,
+              ),
+            ],
+          });
+        }
+      } catch (error) {
+        console.log(error)
       }
     }
   }

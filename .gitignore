@@ -9,7 +9,8 @@
 # Documentation here: https://yarnpkg.com/features/zero-installs
 !.yarn/cache
 #.pnp.*
-
+bin
+dist
 .env
 node_modules
 logs.txt

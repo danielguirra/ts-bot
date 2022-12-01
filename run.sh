@@ -1,1 +1,0 @@
-sudo docker run -d -p"4040:4040" --name ts-bot  ts-bot/node-web:latest

@@ -6,6 +6,7 @@ Procfile
 .prettierrc
 nest-cli.json
 LICENCE
+README.md
 logger.js
 .envexemple
 .git
