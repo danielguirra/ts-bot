@@ -10,11 +10,15 @@ dotenv.config();
 export const sendLoveMessageDaily = async (
   channelLove: GuildTextBasedChannel,
 ) => {
-  const data: IPensador = await pensador.getFromAmor();
-  const dataimage = await googleImagePensador(
-    { embedTitle: data.author, embedColor: '#AF0F8F' },
-    data,
-    undefined,
-    channelLove,
-  );
+  try {
+    const data: IPensador = await pensador.getFromAmor();
+    const dataimage = await googleImagePensador(
+      { embedTitle: data.author, embedColor: '#AF0F8F' },
+      data,
+      undefined,
+      channelLove,
+    );
+  } catch (error) {
+    console.log(error)
+  }
 };

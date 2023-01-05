@@ -29,6 +29,9 @@ COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modul
 COPY --chown=node:node . .
 
 RUN yarn run build
+EXPOSE 4040
+
+CMD [ "node", "dist/src/server.js" ]
 
 ENV NODE_ENV production
 
@@ -36,9 +39,9 @@ RUN yarn --prod
 
 USER node
 
-###################
-# PRODUCTION
-###################
+##################
+## PRODUCTION
+##################
 
 FROM node:gallium-slim As production
 

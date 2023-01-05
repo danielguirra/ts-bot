@@ -5,11 +5,15 @@ import { IPensador } from '../../interfaces/PensadorMessage';
 import { pensador } from '../../util/pensador';
 
 export const sendDaily = async (channelDaily: GuildTextBasedChannel) => {
-  const data: IPensador = await pensador.getFromMotivacionais();
-  const dataimage = await googleImagePensador(
-    { embedTitle: data.author },
-    data,
-    undefined,
-    channelDaily,
-  );
+  try {
+    const data: IPensador = await pensador.getFromMotivacionais();
+    const dataimage = await googleImagePensador(
+      { embedTitle: data.author },
+      data,
+      undefined,
+      channelDaily,
+    );
+  } catch (error) {
+    console.log(error)
+  }
 };

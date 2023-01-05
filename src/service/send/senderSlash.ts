@@ -5,8 +5,9 @@ export async function senderSlash(
   canvas: AttachmentBuilder,
   user: User,
 ) {
-  const messageToDelete = channel.lastMessageId;
   try {
+    const messageToDelete = channel.lastMessageId;
+
     const sender = await channel.send({ files: [canvas] });
     if (sender && messageToDelete) {
       try {

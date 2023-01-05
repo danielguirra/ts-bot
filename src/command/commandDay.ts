@@ -57,7 +57,7 @@ export const day = {
   },
 };
 
-async function getChannels(client: Client) {
+export async function getChannels(client: Client) {
   const guildID = await client.guilds.fetch(process.env.GUILD || '');
 
   const climateObjc = {
