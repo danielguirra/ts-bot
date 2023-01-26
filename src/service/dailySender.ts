@@ -20,7 +20,7 @@ export async function dailySender({
       await sendLoveMessageDaily(channelLove);
       await sendDaily(channelDaily);
 
-      await userSender();
+      // await userSender(); precisa de uma nova api
 
       return true;
     } catch (error) {
