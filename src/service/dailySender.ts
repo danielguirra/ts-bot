@@ -1,9 +1,6 @@
 import { GuildTextBasedChannel } from 'discord.js';
 
-import { sendDaily } from './send/sendDaily';
 import { sendDolarDaily } from './send/sendDolarDaily';
-import { sendLoveMessageDaily } from './send/sendLoveMessageDaily';
-import { userSender } from './users/userSender';
 
 export async function dailySender({
   channelDolar,
@@ -17,13 +14,14 @@ export async function dailySender({
   if (channelDaily && channelDolar && channelLove)
     try {
       await sendDolarDaily(channelDolar);
-      await sendLoveMessageDaily(channelLove);
-      await sendDaily(channelDaily);
+      // await sendLoveMessageDaily(channelLove);recisa de uma nova api
+      // await sendDaily(channelDaily);recisa de uma nova api
 
       // await userSender(); precisa de uma nova api
 
       return true;
     } catch (error) {
+      console.error(error)
       return false;
     }
   else {

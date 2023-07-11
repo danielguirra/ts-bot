@@ -10,14 +10,23 @@ const clientId = process.env.CLIENTID;
 const guildId = process.env.GUILD;
 const rest = new REST({ version: '10' }).setToken(process.env.BOTTOKEN || '');
 
-const allComands = [];
+const allComands: any[] = [];
 
 for (const key of commands) {
   allComands.push(key[1].data.toJSON());
 }
-export const deployCommand = rest
-  .put(Routes.applicationGuildCommands(clientId || '', guildId || ''), {
-    body: allComands,
-  })
-  .then(() => console.log(logDate() + 'Os Comandos Foram Atualizados'))
-  .catch(console.error);
+
+
+export const deployCommand = () => {
+  if (typeof clientId !== 'string' || typeof guildId !== 'string') {
+    throw new Error('verify envs')
+  }
+
+  return rest
+    .put(Routes.applicationGuildCommands(clientId, guildId), {
+      body: allComands,
+    })
+    .then(() => console.log(logDate() + 'Os Comandos Foram Atualizados'))
+    .catch(console.error);
+
+}

@@ -8,7 +8,7 @@ import { verifyUserStatus } from './util/verifyUserPlayingGame';
 export const run = {
   on,
   guildMemberAdd,
-  deployCommand,
+  deployCommand: deployCommand(),
   interactionCreate,
   messageCreate,
   verifyUserStatus,
