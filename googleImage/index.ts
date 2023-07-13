@@ -24,13 +24,19 @@ export function googleImage(
   imageFunc(text, done);
   function done(error: any, results?: any | undefined) {
     if (error) {
-      console.log(error);
+      console.error(error);
     } else {
       /**
        * No Heroku results.__wrapped__[1][1].url
        */
       let c = 0;
-      if (results.__wrapped__[0].length === 0) c++;
+      if (results.__wrapped__[0] === undefined) {
+        c++;
+        if (results.__wrapped__[c] === undefined) {
+          mensage.edit(`Não consegui achar nada com a palavra *${text}*`);
+          return
+        }
+      }
       const response = results.__wrapped__[c][0].url;
       if (channel && mensage) {
         mensage.edit(`Achei aqui resultado de ${text}`);

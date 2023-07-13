@@ -32,7 +32,7 @@ async function sendSearch(
 ) {
   const channela = await channelItsGuildTextChannel(channel);
   if (channela) {
-    const men = command.reply('Pensquisando ...').then(async () => {
+    const men = command.reply('Pesquisando ...').then(async () => {
       const id = channela.lastMessageId;
       if (id) {
         const mensage = await channela.messages.fetch(id);
