@@ -17,16 +17,19 @@ for (const key of commands) {
 }
 
 
-export const deployCommand = () => {
+export const deployCommand = async () => {
   if (typeof clientId !== 'string' || typeof guildId !== 'string') {
     throw new Error('verify envs')
   }
 
-  return rest
-    .put(Routes.applicationGuildCommands(clientId, guildId), {
-      body: allComands,
-    })
-    .then(() => console.log(logDate() + 'Os Comandos Foram Atualizados'))
-    .catch(console.error);
+  try {
+    await rest
+      .put(Routes.applicationGuildCommands(clientId, guildId), {
+        body: allComands,
+      });
+    return console.log(logDate() + 'Os Comandos Foram Atualizados');
+  } catch (message_2) {
+    return console.error(message_2);
+  }
 
 }

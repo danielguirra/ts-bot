@@ -23,8 +23,7 @@ export async function getUserAllDatabase() {
 
     return documents;
   } catch (error) {
-    return console.log(error);
+    return console.error(error);
   }
 
-  return false;
 }

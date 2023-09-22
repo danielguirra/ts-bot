@@ -1,14 +1,14 @@
-import axios from 'axios';
-import { Activity, Channel, User } from 'discord.js';
+import axios from "axios";
+import { Activity, Channel, User } from "discord.js";
 
-import names from '../../data/json/nameslol.json';
-import { client } from '../client/client';
-import { getNameWeek, hourNow } from '../command/commandHour';
-import { channelItsGuildTextChannel } from './channelItsGuildTextChannel';
-import { embedBuilder } from './getEmbed';
+import names from "../../data/json/nameslol.json";
+import { client } from "../client/client";
+import { hourNow } from "../command/commandHour";
+import { channelItsGuildTextChannel } from "./channelItsGuildTextChannel";
+import { embedBuilder } from "./getEmbed";
 
 export const verifyUserStatus = client.on(
-  'presenceUpdate',
+  "presenceUpdate",
   async (oldPresence, newPresence) => {
     if (oldPresence?.equals(newPresence)) return;
     const guildId = process.env.GUILD;
@@ -32,30 +32,30 @@ export const verifyUserStatus = client.on(
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  },
+  }
 );
 
 const hours = async (user: User, activities: Array<Activity>) => {
-  var { getNameWeek, dia_sem, str_data, str_hora } = hourNow();
-
-  if (
-    activities[0].assets?.largeText &&
-    activities[0].name === 'League of Legends'
-  ) {
-    const guildID = await client.guilds.fetch(process.env.GUILD || '');
-    const channelLeague: Channel | null = await channelItsGuildTextChannel(
-      guildID.channels.resolve(process.env.LEAGUE || ''),
-    );
-    const { icone, splash, loading, champ, porofessorUrl } =
-      await leagueoflegendsChamp(activities[0].assets.largeText);
-    if (!channelLeague) return;
-    const messageEdited = channelLeague.send({
-      embeds: [
-        embedBuilder(
-          `Builds para ` + activities[0].assets.largeText,
-          ` ${user}
+  let { str_hora } = hourNow();
+  if (user.username == "danielguirra") {
+    if (
+      activities[0].assets?.largeText &&
+      activities[0].name === "League of Legends"
+    ) {
+      const guildID = await client.guilds.fetch(process.env.GUILD || "");
+      const channelLeague: Channel | null = await channelItsGuildTextChannel(
+        guildID.channels.resolve(process.env.LEAGUE || "")
+      );
+      const { icone, splash, loading, champ, porofessorUrl } =
+        await leagueoflegendsChamp(activities[0].assets.largeText);
+      if (!channelLeague) return;
+      await channelLeague.send({
+        embeds: [
+          embedBuilder(
+            `Builds para ` + activities[0].assets.largeText,
+            ` ${user}
           
           ${activities[0].details}
           Estado: ${activities[0].state}
@@ -63,51 +63,40 @@ const hours = async (user: User, activities: Array<Activity>) => {
               são : ${str_hora}
               `,
 
-          icone,
-          champ,
-          loading,
-          undefined,
-          'Random',
-          porofessorUrl,
-        ),
-      ],
-    });
-    // (await messageEdited).react('✅');
-    // client.on('messageReactionAdd', async (reaction, userReact) => {
-    //   if (user != userReact) return;
-    //   if (reaction.message.id != (await messageEdited).id) return;
-    //   if (reaction.partial) {
-    //     try {
-    //       await reaction.fetch();
-    //     } catch (error) {
-    //       console.error(
-    //         'Something went wrong when fetching the message:',
-    //         error,
-    //       );
-    //       return;
-    //     }
-    //   }
-    //   if (reaction.emoji.name === '✅') {
-    //     const usersNicks: any = await users();
-    //     for (const userNick of usersNicks) {
-    //       let u: IUser = userNick;
-    //       u.nickLol;
+            icone,
+            champ,
+            loading,
+            undefined,
+            "Random",
+            porofessorUrl
+          ),
+        ],
+      });
 
-    //       if (user.id === userNick.id) {
-    //         channelLeague.send(
-    //           `https://porofessor.gg/pt/live/br/${u.nickLol.replace(
-    //             / /g,
-    //             '%20',
-    //           )}`,
-    //         );
-    //       } else {
-    //         return;
-    //       }
-    //     }
-    //   }
-    // });
+      await user.send({
+        embeds: [
+          embedBuilder(
+            `Builds para ` + activities[0].assets.largeText,
+            ` ${user}
+          
+          ${activities[0].details}
+          Estado: ${activities[0].state}
+          **Clique no titulo para abrir porofessor**
+              são : ${str_hora}
+              `,
 
-    return;
+            icone,
+            champ,
+            loading,
+            undefined,
+            "Random",
+            porofessorUrl
+          ),
+        ],
+      });
+
+      return;
+    }
   }
 
   async function leagueoflegendsChamp(champ: string) {
@@ -116,13 +105,13 @@ const hours = async (user: User, activities: Array<Activity>) => {
     if (x) {
       champ = x;
     } else {
-      champ = champ.split(' ').join('');
+      champ = champ.split(" ").join("");
     }
 
     const version = await axios.get(
-      'https://ddragon.leagueoflegends.com/api/versions.json',
+      "https://ddragon.leagueoflegends.com/api/versions.json"
     );
-    const icone = `http://ddragon.leagueoflegends.com/cdn/${version['data'][0]}/img/champion/${champ}.png`;
+    const icone = `http://ddragon.leagueoflegends.com/cdn/${version["data"][0]}/img/champion/${champ}.png`;
     const loading = `http://ddragon.leagueoflegends.com/cdn/img/champion/tiles/${champ}_0.jpg`;
     const splash = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champ}_0.jpg`;
 

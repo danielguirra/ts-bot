@@ -12,6 +12,7 @@ export async function saveUserDb(user: IUser) {
         return save;
       }
     } catch (error) {
+      console.error(error)
       return error;
     }
   } else {

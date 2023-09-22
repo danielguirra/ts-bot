@@ -1,4 +1,11 @@
-import { CommandInteraction, GuildTextBasedChannel, Message, TextBasedChannel } from 'discord.js';
+import {
+  CommandInteraction,
+  GuildTextBasedChannel,
+  Message,
+  MessageCreateOptions,
+  MessagePayload,
+  TextBasedChannel,
+} from 'discord.js';
 
 import { deleter } from './delLastMessageById';
 
@@ -10,12 +17,12 @@ export async function loadinCreator(
   command.reply('Carregando...').then(async () => {
     const last: TextBasedChannel | null = exec.channel;
     if (last && !sender) {
-      const deletera = await deleter(last);
-      const imageSender = await exec.func;
+      await deleter(last);
+      await exec.func;
     }
     if (sender && last) {
-      const deletera = await deleter(last);
-      const imageSender = exec.func;
+      await deleter(last);
+      const imageSender: string | MessagePayload | MessageCreateOptions = exec.func;
       sender.send({ attachments: [imageSender] });
     }
   });

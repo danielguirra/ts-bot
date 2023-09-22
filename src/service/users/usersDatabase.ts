@@ -1,10 +1,11 @@
 import { getUserAllDatabase } from '../../database/querys/user/getUserClimate';
-import { IUserArray } from '../../interfaces/User';
+import { IUser } from '../../interfaces/User';
 
-export const users = async (): Promise<IUserArray | undefined> => {
+export const users = async (): Promise<IUser[] | string> => {
   try {
     return await getUserAllDatabase();
-  } catch (error) {
-    console.log(error)
+  } catch (error: any) {
+    console.error(error)
+    return error.message as string
   }
 };
