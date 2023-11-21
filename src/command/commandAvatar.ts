@@ -1,4 +1,6 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
+
+import { Command } from "./Builder";
 
 /**
  * Don't forget to export
@@ -6,28 +8,30 @@ import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
  * @param Command
  * @danielguirra
  */
-export const avatar = {
+export const avatar: Command = {
   data: new SlashCommandBuilder()
-    .setName('avatar')
+    .setName("avatar")
     .setDescription(
-      'Obtenha a URL do avatar do usuário selecionado ou do seu próprio avatar.',
+      "Obtenha a URL do avatar do usuário selecionado ou do seu próprio avatar."
     )
-    .addUserOption(options =>
+    .addUserOption((options) =>
       options
-        .setName('user')
-        .setDescription('usuário para retornar')
-        .setRequired(true),
+        .setName("user")
+        .setDescription("usuário para retornar")
+        .setRequired(true)
     ),
   async executeMessageCommand(commandMessage: Message) {
     const user = commandMessage.mentions.users.first();
     if (user) {
-      return commandMessage.reply(user.displayAvatarURL({ extension: 'png' }));
+      return commandMessage.reply(user.displayAvatarURL({ extension: "png" }));
     }
+    return;
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
-    const user: any = commandSlash.options.getUser('user');
+    const user: any = commandSlash.options.getUser("user");
     if (user) {
-      return commandSlash.reply(user.displayAvatarURL({ extension: 'png' }));
+      return commandSlash.reply(user.displayAvatarURL({ extension: "png" }));
     }
+    return;
   },
 };

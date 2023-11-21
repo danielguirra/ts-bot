@@ -27,7 +27,7 @@ export const verifyUserStatus = client.on(
             newPresence.activities[0].details
           ) {
             const activities = newPresence.activities;
-            await hours(userSend, activities);
+            await sendBuildLol(userSend, activities);
           }
         }
       }
@@ -37,25 +37,25 @@ export const verifyUserStatus = client.on(
   }
 );
 
-const hours = async (user: User, activities: Array<Activity>) => {
-  let { str_hora } = hourNow();
-  if (user.username == "danielguirra") {
-    if (
-      activities[0].assets?.largeText &&
-      activities[0].name === "League of Legends"
-    ) {
-      const guildID = await client.guilds.fetch(process.env.GUILD || "");
-      const channelLeague: Channel | null = await channelItsGuildTextChannel(
-        guildID.channels.resolve(process.env.LEAGUE || "")
-      );
-      const { icone, splash, loading, champ, porofessorUrl } =
-        await leagueoflegendsChamp(activities[0].assets.largeText);
-      if (!channelLeague) return;
-      await channelLeague.send({
-        embeds: [
-          embedBuilder(
-            `Builds para ` + activities[0].assets.largeText,
-            ` ${user}
+async function sendBuildLol(user: User, activities: Array<Activity>) {
+  const { str_hora } = hourNow();
+
+  if (
+    activities[0].assets?.largeText &&
+    activities[0].name === "League of Legends"
+  ) {
+    const guild = await client.guilds.fetch(process.env.GUILD || "");
+    const channelLeague: Channel | null = await channelItsGuildTextChannel(
+      guild.channels.resolve(process.env.LEAGUE || "")
+    );
+    const { icone, splash, loading, champ, porofessorUrl } =
+      await leagueoflegendsChamp(activities[0].assets.largeText);
+    if (!channelLeague) return;
+    await channelLeague.send({
+      embeds: [
+        embedBuilder(
+          `Builds para ` + activities[0].assets.largeText,
+          ` ${user}
           
           ${activities[0].details}
           Estado: ${activities[0].state}
@@ -63,40 +63,42 @@ const hours = async (user: User, activities: Array<Activity>) => {
               são : ${str_hora}
               `,
 
-            icone,
-            champ,
-            loading,
-            undefined,
-            "Random",
-            porofessorUrl
-          ),
-        ],
-      });
+          icone,
+          champ,
+          loading,
+          undefined,
+          "Random",
+          porofessorUrl
+        ),
+      ],
+    });
 
-      await user.send({
-        embeds: [
-          embedBuilder(
-            `Builds para ` + activities[0].assets.largeText,
-            ` ${user}
-          
-          ${activities[0].details}
-          Estado: ${activities[0].state}
-          **Clique no titulo para abrir porofessor**
-              são : ${str_hora}
-              `,
+    //  Disable temp
 
-            icone,
-            champ,
-            loading,
-            undefined,
-            "Random",
-            porofessorUrl
-          ),
-        ],
-      });
+    // if ()
+    //   await user.send({
+    //     embeds: [
+    //       embedBuilder(
+    //         `Builds para ` + activities[0].assets.largeText,
+    //         ` ${user}
 
-      return;
-    }
+    //       ${activities[0].details}
+    //       Estado: ${activities[0].state}
+    //       **Clique no titulo para abrir porofessor**
+    //           são : ${str_hora}
+    //           `,
+
+    //         icone,
+    //         champ,
+    //         loading,
+    //         undefined,
+    //         "Random",
+    //         porofessorUrl
+    //       ),
+    //     ],
+    //   });
+
+    return;
   }
 
   async function leagueoflegendsChamp(champ: string) {
@@ -125,4 +127,4 @@ const hours = async (user: User, activities: Array<Activity>) => {
       porofessorUrl,
     };
   }
-};
+}

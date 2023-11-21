@@ -1,4 +1,12 @@
-import { CommandInteraction, Guild, Message, SlashCommandBuilder, User } from 'discord.js';
+import {
+  CommandInteraction,
+  Guild,
+  Message,
+  SlashCommandBuilder,
+  User,
+} from "discord.js";
+
+import { Command } from "./Builder";
 
 /**
  * Don't forget to export
@@ -6,15 +14,15 @@ import { CommandInteraction, Guild, Message, SlashCommandBuilder, User } from 'd
  * @param Command
  * @danielguirra
  */
-export const ban = {
+export const ban: Command = {
   data: new SlashCommandBuilder()
-    .setName('ban')
-    .setDescription('Bane o mencionado')
-    .addUserOption(options =>
+    .setName("ban")
+    .setDescription("Bane o mencionado")
+    .addUserOption((options) =>
       options
-        .setName('target')
-        .setDescription('cara a ser banido')
-        .setRequired(true),
+        .setName("target")
+        .setDescription("cara a ser banido")
+        .setRequired(true)
     ),
   async executeMessageCommand(commandMessage: Message) {
     const guild = commandMessage.guild;
@@ -32,7 +40,7 @@ export const ban = {
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
     const guild = commandSlash.guild;
-    const user = commandSlash.options.getUser('target') || undefined;
+    const user = commandSlash.options.getUser("target") || undefined;
 
     const ban = await banUser(user, guild);
 

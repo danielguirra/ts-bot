@@ -5,8 +5,6 @@ import { bible } from "./commandBible";
 import { bibleverday } from "./commandBibleVerDay";
 import { buzz } from "./commandBuzz";
 import { clearChannel } from "./commandClearChannel";
-import { climate } from "./commandClimate";
-import { climateDaily } from "./commandClimateDaily";
 import { coins } from "./commandCoins";
 import { confiaWill } from "./commandConfiaWill";
 import { day } from "./commandDay";
@@ -21,7 +19,6 @@ import { grandedia } from "./commandGrandeDia";
 import { help } from "./commandHelp";
 import { hour } from "./commandHour";
 import { itsfine } from "./commandItsFine";
-import { joke } from "./commandJoke";
 import { languages } from "./commandLanguages";
 import { lerolero } from "./commandLeroLero";
 import { loreleagueoflegends } from "./commandLoreLeagueOfLegends";
@@ -35,7 +32,7 @@ import { pensador } from "./commandPensador";
 import { ping } from "./commandPing";
 import { queuqlol } from "./commandQueuqLol";
 import { saveUser } from "./commandSaveUser";
-import { serverupdate } from "./commandServerupdate";
+
 import { siginificado } from "./commandSiginificado";
 import { sinonimo } from "./commandSinonimo";
 import { skillchampleagueoflegends } from "./commandSkillChampLeagueOfLegends";
@@ -47,13 +44,11 @@ import { youburro } from "./commandYouBurro";
 
 export const allComands: any = {
   ping,
-  climate,
   advice,
   help,
   avatar,
   ban,
   buzz,
-  climateDaily,
   clearChannel,
   coins,
   confiaWill,
@@ -68,7 +63,6 @@ export const allComands: any = {
   grandedia,
   hour,
   itsfine,
-  joke,
   languages,
   lerolero,
   loreleagueoflegends,
@@ -89,7 +83,6 @@ export const allComands: any = {
   bibleverday,
   duel,
   queuqlol,
-  serverupdate,
   qrpass,
   pass,
 };

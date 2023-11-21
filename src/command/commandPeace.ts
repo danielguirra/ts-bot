@@ -1,9 +1,17 @@
-import { createCanvas, loadImage } from 'canvas';
-import { AttachmentBuilder, GuildMember, Interaction, Message, SlashCommandBuilder, User } from 'discord.js';
+import { createCanvas, loadImage } from "canvas";
+import {
+  AttachmentBuilder,
+  CommandInteraction,
+  GuildMember,
+  Message,
+  SlashCommandBuilder,
+  User,
+} from "discord.js";
 
-import { loadin } from '../service/send/loadin';
-import { senderSlash } from '../service/send/senderSlash';
-import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadin } from "../service/send/loadin";
+import { senderSlash } from "../service/send/senderSlash";
+import { channelItsGuildTextChannel } from "../util/channelItsGuildTextChannel";
+import { Command } from "./Builder";
 
 /**
  * Don't forget to export
@@ -11,12 +19,12 @@ import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
  * @param Command
  * @danielguirra
  */
-export const peace = {
+export const peace: Command = {
   data: new SlashCommandBuilder()
-    .setName('peace')
-    .setDescription('retona uma imagem')
-    .addUserOption(options =>
-      options.setName('target').setDescription('cidadão').setRequired(true),
+    .setName("peace")
+    .setDescription("retona uma imagem")
+    .addUserOption((options) =>
+      options.setName("target").setDescription("cidadão").setRequired(true)
     ),
   async executeMessageCommand(commandMessage: Message) {
     const user = commandMessage.mentions.users.first();
@@ -28,9 +36,9 @@ export const peace = {
       }
     }
   },
-  async executeSlashCommand(commandSlash: Interaction) {
+  async executeSlashCommand(commandSlash: CommandInteraction) {
     if (!commandSlash.isChatInputCommand()) return;
-    const user = commandSlash.options.getUser('target');
+    const user = commandSlash.options.getUser("target");
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
     if (user && channel) {
       return loadin(commandSlash)?.then(async () => {
@@ -45,16 +53,16 @@ export const peace = {
 
 async function getCanvasPeace(user: User | GuildMember) {
   const canvas = createCanvas(1000, 600);
-  const context = canvas.getContext('2d');
-  const background = await loadImage('https://i.im.ge/2021/09/24/T3b3qM.png');
+  const context = canvas.getContext("2d");
+  const background = await loadImage("https://i.imgur.com/NWdGKaF.png");
 
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-  const avatar = await loadImage(user.displayAvatarURL({ extension: 'png' }));
+  const avatar = await loadImage(user.displayAvatarURL({ extension: "png" }));
   context.drawImage(avatar, 690, 320, 230, 230);
 
   const attachment = new AttachmentBuilder(canvas.toBuffer(), {
-    name: 'paz-image.png',
+    name: "paz-image.png",
   });
   return attachment;
 }

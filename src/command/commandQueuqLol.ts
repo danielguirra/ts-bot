@@ -1,8 +1,13 @@
-import axios from 'axios';
-import { CommandInteraction, GuildTextBasedChannel, Message, SlashCommandBuilder } from 'discord.js';
+import {
+  CommandInteraction,
+  GuildTextBasedChannel,
+  Message,
+  SlashCommandBuilder,
+} from "discord.js";
+import * as fs from "fs";
 
-import { embedBuilder } from '../../src/util/getEmbed';
-import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { embedBuilder } from "../../src/util/getEmbed";
+import { channelItsGuildTextChannel } from "../util/channelItsGuildTextChannel";
 
 /**
  * Don't forget to export
@@ -12,36 +17,45 @@ import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
  */
 export const queuqlol = {
   data: new SlashCommandBuilder()
-    .setName('queuqlol')
-    .setDescription('queuqlol')
-    .addStringOption(options =>
+    .setName("queuqlol")
+    .setDescription("queuqlol")
+    .addStringOption((options) =>
       options
-        .setName('nicklol')
+        .setName("nicklol")
         .setRequired(true)
-        .setDescription('nick lol for queuq'),
+        .setDescription("nick lol for queuq")
     )
-    .addStringOption(options =>
-      options.setName('region').setDescription('select region by default BR'),
+    .addStringOption((options) =>
+      options
+        .setName("region")
+        .setDescription("select region by default BR")
+        .setRequired(true)
+        .addChoices({
+          name: "BRASIL",
+          value: "br1",
+        })
     ),
+
   async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply('somente em slash');
+    return commandMessage.reply("somente em slash");
   },
+
   async executeSlashCommand(commandSlash: CommandInteraction) {
     if (!commandSlash.isChatInputCommand()) return;
-    const nick = commandSlash.options.getString('nicklol');
-    let region = commandSlash.options.getString('region');
+    const nick = commandSlash.options.getString("nicklol");
+    let region = commandSlash.options.getString("region");
 
     if (region === null) {
-      region = 'br1';
+      region = "br1";
     }
 
-    return commandSlash.reply('Carregando').then(async f => {
+    return commandSlash.reply("Carregando").then(async (f) => {
       if (nick === null) return;
       if (region === null) return;
       const ge = await getQueuq(nick, region);
       const channel = await channelItsGuildTextChannel(commandSlash.channel);
       if (channel === null) return;
-      await embedBuilderForLol(ge, channel);
+      const sender = await embedBuilderForLol(ge, channel);
       const id = f.id;
       const delter = channel.messages.fetch(id);
       (await delter).delete();
@@ -50,73 +64,107 @@ export const queuqlol = {
 };
 
 async function getQueuq(nickLol: string, region: string) {
-  const getter = await axios.get(
-    `http://receitasgostosas.top:3001/match/live/?region=${region}&nick=${nickLol}`,
-  );
+  // const getter = await axios.get(
+  //   `http://localhost:3001/match/live/?region=${region}&nick=${nickLol}`,
+  //   {
+  //     headers: {
+  //       api_key: "RGAPI-2f0be7b8-b999-4f2b-b9ff-a23db6a960a4",
+  //     },
+  //   }
+  // );
 
-  return getter.data;
+  const getter = JSON.parse(fs.readFileSync("./queuq.json", "utf-8"));
+  return getter;
 }
 
 async function embedBuilderForLol(queuq: any, channel: GuildTextBasedChannel) {
-  let players = [];
-  let embeds: any[] = [];
+  try {
+    let players: any = [];
+    let embeds: any[] = [];
 
-  for (let index = 0; index < 10; index++) {
-    const iterator = queuq.participants[index];
-    let player = {
-      nick: iterator.summonerName,
-      championName: iterator.championInfo.champions.name,
-      image: iterator.championInfo.champions.image.tile,
-    };
-
-    players.push(player);
-  }
-
-  for (let index = 0; index < 10; index++) {
-    const iterator = players[index];
-    let rank = queuq.participants[index].rank;
-    if (rank.length > 1) {
-      rank =
-        `**Solo**: ` +
-        `**${rank[0].tier}**` +
-        ' ' +
-        `**${rank[0].rank}**` +
-        ` 
-        **Flex**: ` +
-        `**${rank[1].tier}**` +
-        ' ' +
-        `**${rank[1].rank}**`;
-    } else {
-      rank = `**Solo**: ` + `**${rank[0].tier}**` + ' ' + `**${rank[0].rank}**`;
+    for (const player of queuq.participants) {
+      players.push({
+        nick: player.summonerName,
+        championName: player.championInfo.champion.name,
+        championMasteryPoints: player.championInfo.mastery.championPoints,
+        championMasteryLevel: player.championInfo.mastery.championLevel,
+        image: player.championInfo["champion"].image,
+        rank: player.rank,
+      });
     }
-    if (index < 5) {
-      embeds.push(
-        embedBuilder(
-          `${iterator.nick}`,
-          `${rank}`,
-          iterator.image,
-          iterator.nick,
-          iterator.image,
-          undefined,
-          'Blue',
-          undefined,
-        ),
-      );
-    } else {
-      embeds.push(
-        embedBuilder(
-          `${iterator.nick}`,
-          `${rank}`,
-          iterator.image,
-          iterator.nick,
-          iterator.image,
-          undefined,
-          'Red',
-          undefined,
-        ),
-      );
-    }
-  }
 
-  channel.send({ embeds });
+    for (let index = 0; index < 10; index++) {
+      const iterator = players[index];
+      let rank = queuq.participants[index].rank;
+      if (rank.length > 1) {
+        rank =
+          `${rank[0].queueType}: ` +
+          `**${rank[0].tier}**` +
+          " " +
+          `**${rank[0].rank}**` +
+          `\n*W* - ${rank[0].wins}` +
+          `\n*L* - ${rank[0].losses}` +
+          `\n*PDL* - ${rank[0].leaguePoints}` +
+          `
+          \n${rank[1].queueType}: ` +
+          `**${rank[1].tier}**` +
+          " " +
+          `**${rank[1].rank}**` +
+          `\n*W* - ${rank[1].wins}` +
+          `\n*L* - ${rank[1].losses}` +
+          "\n " +
+          `*PDL* - ${rank[1].leaguePoints}`;
+      } else {
+        rank =
+          `${rank[0].queueType}: ` +
+          `**${rank[0].tier}**` +
+          " " +
+          `**${rank[0].rank}**` +
+          `\n*W* - ${rank[0].wins}` +
+          `\n*L* - ${rank[0].losses}` +
+          `\n*PDL* - ${rank[0].leaguePoints}`;
+      }
+      if (index < 5) {
+        embeds.push(
+          embedBuilder(
+            `${iterator.nick}`,
+            `
+            *Champ*: **${iterator.championName}**
+            *Mastery Level*: **${iterator.championMasteryLevel}**
+            *Mastery Points*: **${iterator.championMasteryPoints}**
+            \n
+            ${rank}`,
+            iterator.image.small,
+            iterator.nick,
+            iterator.image.small,
+            undefined,
+            "Blue",
+            undefined
+          )
+        );
+      } else {
+        embeds.push(
+          embedBuilder(
+            `${iterator.nick}`,
+            `
+            *Champ*: **${iterator.championName}**
+            *Mastery Level*: **${iterator.championMasteryLevel}**
+            *Mastery Points*: **${iterator.championMasteryPoints}**
+            \n
+            ${rank}`,
+            iterator.image.small,
+            iterator.nick,
+            iterator.image.small,
+            undefined,
+            "Red",
+            undefined
+          )
+        );
+      }
+    }
+
+    return channel.send({ embeds });
+  } catch (error) {
+    console.error(error);
+  }
 }

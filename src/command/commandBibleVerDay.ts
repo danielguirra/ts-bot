@@ -1,7 +1,8 @@
-import axios from 'axios';
-import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
+import axios from "axios";
+import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
 
-import { embedBuilder } from '../../src/util/getEmbed';
+import { embedBuilder } from "../../src/util/getEmbed";
+import { Command } from "./Builder";
 
 const bibleUrl = process.env.URLBIBLE;
 /**
@@ -10,40 +11,40 @@ const bibleUrl = process.env.URLBIBLE;
  * @param Command
  * @danielguirra
  */
-export const bibleverday = {
+export const bibleverday: Command = {
   data: new SlashCommandBuilder()
-    .setName('bibleverday')
-    .setDescription('retorna um versiculo'),
+    .setName("bibleverday")
+    .setDescription("retorna um versiculo"),
   async executeMessageCommand(commandMessage: Message) {
-    const ver = await axios.get(bibleUrl + '/arc/verdia');
+    const ver = await axios.get(bibleUrl + "/arc/verdia");
 
     return commandMessage.reply({
       embeds: [
         embedBuilder(
-          'Versiculo do Dia',
+          "Versiculo do Dia",
           ver.data,
           undefined,
           undefined,
           undefined,
           undefined,
-          'Random',
+          "Random"
         ),
       ],
     });
   },
-  async executeSlashCommand(commandSlash: Interaction) {
+  async executeSlashCommand(commandSlash: CommandInteraction) {
     if (!commandSlash.isChatInputCommand()) return;
-    const ver = await axios.get(bibleUrl + '/arc/verdia');
+    const ver = await axios.get(bibleUrl + "/arc/verdia");
     return commandSlash.reply({
       embeds: [
         embedBuilder(
-          'Versiculo do Dia',
+          "Versiculo do Dia",
           ver.data,
           undefined,
           undefined,
           undefined,
           undefined,
-          'Random',
+          "Random"
         ),
       ],
     });

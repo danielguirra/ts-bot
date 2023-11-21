@@ -1,6 +1,7 @@
-import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
+import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
 
-import { embedBuilder } from '../../src/util/getEmbed';
+import { embedBuilder } from "../../src/util/getEmbed";
+import { Command } from "./Builder";
 
 /**
  * Don't forget to export
@@ -8,31 +9,31 @@ import { embedBuilder } from '../../src/util/getEmbed';
  * @param Command
  * @danielguirra
  */
-export const coins = {
+export const coins: Command = {
   data: new SlashCommandBuilder()
-    .setName('moedas')
-    .setDescription('lista de moedas'),
+    .setName("moedas")
+    .setDescription("lista de moedas"),
   async executeMessageCommand(commandMessage: Message) {
     return commandMessage.reply({
       embeds: [
         embedBuilder(
-          'Lista de moedas ',
+          "Lista de moedas ",
           `${commandMessage.author}
     
-    ${moedas}`,
+    ${moedas}`
         ),
       ],
     });
   },
-  async executeSlashCommand(commandSlash: Interaction) {
+  async executeSlashCommand(commandSlash: CommandInteraction) {
     if (!commandSlash.isChatInputCommand()) return;
     return commandSlash.reply({
       embeds: [
         embedBuilder(
-          'Lista de moedas',
+          "Lista de moedas",
           `${commandSlash.user}
     
-    ${moedas}`,
+    ${moedas}`
         ),
       ],
     });

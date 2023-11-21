@@ -1,23 +1,24 @@
-import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
+import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
 
-import { embedBuilder } from '../util/getEmbed';
+import { embedBuilder } from "../util/getEmbed";
+import { Command } from "./Builder";
 
-export const ping = {
+export const ping: Command = {
   data: new SlashCommandBuilder()
-    .setName('ts')
-    .setDescription('teste tyscript slash')
-    .addStringOption(options =>
-      options.setName('teste').setDescription('bananasplit'),
+    .setName("ts")
+    .setDescription("teste tyscript slash")
+    .addStringOption((options) =>
+      options.setName("teste").setDescription("bananasplit")
     ),
-  async executeSlashCommand(commandSlash: Interaction): Promise<any> {
+  async executeSlashCommand(commandSlash: CommandInteraction) {
     if (!commandSlash.isChatInputCommand()) return;
-    const result: string = commandSlash.options.getString('teste') || '';
-    return commandSlash.reply({ embeds: [embedBuilder('TypeScript', result)] });
+    const result: string = commandSlash.options.getString("teste") || "";
+    return commandSlash.reply({ embeds: [embedBuilder("TypeScript", result)] });
   },
   async executeMessageCommand(commandMessage: Message) {
-    const result: string = commandMessage.content.replace('*ts ', ' ');
+    const result: string = commandMessage.content.replace("*ts ", " ");
     return commandMessage.reply({
-      embeds: [embedBuilder('TypeScript', result)],
+      embeds: [embedBuilder("TypeScript", result)],
     });
   },
 };

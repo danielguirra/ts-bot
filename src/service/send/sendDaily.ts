@@ -1,19 +1,19 @@
-import { GuildTextBasedChannel } from 'discord.js';
+import { GuildTextBasedChannel } from "discord.js";
 
-import { googleImagePensador } from '../../../googleImage';
-import { IPensador } from '../../interfaces/PensadorMessage';
-import { pensador } from '../../util/pensador';
+import { googleImagePensador } from "../../../googleImage";
+import { IPensador } from "../../interfaces/PensadorMessage";
+import { pensador } from "../../util/pensador";
 
 export const sendDaily = async (channelDaily: GuildTextBasedChannel) => {
   try {
     const data: IPensador = await pensador.getFromMotivacionais();
-    const dataimage = await googleImagePensador(
+    await googleImagePensador(
       { embedTitle: data.author },
       data,
       undefined,
-      channelDaily,
+      channelDaily
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };

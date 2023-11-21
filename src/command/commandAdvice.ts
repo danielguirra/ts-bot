@@ -1,8 +1,9 @@
-import axios from 'axios';
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import axios from "axios";
+import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
 
-import { embedBuilder } from '../../src/util/getEmbed';
-import { translateText } from '../util/translate';
+import { embedBuilder } from "../../src/util/getEmbed";
+import { translateText } from "../util/translate";
+import { Command } from "./Builder";
 
 /**
  * Don't forget to export
@@ -10,27 +11,27 @@ import { translateText } from '../util/translate';
  * @param Command
  * @danielguirra
  */
-export const advice = {
+export const advice: Command = {
   data: new SlashCommandBuilder()
-    .setName('conselho')
-    .setDescription('Conselho aletório'),
+    .setName("conselho")
+    .setDescription("Conselho aletório"),
   async executeMessageCommand(commandMessage: Message) {
-    const avatar = commandMessage.author.displayAvatarURL({ extension: 'png' });
+    const avatar = commandMessage.author.displayAvatarURL({ extension: "png" });
     const tag = commandMessage.author.username;
     const advice = await getRandomAdvice();
 
     return commandMessage.reply({
-      embeds: [embedBuilder('Conselho', advice, avatar, tag)],
+      embeds: [embedBuilder("Conselho", advice, avatar, tag)],
     });
   },
   async executeSlashCommand(commandSlash: CommandInteraction) {
     if (!commandSlash.isChatInputCommand()) return;
-    const avatar = commandSlash.user.displayAvatarURL({ extension: 'png' });
+    const avatar = commandSlash.user.displayAvatarURL({ extension: "png" });
     const tag = commandSlash.user.username;
     const advice = await getRandomAdvice();
 
     return commandSlash.reply({
-      embeds: [embedBuilder('Conselho', advice, avatar, tag)],
+      embeds: [embedBuilder("Conselho", advice, avatar, tag)],
     });
   },
 };
@@ -42,6 +43,6 @@ async function getRandomAdvice() {
   const url = `https://api.adviceslip.com/advice`;
   const advice = await axios.get(url);
   const text = advice.data.slip.advice;
-  const result: any = (await translateText(text)).text || '';
+  const result: any = (await translateText(text)).text || "";
   return result;
 }

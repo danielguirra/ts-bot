@@ -133,7 +133,11 @@ function randomItem(arr: string | any[]) {
 }
 
 export function getLeroLero() {
-  return (
-    randomItem(tab0) + randomItem(tab1) + randomItem(tab2) + randomItem(tab3)
-  );
+
+  const pr = randomItem(tab0);
+  const seg = randomItem(tab1);
+  const tec = randomItem(tab2);
+  const qua = randomItem(tab3)
+
+  return pr + seg + tec + qua as string;
 }

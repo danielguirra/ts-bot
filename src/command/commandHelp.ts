@@ -1,7 +1,13 @@
-import { Guild, Interaction, Message, SlashCommandBuilder } from 'discord.js';
-import dotenv from 'dotenv';
+import {
+  CommandInteraction,
+  Guild,
+  Message,
+  SlashCommandBuilder,
+} from "discord.js";
+import dotenv from "dotenv";
 
-import { embedBuilder } from '../../src/util/getEmbed';
+import { embedBuilder } from "../../src/util/getEmbed";
+import { Command } from "./Builder";
 
 dotenv.config();
 /**
@@ -10,8 +16,8 @@ dotenv.config();
  * @param Command
  * @danielguirra
  */
-export const help = {
-  data: new SlashCommandBuilder().setName('ajuda').setDescription('ajuda'),
+export const help: Command = {
+  data: new SlashCommandBuilder().setName("ajuda").setDescription("ajuda"),
   async executeMessageCommand(commandMessage: Message) {
     const helpFun = getHelp(commandMessage.guild);
 
@@ -22,12 +28,12 @@ export const help = {
           `${commandMessage.author}
      Se precisa de cargos estão aqui: ${helpFun?.channelRoles},
      Comandos: ${helpFun?.channelCommands}
-     Qualquer coisa pode perguntar a eles ${helpFun?.roleMod}que irão te ajudar!`,
+     Qualquer coisa pode perguntar a eles ${helpFun?.roleMod}que irão te ajudar!`
         ),
       ],
     });
   },
-  async executeSlashCommand(commandSlash: Interaction) {
+  async executeSlashCommand(commandSlash: CommandInteraction) {
     if (!commandSlash.isChatInputCommand()) return;
     const helpFun = getHelp(commandSlash.guild);
 
@@ -38,7 +44,7 @@ export const help = {
           `${commandSlash.user}
      Se precisa de cargos estão aqui: ${helpFun?.channelRoles},
      Comandos: ${helpFun?.channelCommands}
-     Qualquer coisa pode perguntar a eles ${helpFun?.roleMod}que irão te ajudar!`,
+     Qualquer coisa pode perguntar a eles ${helpFun?.roleMod}que irão te ajudar!`
         ),
       ],
     });
@@ -48,13 +54,13 @@ export const help = {
 function getHelp(guild: Guild | null) {
   if (guild) {
     const roleMod = guild.roles.cache.find(
-      role => role.id === process.env.ROLEMOD,
+      (role) => role.id === process.env.ROLEMOD
     );
     const channelRoles = guild.channels.cache.find(
-      channel => channel.id === process.env.CHANNELROLES,
+      (channel) => channel.id === process.env.CHANNELROLES
     );
     const channelCommands = guild.channels.cache.find(
-      channel => channel.id === process.env.CHANNELCOMMANDS,
+      (channel) => channel.id === process.env.CHANNELCOMMANDS
     );
 
     return {

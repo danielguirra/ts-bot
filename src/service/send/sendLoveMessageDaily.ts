@@ -1,24 +1,24 @@
-import { GuildTextBasedChannel } from 'discord.js';
-import dotenv from 'dotenv';
+import { GuildTextBasedChannel } from "discord.js";
+import dotenv from "dotenv";
 
-import { googleImagePensador } from '../../../googleImage';
-import { IPensador } from '../../interfaces/PensadorMessage';
-import { pensador } from '../../util/pensador';
+import { googleImagePensador } from "../../../googleImage";
+import { IPensador } from "../../interfaces/PensadorMessage";
+import { pensador } from "../../util/pensador";
 
 dotenv.config();
 
 export const sendLoveMessageDaily = async (
-  channelLove: GuildTextBasedChannel,
+  channelLove: GuildTextBasedChannel
 ) => {
   try {
     const data: IPensador = await pensador.getFromAmor();
-    const dataimage = await googleImagePensador(
-      { embedTitle: data.author, embedColor: '#AF0F8F' },
+    await googleImagePensador(
+      { embedTitle: data.author, embedColor: "#AF0F8F" },
       data,
       undefined,
-      channelLove,
+      channelLove
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };

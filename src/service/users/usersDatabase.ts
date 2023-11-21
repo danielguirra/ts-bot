@@ -1,11 +1,12 @@
-import { getUserAllDatabase } from '../../database/querys/user/getUserClimate';
-import { IUser } from '../../interfaces/User';
+import { UserDatabase } from "../../database/querys/user/user";
 
-export const users = async (): Promise<IUser[] | string> => {
+export const users = async () => {
   try {
-    return await getUserAllDatabase();
+    return await new UserDatabase().getAllUsersBasedInGuildId(
+      "690694428729278535"
+    );
   } catch (error: any) {
-    console.error(error)
-    return error.message as string
+    console.error(error);
+    return error.message as string;
   }
 };

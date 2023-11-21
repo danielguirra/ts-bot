@@ -1,9 +1,16 @@
-import { createCanvas, loadImage } from 'canvas';
-import { AttachmentBuilder, Interaction, Message, SlashCommandBuilder, User } from 'discord.js';
+import { createCanvas, loadImage } from "canvas";
+import {
+  AttachmentBuilder,
+  CommandInteraction,
+  Message,
+  SlashCommandBuilder,
+  User,
+} from "discord.js";
 
-import { loadin } from '../service/send/loadin';
-import { senderSlash } from '../service/send/senderSlash';
-import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadin } from "../service/send/loadin";
+import { senderSlash } from "../service/send/senderSlash";
+import { channelItsGuildTextChannel } from "../util/channelItsGuildTextChannel";
+import { Command } from "./Builder";
 
 /**
  * Don't forget to export
@@ -11,12 +18,12 @@ import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
  * @param Command
  * @danielguirra
  */
-export const duel = {
+export const duel: Command = {
   data: new SlashCommandBuilder()
-    .setName('duelo')
-    .setDescription('é hora do duelo')
-    .addUserOption(option =>
-      option.setName('target').setDescription('o bocó').setRequired(true),
+    .setName("duelo")
+    .setDescription("é hora do duelo")
+    .addUserOption((option) =>
+      option.setName("target").setDescription("o bocó").setRequired(true)
     ),
   async executeMessageCommand(commandMessage: Message) {
     const user2 = commandMessage.mentions.users.first();
@@ -29,9 +36,9 @@ export const duel = {
       }
     }
   },
-  async executeSlashCommand(commandSlash: Interaction) {
+  async executeSlashCommand(commandSlash: CommandInteraction) {
     if (!commandSlash.isChatInputCommand()) return;
-    const user2 = commandSlash.options.getUser('target');
+    const user2 = commandSlash.options.getUser("target");
     const user = commandSlash.user;
     const channel = await channelItsGuildTextChannel(commandSlash.channel);
     if (channel && user2) {
@@ -47,18 +54,18 @@ export const duel = {
 
 async function canvasDuel(user: User, user2: User | undefined | null) {
   const canvas = createCanvas(1980, 760);
-  const context = canvas.getContext('2d');
-  const background = await loadImage('./util/image/duelo.png');
+  const context = canvas.getContext("2d");
+  const background = await loadImage("./util/image/duelo.png");
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
-  const user1 = await loadImage(user.displayAvatarURL({ extension: 'png' }));
+  const user1 = await loadImage(user.displayAvatarURL({ extension: "png" }));
   context.drawImage(user1, 260, 200, 250, 250);
   if (!user2) return;
   const user2Image = await loadImage(
-    user2.displayAvatarURL({ extension: 'png' }),
+    user2.displayAvatarURL({ extension: "png" })
   );
   context.drawImage(user2Image, 1460, 200, 250, 250);
   const attachment = new AttachmentBuilder(canvas.toBuffer(), {
-    name: 'duel.png',
+    name: "duel.png",
   });
 
   return attachment;

@@ -1,6 +1,7 @@
-import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
+import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
 
-import { embedBuilder } from '../../src/util/getEmbed';
+import { embedBuilder } from "../../src/util/getEmbed";
+import { Command } from "./Builder";
 
 /**
  * Don't forget to export
@@ -8,19 +9,19 @@ import { embedBuilder } from '../../src/util/getEmbed';
  * @param Command
  * @danielguirra
  */
-export const languages = {
+export const languages: Command = {
   data: new SlashCommandBuilder()
-    .setName('languages')
-    .setDescription('todas linguas tranduziveis '),
+    .setName("languages")
+    .setDescription("todas linguas tranduziveis "),
   async executeMessageCommand(commandMessage: Message) {
     return commandMessage.reply({
-      embeds: [embedBuilder('Linguas', languagesObj)],
+      embeds: [embedBuilder("Linguas", languagesObj)],
     });
   },
-  async executeSlashCommand(commandSlash: Interaction) {
+  async executeSlashCommand(commandSlash: CommandInteraction) {
     if (!commandSlash.isChatInputCommand()) return;
     return commandSlash.reply({
-      embeds: [embedBuilder('Linguas', languagesObj)],
+      embeds: [embedBuilder("Linguas", languagesObj)],
     });
   },
 };

@@ -1,14 +1,9 @@
-import { IClimate } from './Climate';
-import { IGuild } from './Guild';
-
-export interface IUser {
+export type IUser = {
   id: string;
-  guild: IGuild;
+  guildId: string;
   username: string;
-  discriminator: string;
   nickLol: string;
-  userClimate: IClimate;
-}
+};
 
 export interface IUserArray {
   document: Array<IUser>;
