@@ -25,6 +25,8 @@ export const queuqlol = {
         .setRequired(true)
         .setDescription("nick lol for queuq")
     )
+
+
     .addStringOption((options) =>
       options
         .setName("region")
@@ -34,7 +36,13 @@ export const queuqlol = {
           name: "BRASIL",
           value: "br1",
         })
-    ),
+
+
+    ).addStringOption((options =>
+      options
+        .setName("token")
+        .setDescription("token for search")
+        .setRequired(true))),
 
   async executeMessageCommand(commandMessage: Message) {
     return commandMessage.reply("somente em slash");

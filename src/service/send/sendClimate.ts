@@ -1,10 +1,13 @@
 import axios from 'axios';
-import { GuildTextBasedChannel, TextBasedChannel } from 'discord.js';
+import { Channel, GuildTextBasedChannel, TextBasedChannel } from 'discord.js';
 import dotenv from 'dotenv';
 
 import weatherCode from '../../../data/json/weatherCode.json';
 import emojis from '../../../data/json/weatherEmoji.json';
 import { embedBuilder } from '../../util/getEmbed';
+import { UserDB } from '../../database/users/user.class';
+import { client } from '../../client/client';
+import { channelItsGuildTextChannel } from '../../util/channelItsGuildTextChannel';
 
 dotenv.config();
 
@@ -153,45 +156,56 @@ export const sendClimate = async (
     console.log(error)
   };
 };
+
+
 export const sendClimateCurrentTime = async (
   channel?: GuildTextBasedChannel,
   city?: string,
   channelSlash?: TextBasedChannel,
+  country?: string,
+  dmChannel?: boolean
 ) => {
   try {
-    if (!city || city === '*clima') {
-      console.log('Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city);
-      return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
+    if (typeof city !== 'string') {
+
+      throw new Error('Erro sendClimateCurrentTime ' + ' Cidade? 🤔 ' + city);
+
+    }
+
+    if (typeof country !== 'string') {
+
+      throw new Error('Erro sendClimateCurrentTime ' + ' Pais? 🤔 ' + country);
+
     }
 
     const cityNameToReturnInEmbed = city;
 
-    city = city?.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    const url = `https://pt.wttr.in/${city}+brazil?format=j1`;
+    city = city.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const url = `https://pt.wttr.in/${city}+${country}?format=j1`;
 
     const climateAxios = await axios.get(url);
     try {
-      let weather = climateAxios.data.current_condition[0];
 
-      let heatIndex = weather.FeelsLikeC;
-      let emoji = getEmojiForWeatherCode(weather.weatherCode);
-      let heatString = `${heatIndex}`;
-      let { str_hora } = hourNow();
-      let climate = {
-        temp_C: weather.temp_C,
-        humidity: weather.humidity,
-        text: weather.lang_pt[0].value,
-        heatIndex: heatString.slice(0, 4),
-        str_hora,
-        emoji,
-        avgTempC: climateAxios.data.weather[0].avgtempC,
-        tempMinC: climateAxios.data.weather[0].mintempC,
-        tempMaxC: climateAxios.data.weather[0].maxtempC,
-      };
+      const weather = climateAxios.data.current_condition[0];
+      const climate = getClimateProps(weather, climateAxios);
 
+      if (dmChannel) {
+        return {
+          embeds: [
+            embedBuilder(
+              `Clima de ${cityNameToReturnInEmbed} agora ${climate.str_hora}`,
+              ` A temperatura está em :**${climate.temp_C}Cº**
+	          Humidade em **${climate.humidity}%**
+	          **${climate.text}** ${climate.emoji}
+	          Sensação térmica de **${climate.heatIndex}Cº**
+	        `,
+            ),
+          ],
+        }
+      }
       if (channelSlash) {
         return embedBuilder(
-          `Clima de ${cityNameToReturnInEmbed} agora ${str_hora}`,
+          `Clima de ${cityNameToReturnInEmbed} agora ${climate.str_hora}`,
           ` A temperatura está por volta de :**${climate.temp_C}Cº**
 	            Mínima de Hoje é  :**${climate.tempMinC}**
 	            Média de Hoje é :**${climate.avgTempC}**
@@ -208,7 +222,7 @@ export const sendClimateCurrentTime = async (
           channel.send({
             embeds: [
               embedBuilder(
-                `Clima de ${cityNameToReturnInEmbed} agora ${str_hora}`,
+                `Clima de ${cityNameToReturnInEmbed} agora ${climate.str_hora}`,
                 ` A temperatura está em :**${climate.temp_C}Cº**
 	          Humidade em **${climate.humidity}%**
 	          **${climate.text}** ${climate.emoji}
@@ -219,18 +233,40 @@ export const sendClimateCurrentTime = async (
           });
           return true;
         } catch (error) {
+          console.error(error)
           return false;
         }
     } catch (err) {
-      console.log(err);
+      console.error(err)
       return false;
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 
 };
+
+export async function sendClimateToUserDM() {
+  const users = await UserDB.getUsersIDsToSendClimate()
+  if (users.length < 1) return
+  for (const user of users) {
+
+    const userDiscord = await client.users.fetch(user.idDiscord);
+
+    const dmChannel = await channelItsGuildTextChannel(userDiscord.dmChannel)
+    if (dmChannel) {
+      await sendClimateCurrentTime(dmChannel, user.city)
+    } else {
+      const climate = await sendClimateCurrentTime(undefined, user.city, undefined, user.country, true)
+      if (climate && typeof climate !== 'boolean' && 'embeds' in climate) {
+        userDiscord.send(climate)
+      }
+    }
+
+  }
+
+}
 
 /**
  *
@@ -281,4 +317,24 @@ function hourNow() {
   var str_data = dia + '/' + (mes + 1) + '/' + ano4;
   var str_hora = hora + ':' + min + ':' + seg;
   return { getNameWeek, dia_sem, str_data, str_hora };
+}
+
+
+function getClimateProps(weather: any, climateAxios: any) {
+
+  let heatIndex = weather.FeelsLikeC;
+  let emoji = getEmojiForWeatherCode(weather.weatherCode);
+  let heatString = `${heatIndex}`;
+  let { str_hora } = hourNow();
+  return {
+    temp_C: weather.temp_C,
+    humidity: weather.humidity,
+    text: weather.lang_pt[0].value,
+    heatIndex: heatString.slice(0, 4),
+    str_hora,
+    emoji,
+    avgTempC: climateAxios.data.weather[0].avgtempC,
+    tempMinC: climateAxios.data.weather[0].mintempC,
+    tempMaxC: climateAxios.data.weather[0].maxtempC,
+  };
 }

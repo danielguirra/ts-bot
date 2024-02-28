@@ -5,6 +5,7 @@ import { bible } from "./commandBible";
 import { bibleverday } from "./commandBibleVerDay";
 import { buzz } from "./commandBuzz";
 import { clearChannel } from "./commandClearChannel";
+import { climate } from "./commandClimate";
 import { coins } from "./commandCoins";
 import { confiaWill } from "./commandConfiaWill";
 import { day } from "./commandDay";
@@ -85,4 +86,5 @@ export const allComands: any = {
   queuqlol,
   qrpass,
   pass,
+  climate
 };

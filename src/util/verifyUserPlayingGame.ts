@@ -7,7 +7,7 @@ import { hourNow } from "../command/commandHour";
 import { channelItsGuildTextChannel } from "./channelItsGuildTextChannel";
 import { embedBuilder } from "./getEmbed";
 
-export const verifyUserStatus = client.on(
+export const verifyUserStatusLeagueofLegends = client.on(
   "presenceUpdate",
   async (oldPresence, newPresence) => {
     if (oldPresence?.equals(newPresence)) return;

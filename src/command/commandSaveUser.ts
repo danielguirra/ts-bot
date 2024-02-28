@@ -10,6 +10,7 @@ import dotenv from "dotenv";
 import { embedBuilder } from "../../src/util/getEmbed";
 import { UserDatabase } from "../database/querys/user/user";
 import { IUser } from "../interfaces/User";
+import { UserDB } from "../database/users/user.class";
 
 dotenv.config();
 /**
@@ -25,40 +26,76 @@ export const saveUser = {
 
     .addStringOption((options) =>
       options
-        .setName("nicklol")
-        .setDescription("seu nick league of legends")
+        .setName("cidade")
+        .setDescription("sua cidade")
         .setRequired(true)
-    ),
-  async executeMessageCommand(commandMessage: Message) {
-    const user = commandMessage.author;
-    const guild = commandMessage.guild;
+    ).addStringOption((options) =>
+      options
+        .setName("pais")
+        .setDescription("seu pais")
+        .setRequired(true)
+    ).addBooleanOption((options) =>
+      options
+        .setName("clima")
+        .setDescription("quer o clima diário?")
+        .setRequired(true)
+    )
 
-    if (guild && user) {
-      const result = await saveUserFunc(guild, user);
-      const resultString = `${result}`;
-      return commandMessage.reply({
-        embeds: [
-          embedBuilder(
-            "Banco de Dados Capivareis",
-            resultString,
-            "",
-            "",
-            "",
-            "",
-            "Green"
-          ),
-        ],
-      });
-    }
+
+  ,
+  async executeMessageCommand(commandMessage: Message) {
+
+    commandMessage.reply('usa de /')
+
+    // const user = commandMessage.author;
+    // const guild = commandMessage.guild;
+
+    // if (guild && user) {
+    //   const result = await UserDB.saveNewUser({
+    //     idDiscord: user.id,
+    //     nickname: user.tag,
+    //     username: user.username,
+    //     city: 'Franca',
+    //     country: "Brasil",
+    //     dollarDaily: true,
+    //     climateDaily: true
+    //   })
+    //   const resultString = `${result}`;
+    //   return commandMessage.reply({
+    //     embeds: [
+    //       embedBuilder(
+    //         "Banco de Dados Capivareis",
+    //         resultString,
+    //         "",
+    //         "",
+    //         "",
+    //         "",
+    //         "Green"
+    //       ),
+    //     ],
+    //   });
+    // }
   },
+
+
   async executeSlashCommand(commandSlash: Interaction) {
     if (!commandSlash.isChatInputCommand()) return;
-    const nickLol = commandSlash.options.getString("nicklol");
+    const pais = commandSlash.options.getString("pais");
+    const city = commandSlash.options.getString("cidade");
+    const climateDaily = commandSlash.options.getBoolean("clima");
     const user = commandSlash.user;
-    const guild = commandSlash.guild;
 
-    if (guild && user && nickLol) {
-      const result = await saveUserFunc(guild, user, nickLol);
+
+    if (user && pais && city && climateDaily) {
+      const result = await UserDB.saveNewUser({
+        idDiscord: user.id,
+        nickname: user.tag,
+        username: user.username,
+        city: city,
+        country: pais,
+        dollarDaily: true,
+        climateDaily
+      })
       const resultString = `${result}`;
       return commandSlash.reply({
         embeds: [

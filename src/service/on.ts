@@ -6,6 +6,7 @@ import { client } from '../client/client';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { dailySender } from './dailySender';
 import { logDate } from './logDate';
+import { sendClimateToUserDM } from './send/sendClimate';
 
 dotenv.config();
 
@@ -23,10 +24,15 @@ export const on = client.on('ready', async () => {
     guildID.channels.resolve(process.env.DOLAR || ''),
   );
 
+
   if (channelDolar && channelLove && channelDaily) {
     try {
       console.log(logDate() + 'Clima diário será enviado');
-      new CronJob(`00 00 08 * * *`, () => {
+      new CronJob(`00 00 10 * * *`, () => {
+        sendClimateToUserDM().then(() => {
+          console.log(logDate() + 'Clima enviado')
+        })
+
         dailySender({
           channelDolar,
           channelLove,
