@@ -9,9 +9,11 @@ import { climate } from "./commandClimate";
 import { coins } from "./commandCoins";
 import { confiaWill } from "./commandConfiaWill";
 import { day } from "./commandDay";
+import { deleteUser } from "./commandDeleteMyUser";
 import { dice } from "./commandDice";
 import { dolar } from "./commandDolar";
 import { duel } from "./commandDuel";
+import { editUser } from "./commandEditMyUser";
 import { email } from "./commandEmail";
 import { fry } from "./commandFry";
 import { gif } from "./commandGif";
@@ -86,5 +88,7 @@ export const allComands: any = {
   queuqlol,
   qrpass,
   pass,
-  climate
+  climate,
+  deleteUser,
+  editUser
 };

@@ -12,7 +12,6 @@ import { channelItsGuildTextChannel } from '../../util/channelItsGuildTextChanne
 dotenv.config();
 
 export const sendClimate = async (
-  channel: GuildTextBasedChannel,
   city: string,
 ) => {
   try {
@@ -258,10 +257,15 @@ export async function sendClimateToUserDM() {
     if (dmChannel) {
       await sendClimateCurrentTime(dmChannel, user.city)
     } else {
-      const climate = await sendClimateCurrentTime(undefined, user.city, undefined, user.country, true)
-      if (climate && typeof climate !== 'boolean' && 'embeds' in climate) {
-        userDiscord.send(climate)
+      const channel = await channelItsGuildTextChannel(userDiscord)
+
+      if (channel) {
+        const embed = await sendClimate(user.city,)
+        if (embed) {
+          userDiscord.send(embed)
+        }
       }
+
     }
 
   }

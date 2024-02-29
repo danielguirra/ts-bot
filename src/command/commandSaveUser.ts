@@ -47,34 +47,6 @@ export const saveUser = {
 
     commandMessage.reply('usa de /')
 
-    // const user = commandMessage.author;
-    // const guild = commandMessage.guild;
-
-    // if (guild && user) {
-    //   const result = await UserDB.saveNewUser({
-    //     idDiscord: user.id,
-    //     nickname: user.tag,
-    //     username: user.username,
-    //     city: 'Franca',
-    //     country: "Brasil",
-    //     dollarDaily: true,
-    //     climateDaily: true
-    //   })
-    //   const resultString = `${result}`;
-    //   return commandMessage.reply({
-    //     embeds: [
-    //       embedBuilder(
-    //         "Banco de Dados Capivareis",
-    //         resultString,
-    //         "",
-    //         "",
-    //         "",
-    //         "",
-    //         "Green"
-    //       ),
-    //     ],
-    //   });
-    // }
   },
 
 
@@ -109,9 +81,10 @@ export const saveUser = {
             "Green"
           ),
         ],
+        ephemeral: true
       });
     }
-    return commandSlash.reply({ embeds: [embedBuilder("", "")] });
+    return commandSlash.reply('Erro');
   },
 };
 async function saveUserFunc(guild: Guild, user: User, nickLol?: string) {

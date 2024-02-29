@@ -16,7 +16,7 @@ export class UserDB {
       Object.assign(this, user)
    }
 
-   static async getUserByUserIdDiscord(userId: number) {
+   static async getUserByUserIdDiscord(userId: string) {
       try {
 
          const finder = await UserModel.findOne({
@@ -32,7 +32,9 @@ export class UserDB {
          throw new Error('not find user based in userId ' + userId)
 
       } catch (error) {
-         throw error
+         console.error(error);
+
+         return 'Usuário não localizado ❌'
       }
    }
 
@@ -59,28 +61,30 @@ export class UserDB {
       }
    }
 
-   static async updateUserInfo(user: UserTypeDB): Promise<boolean> {
+   static async updateUserInfo(user: UserTypeDB): Promise<string> {
       try {
 
          const finder = await UserModel.findOne({
             where: {
-               id: user.id
+               idDiscord: user.idDiscord
             },
             logging: false
          })
 
          if (finder) {
             await finder.setAttributes(user).save()
-            return true
+            return 'Usuário foi editado com sucesso ✅'
          }
          throw new Error('not find user based in userId ' + user.idDiscord)
 
       } catch (error) {
-         throw error
+         console.error(error)
+
+         return 'Usuário não localizado, para editar ❌'
       }
    }
 
-   static async saveNewUser(user: UserTypeDB): Promise<boolean | string> {
+   static async saveNewUser(user: UserTypeDB) {
       try {
 
          const finder = await UserModel.findOne({
@@ -90,13 +94,15 @@ export class UserDB {
 
          })
 
-         if (!finder?.dataValues) {
-            await UserModel.create(user)
-            return true
+         if (finder?.dataValues) {
+            throw new Error('Usuário já está no banco ❌')
          }
-         return 'Usuário já salvo seu fedido'
-      } catch (error) {
-         throw error
+         await UserModel.create(user)
+         return 'Usuário salvo com sucesso ✅'
+      } catch (error: any) {
+         console.error(error)
+         return error.message as string || 'Erro ❌'
+
       }
    }
 
