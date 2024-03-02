@@ -255,7 +255,7 @@ export async function sendClimateToUserDM() {
 
     const dmChannel = await channelItsGuildTextChannel(userDiscord.dmChannel)
     if (dmChannel) {
-      await sendClimateCurrentTime(dmChannel, user.city)
+      await sendClimate(user.city)
     } else {
       const channel = await channelItsGuildTextChannel(userDiscord)
 
