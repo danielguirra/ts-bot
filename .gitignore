@@ -16,3 +16,4 @@ node_modules
 logs.txt
 database.sqlite
 users.json
+.vscode
