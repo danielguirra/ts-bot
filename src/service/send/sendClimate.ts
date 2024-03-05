@@ -11,65 +11,63 @@ import { channelItsGuildTextChannel } from '../../util/channelItsGuildTextChanne
 
 dotenv.config();
 
-export const sendClimate = async (
-  city: string,
-) => {
-  try {
-    if (!city || city === '*climadodia') {
-      console.log('Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city);
-      return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
-    }
+export const sendClimate = async (city: string) => {
+   try {
+      if (!city || city === '*climadodia') {
+         console.log('Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city);
+         return 'Erro sendClimateCurrentTime ' + ' Cidade? 🤔' + city;
+      }
 
-    const cityNameToReturnInEmbed = city;
-    city = city?.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    let url = `https://pt.wttr.in/${city}+brazil?format=j1`;
+      const cityNameToReturnInEmbed = city;
+      city = city?.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      let url = `https://pt.wttr.in/${city}+brazil?format=j1`;
 
-    return axios.get(url).then(clim => {
-      try {
-        let climatePorHora = [];
-        let weather = clim.data.weather[0].hourly;
-        for (const iterator of weather) {
-          let horario;
-          function arrumahora(time: string) {
-            if (time.length > 2) {
-              horario = time.slice(0, 1);
-              horario = horario + ':00';
+      return axios.get(url).then((clim) => {
+         try {
+            let climatePorHora = [];
+            let weather = clim.data.weather[0].hourly;
+            for (const iterator of weather) {
+               let horario;
+               function arrumahora(time: string) {
+                  if (time.length > 2) {
+                     horario = time.slice(0, 1);
+                     horario = horario + ':00';
+                  }
+                  if (time.length > 3) {
+                     horario = time.slice(0, 2);
+                     horario = horario + ':00';
+                  }
+                  if (time.length === 1) {
+                     horario = '00:00';
+                  }
+               }
+               arrumahora(iterator.time);
+               let heatIndex = iterator.FeelsLikeC;
+               let heatString = `${heatIndex}°`;
+               let emoji = getEmojiForWeatherCode(iterator.weatherCode);
+               let porHora = {
+                  hora: horario,
+                  humidade: iterator.humidity,
+                  text: iterator.lang_pt[0].value,
+                  temp: iterator.tempC,
+                  preciptacaoMM: iterator.precipMM,
+                  raiosUV: iterator.uvIndex,
+                  heatIndex: heatString.slice(0, 4),
+                  emoji,
+               };
+               climatePorHora.push(porHora);
             }
-            if (time.length > 3) {
-              horario = time.slice(0, 2);
-              horario = horario + ':00';
-            }
-            if (time.length === 1) {
-              horario = '00:00';
-            }
-          }
-          arrumahora(iterator.time);
-          let heatIndex = iterator.FeelsLikeC;
-          let heatString = `${heatIndex}°`;
-          let emoji = getEmojiForWeatherCode(iterator.weatherCode);
-          let porHora = {
-            hora: horario,
-            humidade: iterator.humidity,
-            text: iterator.lang_pt[0].value,
-            temp: iterator.tempC,
-            preciptacaoMM: iterator.precipMM,
-            raiosUV: iterator.uvIndex,
-            heatIndex: heatString.slice(0, 4),
-            emoji,
-          };
-          climatePorHora.push(porHora);
-        }
 
-        let climate = {
-          temperaturaMediaC: clim.data.weather[0].avgtempC,
-          porHora: climatePorHora,
-        };
-        return (
-          {
-            embeds: [
-              embedBuilder(
-                `Clima de ${cityNameToReturnInEmbed} Hoje`,
-                `
+            let climate = {
+               temperaturaMediaC: clim.data.weather[0].avgtempC,
+               porHora: climatePorHora,
+            };
+            return (
+               {
+                  embeds: [
+                     embedBuilder(
+                        `Clima de ${cityNameToReturnInEmbed} Hoje`,
+                        `
 	        Temperatura média : ${climate.temperaturaMediaC}C°
 	
 	        Hora:**${climate.porHora[0].hora}**
@@ -138,74 +136,72 @@ export const sendClimate = async (
 	        ----------------------------------------------------
 	        
 	        `,
-                '',
-                '',
-                'https://static.escolakids.uol.com.br/conteudo_legenda/4e3d738c244f4c5f3b56f46260402cc4.jpg',
-                '',
-              ),
-            ],
-          } || ''
-        );
-      } catch (err) {
-        console.log(err);
-        return false;
-      }
-    })
-  } catch (error) {
-    console.log(error)
-  };
+                        '',
+                        '',
+                        'https://static.escolakids.uol.com.br/conteudo_legenda/4e3d738c244f4c5f3b56f46260402cc4.jpg',
+                        ''
+                     ),
+                  ],
+               } || ''
+            );
+         } catch (err) {
+            console.log(err);
+            return false;
+         }
+      });
+   } catch (error) {
+      console.log(error);
+   }
 };
 
-
 export const sendClimateCurrentTime = async (
-  channel?: GuildTextBasedChannel,
-  city?: string,
-  channelSlash?: TextBasedChannel,
-  country?: string,
-  dmChannel?: boolean
+   channel?: GuildTextBasedChannel,
+   city?: string,
+   channelSlash?: TextBasedChannel,
+   country?: string,
+   dmChannel?: boolean
 ) => {
-  try {
-    if (typeof city !== 'string') {
+   try {
+      if (typeof city !== 'string') {
+         throw new Error(
+            'Erro sendClimateCurrentTime ' + ' Cidade? 🤔 ' + city
+         );
+      }
 
-      throw new Error('Erro sendClimateCurrentTime ' + ' Cidade? 🤔 ' + city);
+      if (typeof country !== 'string') {
+         throw new Error(
+            'Erro sendClimateCurrentTime ' + ' Pais? 🤔 ' + country
+         );
+      }
 
-    }
+      const cityNameToReturnInEmbed = city;
 
-    if (typeof country !== 'string') {
+      city = city.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const url = `https://pt.wttr.in/${city}+${country}?format=j1`;
 
-      throw new Error('Erro sendClimateCurrentTime ' + ' Pais? 🤔 ' + country);
+      const climateAxios = await axios.get(url);
+      try {
+         const weather = climateAxios.data.current_condition[0];
+         const climate = getClimateProps(weather, climateAxios);
 
-    }
-
-    const cityNameToReturnInEmbed = city;
-
-    city = city.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    const url = `https://pt.wttr.in/${city}+${country}?format=j1`;
-
-    const climateAxios = await axios.get(url);
-    try {
-
-      const weather = climateAxios.data.current_condition[0];
-      const climate = getClimateProps(weather, climateAxios);
-
-      if (dmChannel) {
-        return {
-          embeds: [
-            embedBuilder(
-              `Clima de ${cityNameToReturnInEmbed} agora ${climate.str_hora}`,
-              ` A temperatura está em :**${climate.temp_C}Cº**
+         if (dmChannel) {
+            return {
+               embeds: [
+                  embedBuilder(
+                     `Clima de ${cityNameToReturnInEmbed} agora ${climate.str_hora}`,
+                     ` A temperatura está em :**${climate.temp_C}Cº**
 	          Humidade em **${climate.humidity}%**
 	          **${climate.text}** ${climate.emoji}
 	          Sensação térmica de **${climate.heatIndex}Cº**
-	        `,
-            ),
-          ],
-        }
-      }
-      if (channelSlash) {
-        return embedBuilder(
-          `Clima de ${cityNameToReturnInEmbed} agora ${climate.str_hora}`,
-          ` A temperatura está por volta de :**${climate.temp_C}Cº**
+	        `
+                  ),
+               ],
+            };
+         }
+         if (channelSlash) {
+            return embedBuilder(
+               `Clima de ${cityNameToReturnInEmbed} agora ${climate.str_hora}`,
+               ` A temperatura está por volta de :**${climate.temp_C}Cº**
 	            Mínima de Hoje é  :**${climate.tempMinC}**
 	            Média de Hoje é :**${climate.avgTempC}**
 	            Máxima de Hoje é  :**${climate.tempMaxC}**
@@ -213,63 +209,65 @@ export const sendClimateCurrentTime = async (
 	            Humidade em **${climate.humidity}%**
 	             **${climate.text}** ${climate.emoji}
 	            Sensação térmica de **${climate.heatIndex}Cº**
-	        `,
-        );
-      }
-      if (channel)
-        try {
-          channel.send({
-            embeds: [
-              embedBuilder(
-                `Clima de ${cityNameToReturnInEmbed} agora ${climate.str_hora}`,
-                ` A temperatura está em :**${climate.temp_C}Cº**
+	        `
+            );
+         }
+         if (channel)
+            try {
+               channel.send({
+                  embeds: [
+                     embedBuilder(
+                        `Clima de ${cityNameToReturnInEmbed} agora ${climate.str_hora}`,
+                        ` A temperatura está em :**${climate.temp_C}Cº**
 	          Humidade em **${climate.humidity}%**
 	          **${climate.text}** ${climate.emoji}
 	          Sensação térmica de **${climate.heatIndex}Cº**
-	        `,
-              ),
-            ],
-          });
-          return true;
-        } catch (error) {
-          console.error(error)
-          return false;
-        }
-    } catch (err) {
-      console.error(err)
+	        `
+                     ),
+                  ],
+               });
+               return true;
+            } catch (error) {
+               console.error(error);
+               return false;
+            }
+      } catch (err) {
+         console.error(err);
+         return false;
+      }
+   } catch (error) {
+      console.error(error);
       return false;
-    }
-  } catch (error) {
-    console.error(error)
-    return false
-  }
-
+   }
 };
 
 export async function sendClimateToUserDM() {
-  const users = await UserDB.getUsersIDsToSendClimate()
-  if (users.length < 1) return
-  for (const user of users) {
+   const users = await UserDB.getUsersIDsToSendClimate();
+   if (users.length < 1) return;
+   for (const user of users) {
+      if (typeof user === 'string') throw new Error(user);
+      const userDiscord = await client.users.fetch(user.idDiscord);
+      const dmChannel = await channelItsGuildTextChannel(userDiscord.dmChannel);
+      setTimeout(async () => {
+         if (dmChannel) {
+            return await sendClimate(user.city);
+         } else {
+            await userDiscord.createDM(true);
+            const embed = await sendClimate(user.city);
+            if (embed) return userDiscord.dmChannel?.send(embed);
 
-    const userDiscord = await client.users.fetch(user.idDiscord);
+            const channel = await channelItsGuildTextChannel(userDiscord);
 
-    const dmChannel = await channelItsGuildTextChannel(userDiscord.dmChannel)
-    if (dmChannel) {
-      await sendClimate(user.city)
-    } else {
-      const channel = await channelItsGuildTextChannel(userDiscord)
+            if (channel) {
+               const embed = await sendClimate(user.city);
+               if (embed) return userDiscord.send(embed);
+               throw new Error(user.username);
+            }
 
-      if (channel) {
-        const embed = await sendClimate(user.city,)
-        if (embed) {
-          userDiscord.send(embed)
-        }
-      }
-
-    }
-
-  }
-
+            throw new Error(user.username);
+         }
+      }, 5000);
+   }
 }
 
 /**
@@ -278,9 +276,9 @@ export async function sendClimateToUserDM() {
  * @return Emoji | String
  */
 function getEmojiForWeatherCode(codeEmojiWeather: number): string {
-  const emoji: any = emojis;
-  const weather: any = weatherCode;
-  return emoji[0][weather[0][codeEmojiWeather]];
+   const emoji: any = emojis;
+   const weather: any = weatherCode;
+   return emoji[0][weather[0][codeEmojiWeather]];
 }
 /**
  *
@@ -289,56 +287,54 @@ function getEmojiForWeatherCode(codeEmojiWeather: number): string {
  * @returns
  */
 function heatIndexCalculator(tempC: any, velWindKm: any) {
-  return (
-    33 + ((10 * Math.sqrt(velWindKm) + 10.45 - velWindKm) * (tempC - 33)) / 22
-  );
+   return (
+      33 + ((10 * Math.sqrt(velWindKm) + 10.45 - velWindKm) * (tempC - 33)) / 22
+   );
 }
 
-const getNameWeekFunc = (x: any) => {
-  return [
-    'Domingo',
-    'Segunda-Feira',
-    'Terça-Feira',
-    'Quarta-Feira',
-    'Quinta-Feira',
-    'Sexta-Feira',
-    'Sábado',
-  ][x];
+const getNameWeekFunc = (x: number) => {
+   return [
+      'Domingo',
+      'Segunda-Feira',
+      'Terça-Feira',
+      'Quarta-Feira',
+      'Quinta-Feira',
+      'Sexta-Feira',
+      'Sábado',
+   ][x];
 };
 function hourNow() {
-  const horaenv: any = process.env.HORA || 3;
-  var data = new Date();
-  var dia = data.getDate(); // 1-31
-  var dia_sem = data.getDay(); // 0-6 (zero=domingo)
-  var mes = data.getMonth(); // 0-11 (zero=janeiro)
-  var ano4 = data.getFullYear(); // 4 dígitos
-  var hora: any = data.getHours(); // 0-23
-  hora = hora - horaenv;
-  var min = data.getMinutes(); // 0-59
-  var seg = data.getSeconds(); // 0-59
-  const getNameWeek = getNameWeekFunc;
-  // Formata a data e a hora (note o mês + 1)
-  var str_data = dia + '/' + (mes + 1) + '/' + ano4;
-  var str_hora = hora + ':' + min + ':' + seg;
-  return { getNameWeek, dia_sem, str_data, str_hora };
+   const horaenv: any = process.env.HORA || 3;
+   var data = new Date();
+   var dia = data.getDate(); // 1-31
+   var dia_sem = data.getDay(); // 0-6 (zero=domingo)
+   var mes = data.getMonth(); // 0-11 (zero=janeiro)
+   var ano4 = data.getFullYear(); // 4 dígitos
+   var hora: any = data.getHours(); // 0-23
+   hora = hora - horaenv;
+   var min = data.getMinutes(); // 0-59
+   var seg = data.getSeconds(); // 0-59
+   const getNameWeek = getNameWeekFunc;
+   // Formata a data e a hora (note o mês + 1)
+   var str_data = dia + '/' + (mes + 1) + '/' + ano4;
+   var str_hora = hora + ':' + min + ':' + seg;
+   return { getNameWeek, dia_sem, str_data, str_hora };
 }
 
-
 function getClimateProps(weather: any, climateAxios: any) {
-
-  let heatIndex = weather.FeelsLikeC;
-  let emoji = getEmojiForWeatherCode(weather.weatherCode);
-  let heatString = `${heatIndex}`;
-  let { str_hora } = hourNow();
-  return {
-    temp_C: weather.temp_C,
-    humidity: weather.humidity,
-    text: weather.lang_pt[0].value,
-    heatIndex: heatString.slice(0, 4),
-    str_hora,
-    emoji,
-    avgTempC: climateAxios.data.weather[0].avgtempC,
-    tempMinC: climateAxios.data.weather[0].mintempC,
-    tempMaxC: climateAxios.data.weather[0].maxtempC,
-  };
+   let heatIndex = weather.FeelsLikeC;
+   let emoji = getEmojiForWeatherCode(weather.weatherCode);
+   let heatString = `${heatIndex}`;
+   let { str_hora } = hourNow();
+   return {
+      temp_C: weather.temp_C,
+      humidity: weather.humidity,
+      text: weather.lang_pt[0].value,
+      heatIndex: heatString.slice(0, 4),
+      str_hora,
+      emoji,
+      avgTempC: climateAxios.data.weather[0].avgtempC,
+      tempMinC: climateAxios.data.weather[0].mintempC,
+      tempMaxC: climateAxios.data.weather[0].maxtempC,
+   };
 }

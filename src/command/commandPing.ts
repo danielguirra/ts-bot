@@ -2,6 +2,7 @@ import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
 
 import { embedBuilder } from "../util/getEmbed";
 import { Command } from "./Builder";
+import { sendClimateToUserDM } from "../service/send/sendClimate";
 
 export const ping: Command = {
   data: new SlashCommandBuilder()
@@ -17,8 +18,11 @@ export const ping: Command = {
   },
   async executeMessageCommand(commandMessage: Message) {
     const result: string = commandMessage.content.replace("*ts ", " ");
+
     return commandMessage.reply({
       embeds: [embedBuilder("TypeScript", result)],
+    }).then((ms) => {
+      sendClimateToUserDM().then((opa) => opa)
     });
   },
 };

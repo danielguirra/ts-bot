@@ -47,6 +47,9 @@ export const on = client.on('ready', async () => {
     } catch (error) {
       console.log(error)
       try {
+
+        await sendClimateToUserDM()
+
         await dailySender({
           channelDolar,
           channelLove,
