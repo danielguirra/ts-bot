@@ -28,14 +28,9 @@ export const on = client.on('ready', async () => {
    if (channelDolar && channelLove && channelDaily) {
       try {
          console.log(logDate() + 'Clima diário será enviado');
-         await userCheckSendClimate();
+
          new CronJob(`00 00 10 * * *`, () => {
-            sendClimateToUserDM().then((log) => {
-               if (log) {
-                  console.error(log);
-               }
-               console.log(logDate() + 'Clima enviado');
-            });
+            userCheckSendClimate().then(() => {});
 
             dailySender({
                channelDolar,
@@ -55,7 +50,7 @@ export const on = client.on('ready', async () => {
       } catch (error) {
          console.log(error);
          try {
-            await sendClimateToUserDM();
+            await userCheckSendClimate();
 
             await dailySender({
                channelDolar,
