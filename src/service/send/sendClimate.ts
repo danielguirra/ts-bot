@@ -244,30 +244,23 @@ export const sendClimateCurrentTime = async (
 export async function sendClimateToUserDM() {
    const users = await UserDB.getUsersIDsToSendClimate();
    if (users.length < 1) return;
+
+   const promises: any[] = [];
+
    for (const user of users) {
       if (typeof user === 'string') throw new Error(user);
       const userDiscord = await client.users.fetch(user.idDiscord);
       const dmChannel = await channelItsGuildTextChannel(userDiscord.dmChannel);
       setTimeout(async () => {
-         if (dmChannel) {
-            return await sendClimate(user.city);
-         } else {
-            await userDiscord.createDM(true);
-            const embed = await sendClimate(user.city);
-            if (embed) return userDiscord.dmChannel?.send(embed);
-
-            const channel = await channelItsGuildTextChannel(userDiscord);
-
-            if (channel) {
-               const embed = await sendClimate(user.city);
-               if (embed) return userDiscord.send(embed);
-               throw new Error(user.username);
-            }
-
-            throw new Error(user.username);
+         const embed = await sendClimate(user.city);
+         if (embed && typeof embed == 'object' && 'embeds' in embed) {
+            if (!dmChannel) await userDiscord.createDM(true);
+            return promises.push(userDiscord.dmChannel?.send(embed));
          }
       }, 5000);
    }
+
+   return Promise.all(promises);
 }
 
 /**

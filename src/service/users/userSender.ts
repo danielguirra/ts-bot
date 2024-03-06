@@ -1,29 +1,28 @@
 import { client } from '../../client/client';
+import { UserDB } from '../../database/users/user.class';
 import { channelItsGuildTextChannel } from '../../util/channelItsGuildTextChannel';
+import { dateLastItsTrue } from '../../util/dateLastItsTrue';
 import { logDate } from '../logDate';
-import { sendClimate } from '../send/sendClimate';
+import { sendClimate, sendClimateToUserDM } from '../send/sendClimate';
 import { users } from './usersDatabase';
 
-export async function userSender() {
-  try {
-    const usersObjc: any = await users();
-    for (const user of usersObjc) {
-      const userSend = await client.users.fetch(user.id);
-      const userChannel = await channelItsGuildTextChannel(userSend);
+export async function userCheckSendClimate() {
+   const users = await UserDB.getUsersIDsToSendClimate();
+   if (users.length < 1) return;
+   const itsTimeToSendClimate: boolean[] = [];
+   for (const user of users) {
+      if (typeof user === 'string') throw new Error(user);
+      const userDiscord = await client.users.fetch(user.idDiscord);
+      const dmChannel = await userDiscord.createDM(true);
 
-      if (!userChannel) throw new Error('User Channel its null')
-
-      const climateToSend = await sendClimate(
-        userChannel,
-        user.userClimate.city,
+      const lastMessage = await dmChannel.messages.fetch(
+         dmChannel.lastMessageId!
       );
-      if (typeof climateToSend != 'object')
-        throw new Error(`${logDate()} 'No climate to send' 'climateToSend its : ${climateToSend}`);
-      userSend.send(climateToSend);
-    }
-    return true
-  } catch (error) {
-    console.log(error);
-    return false
-  }
+
+      itsTimeToSendClimate.push(dateLastItsTrue(lastMessage));
+   }
+   const itsOnlyTrue = itsTimeToSendClimate.every((user) => user == true);
+   if (itsOnlyTrue) {
+      await sendClimateToUserDM();
+   }
 }
