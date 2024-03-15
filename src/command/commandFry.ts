@@ -7,8 +7,6 @@ import {
    SlashCommandBuilder,
 } from 'discord.js';
 
-import * as fs from 'fs';
-import { senderSlash } from '../service/senders/senderSlash';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { loadinCreator } from '../util/loadin';
 import { Command } from './Builder';
@@ -43,15 +41,14 @@ export const fry: Command = {
       const user = commandSlash.options.getUser('target');
       const channel = await channelItsGuildTextChannel(commandSlash.channel);
       if (user && channel) {
-         return loadinCreator(commandSlash, undefined, 'Carregando').then(
+         return loadinCreator(
+            commandSlash,
             async () => {
-               const canvas = await canvasCreatorFry(
+               return await canvasCreatorFry(
                   user.displayAvatarURL({ extension: 'png' })
                );
-               if (canvas) {
-                  await senderSlash(channel, canvas, user);
-               }
-            }
+            },
+            undefined
          );
       }
    },
@@ -71,7 +68,6 @@ async function canvasCreatorFry(
    const user = await loadImage(avatarUrl);
    context.drawImage(user, 260, 170, 180, 180);
 
-   fs.writeFileSync('image.jpg', canvas.toBuffer());
    const attachment = new AttachmentBuilder(canvas.toBuffer(), {
       name: 'burgues.png',
    });
