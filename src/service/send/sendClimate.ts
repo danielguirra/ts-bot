@@ -8,6 +8,7 @@ import { embedBuilder } from '../../util/getEmbed';
 import { UserDB } from '../../database/users/user.class';
 import { client } from '../../client/client';
 import { channelItsGuildTextChannel } from '../../util/channelItsGuildTextChannel';
+import { UserToSendClimate } from '../users/userSender';
 
 dotenv.config();
 
@@ -241,26 +242,17 @@ export const sendClimateCurrentTime = async (
    }
 };
 
-export async function sendClimateToUserDM() {
-   const users = await UserDB.getUsersIDsToSendClimate();
+export async function sendClimateToUserDM(users: UserToSendClimate[]) {
    if (users.length < 1) return;
-
    const promises: any[] = [];
-
-   for (const user of users) {
-      if (typeof user === 'string') throw new Error(user);
-      const userDiscord = await client.users.fetch(user.idDiscord);
-      const dmChannel = await channelItsGuildTextChannel(userDiscord.dmChannel);
-      setTimeout(async () => {
-         const embed = await sendClimate(user.city);
-         if (embed && typeof embed == 'object' && 'embeds' in embed) {
-            if (!dmChannel) await userDiscord.createDM(true);
-            return promises.push(userDiscord.dmChannel?.send(embed));
-         }
-      }, 5000);
+   for (const { userDiscord, dmChannel, city } of users) {
+      const embed = await sendClimate(city);
+      if (embed && typeof embed == 'object' && 'embeds' in embed) {
+         console.log('Clima enviado para ', userDiscord.username);
+         return promises.push(dmChannel.send(embed));
+      }
    }
-
-   return Promise.all(promises);
+   return Promise.allSettled(promises);
 }
 
 /**

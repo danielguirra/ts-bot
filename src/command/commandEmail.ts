@@ -1,21 +1,21 @@
 import {
-  CommandInteraction,
-  GuildTextBasedChannel,
-  Message,
-  PartialMessage,
-  SlashCommandBuilder,
-  User,
-} from "discord.js";
-import nodemailer from "nodemailer";
+   CommandInteraction,
+   GuildTextBasedChannel,
+   Message,
+   PartialMessage,
+   SlashCommandBuilder,
+   User,
+} from 'discord.js';
+import nodemailer from 'nodemailer';
 
-import { embedBuilder } from "../../src/util/getEmbed";
-import { client } from "../client/client";
-import { channelItsGuildTextChannel } from "../util/channelItsGuildTextChannel";
-import { Command } from "./Builder";
+import { embedBuilder } from '../../src/util/getEmbed';
+import { client } from '../client/client';
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { Command } from './Builder';
 
 const emailbody: { text: string; email: string }[] = [];
 const regex = new RegExp(
-  "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+   "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
 );
 /**
  * Don't forget to export
@@ -24,208 +24,215 @@ const regex = new RegExp(
  * @danielguirra
  */
 export const email: Command = {
-  data: new SlashCommandBuilder()
-    .setName("email")
-    .setDescription('envia um email"')
-    .addStringOption((options) =>
-      options
-        .setName("destinatário")
-        .setDescription("email que vai receber")
-        .setRequired(true)
-    )
-    .addStringOption((options) =>
-      options
-        .setName("texto")
-        .setDescription("texto a ser enviado")
-        .setRequired(true)
-    ),
-  async executeMessageCommand(commandMessage: Message) {
-    const email = commandMessage.content.replace("*email ", "");
-    if (!regex.test(email)) return commandMessage.reply("Verifique o email");
-    const filter = (m: Message) => m.author.id === commandMessage.author.id;
-    commandMessage.channel
-      .send({
-        embeds: [
-          embedBuilder(
-            "Email ativado",
-            `Será enviado para ${email} 
+   data: new SlashCommandBuilder()
+      .setName('email')
+      .setDescription('envia um email"')
+      .addStringOption((options) =>
+         options
+            .setName('destinatário')
+            .setDescription('email que vai receber')
+            .setRequired(true)
+      )
+      .addStringOption((options) =>
+         options
+            .setName('texto')
+            .setDescription('texto a ser enviado')
+            .setRequired(true)
+      ),
+   async executeMessageCommand(commandMessage: Message) {
+      const email = commandMessage.content.replace('*email ', '');
+      if (!regex.test(email)) return commandMessage.reply('Verifique o email');
+      const filter = (m: Message) => m.author.id === commandMessage.author.id;
+      commandMessage.channel
+         .send({
+            embeds: [
+               embedBuilder(
+                  'Email ativado',
+                  `Será enviado para ${email} 
         não esqueça de usar *texto 
         `
-          ),
-        ],
-      })
-      .then(async () => {
-        await commandMessage.channel
-          .awaitMessages({
-            filter,
-            time: 10000,
-            errors: ["time"],
-          })
-          .catch(async (m) => {
-            const messageFirst: Message = m.first();
-            const text = messageFirst.content.replace("*texto ", "");
+               ),
+            ],
+         })
+         .then(async () => {
+            await commandMessage.channel
+               .awaitMessages({
+                  filter,
+                  time: 10000,
+                  errors: ['time'],
+               })
+               .catch(async (m) => {
+                  const messageFirst: Message = m.first();
+                  const text = messageFirst.content.replace('*texto ', '');
 
-            await textFunction(
-              { text, email },
-              commandMessage,
-              commandMessage.author
-            );
-          });
-      });
-  },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    if (!commandSlash.isChatInputCommand()) return;
-    const text = commandSlash.options.getString("texto") || "";
-    const email = commandSlash.options.getString("destinatário") || "";
-    if (!regex.test(email)) return commandSlash.reply("Verifique o email");
-    const filter = (m: Message) => m.author.id === commandSlash.client.user?.id;
-    commandSlash.channel?.send({
-      embeds: [
-        embedBuilder(
-          "Email ativado",
-          `Será enviado para ${email} 
+                  await textFunction(
+                     { text, email },
+                     commandMessage,
+                     commandMessage.author
+                  );
+               });
+         });
+   },
+   async executeSlashCommand(commandSlash: CommandInteraction) {
+      if (!commandSlash.isChatInputCommand()) return;
+      const text = commandSlash.options.getString('texto') || '';
+      const email = commandSlash.options.getString('destinatário') || '';
+      if (!regex.test(email)) return commandSlash.reply('Verifique o email');
+      const filter = (m: Message) =>
+         m.author.id === commandSlash.client.user?.id;
+      commandSlash.channel?.send({
+         embeds: [
+            embedBuilder(
+               'Email ativado',
+               `Será enviado para ${email} 
         não esqueça de usar *texto 
         `
-        ),
-      ],
-    });
-    if (commandSlash.channel)
-      await textFunction({ text, email }, commandSlash, commandSlash.user);
-  },
+            ),
+         ],
+      });
+      if (commandSlash.channel)
+         await textFunction({ text, email }, commandSlash, commandSlash.user);
+   },
 };
 
 async function textFunction(
-  emailbody: { text: string; email: string },
-  commandMessage: Message<boolean> | PartialMessage | CommandInteraction,
-  author: User
+   emailbody: { text: string; email: string },
+   commandMessage: Message<boolean> | PartialMessage | CommandInteraction,
+   author: User
 ) {
-  if (emailbody.text && commandMessage.channel) {
-    const messageSendOrEdit = commandMessage.channel.send({
-      embeds: [
-        embedBuilder(
-          `Opa`,
-          `${author}
+   if (emailbody.text && commandMessage.channel) {
+      const messageSendOrEdit = commandMessage.channel.send({
+         embeds: [
+            embedBuilder(
+               `Opa`,
+               `${author}
                     O texto foi capturado com sucesso 
                     se deseja enviar precione: ✅ 
                     agora se deseja revisar 🤔`
-        ),
-      ],
-    });
-    const messageReact = await messageSendOrEdit;
-    messageReact.react("✅");
-    messageReact.react("🤔");
-    const resul = await messageReactionAddConstructorForEmail(
-      messageReact.id,
-      emailbody.text,
-      author,
-      emailbody.email
-    );
-  }
+            ),
+         ],
+      });
+      const messageReact = await messageSendOrEdit;
+      messageReact.react('✅');
+      messageReact.react('🤔');
+      const resul = await messageReactionAddConstructorForEmail(
+         messageReact.id,
+         emailbody.text,
+         author,
+         emailbody.email
+      );
+   }
 }
 
 function sendAfterReaction(
-  message: string,
-  email: string,
-  messageChannel: GuildTextBasedChannel
+   message: string,
+   email: string,
+   messageChannel: GuildTextBasedChannel
 ) {
-  emailbody.push({
-    text: message,
-    email,
-  });
-  if (emailbody.length >= 2) {
-    if (
-      emailbody[0].text === emailbody[1].text &&
-      emailbody[0].email === emailbody[1].email
-    )
-      return emailbody.pop();
-  }
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL, //Change this to your gmail email
-      pass: process.env.PASS, //Your password
-    },
-  });
-  const mailOptions = {
-    from: `${email}`,
-    to: `${email}`,
-    subject: "Email via Discord",
-    text: `${message}`,
-  };
-  messageChannel.send("Tentando enviar");
-  const sender = transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-      messageChannel.send("Email não Enviado erro " + error);
+   emailbody.push({
+      text: message,
+      email,
+   });
+   if (emailbody.length >= 2) {
+      if (
+         emailbody[0].text === emailbody[1].text &&
+         emailbody[0].email === emailbody[1].email
+      )
+         return emailbody.pop();
+   }
+   const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+         user: process.env.EMAIL, //Change this to your gmail email
+         pass: process.env.PASS, //Your password
+      },
+   });
+   const mailOptions = {
+      from: `${email}`,
+      to: `${email}`,
+      subject: 'Email via Discord',
+      text: `${message}`,
+   };
+   messageChannel.send('Tentando enviar');
+   const sender = transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+         console.log(error);
+         messageChannel.send('Email não Enviado erro ' + error);
+         return;
+      } else {
+         messageChannel.send('Enviado');
+         console.log('Email enviado ' + email);
+         return;
+      }
       return;
-    } else {
-      messageChannel.send("Enviado");
-      console.log("Email enviado " + email);
-      return;
-    }
-    return;
-  });
-  return;
+   });
+   return;
 }
 
 async function messageReactionAddConstructorForEmail(
-  reactionId: string,
-  text: string,
-  userSender: User | null,
-  email: string
+   reactionId: string,
+   text: string,
+   userSender: User | null,
+   email: string
 ) {
-  let idMessageForDelete: string;
-  client.on("messageReactionAdd", async (reaction, user) => {
-    if (user != userSender) return;
-    if (reaction.message.id != reactionId) return;
-    if (reaction.partial) {
-      try {
-        await reaction.fetch();
-      } catch (error) {
-        console.error("Something went wrong when fetching the message:", error);
-        return;
+   let idMessageForDelete: string;
+   client.on('messageReactionAdd', async (reaction, user) => {
+      if (user != userSender) return;
+      if (reaction.message.id != reactionId) return;
+      if (reaction.partial) {
+         try {
+            await reaction.fetch();
+         } catch (error) {
+            console.error(
+               'Something went wrong when fetching the message:',
+               error
+            );
+            return;
+         }
       }
-    }
-    if (reaction.emoji.name === "✅") {
-      const cha = await channelItsGuildTextChannel(reaction.message.channel);
-      if (cha) {
-        const sender = sendAfterReaction(text, email, cha);
-      } else {
-        console.log(cha);
+      if (reaction.emoji.name === '✅') {
+         const cha = await channelItsGuildTextChannel(reaction.message.channel);
+         if (cha) {
+            const sender = sendAfterReaction(text, email, cha);
+         } else {
+            console.log(cha);
+         }
       }
-    }
-    if (reaction.emoji.name === "🤔") {
-      const teste = await reaction.message.channel.send({
-        embeds: [
-          embedBuilder(
-            "Texto do email",
-            `${text}
+      if (reaction.emoji.name === '🤔') {
+         const teste = await reaction.message.channel.send({
+            embeds: [
+               embedBuilder(
+                  'Texto do email',
+                  `${text}
         
         se para fechar precione novamente no 🤔`
-          ),
-        ],
-      });
-      idMessageForDelete = teste.id;
-    }
-  });
-  client.on("messageReactionRemove", async (reaction, user) => {
-    if (user != userSender) return;
-    if (reaction.message.id != reactionId) return;
-    if (reaction.partial) {
-      try {
-        await reaction.fetch();
-      } catch (error) {
-        console.error("Something went wrong when fetching the message:", error);
-        return;
+               ),
+            ],
+         });
+         idMessageForDelete = teste.id;
       }
-    }
-    if (reaction.emoji.name === "🤔") {
-      const cha = await channelItsGuildTextChannel(reaction.message.channel);
-      if (cha) {
-        const channelMessage = cha.messages;
-        const messageForDelete = channelMessage.resolve(idMessageForDelete);
-        messageForDelete?.delete();
+   });
+   client.on('messageReactionRemove', async (reaction, user) => {
+      if (user != userSender) return;
+      if (reaction.message.id != reactionId) return;
+      if (reaction.partial) {
+         try {
+            await reaction.fetch();
+         } catch (error) {
+            console.error(
+               'Something went wrong when fetching the message:',
+               error
+            );
+            return;
+         }
       }
-    }
-  });
+      if (reaction.emoji.name === '🤔') {
+         const cha = await channelItsGuildTextChannel(reaction.message.channel);
+         if (cha) {
+            const channelMessage = cha.messages;
+            const messageForDelete = channelMessage.resolve(idMessageForDelete);
+            messageForDelete?.delete();
+         }
+      }
+   });
 }

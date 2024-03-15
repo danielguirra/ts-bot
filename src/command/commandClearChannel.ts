@@ -1,8 +1,8 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
+import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
 
-import { embedBuilder } from "../../src/util/getEmbed";
-import { channelItsGuildTextChannel } from "../util/channelItsGuildTextChannel";
-import { Command } from "./Builder";
+import { embedBuilder } from '../../src/util/getEmbed';
+import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { Command } from './Builder';
 
 /**
  * Don't forget to export
@@ -11,48 +11,48 @@ import { Command } from "./Builder";
  * @danielguirra
  */
 export const clearChannel: Command = {
-  data: new SlashCommandBuilder()
-    .setName("cls")
-    .setDescription("apaga mensagem de ate 15 dias")
-    .addIntegerOption((options) =>
-      options
-        .setName("value")
-        .setDescription("valor a ser deletedo")
-        .setRequired(true)
-    ),
-  async executeMessageCommand(commandMessage: Message) {
-    const numberMessageToDelete: number = stringForNumber(
-      commandMessage.content.replace("*cls ", "")
-    );
-    const channel = await channelItsGuildTextChannel(commandMessage.channel);
-    if (channel) {
-      const del = await channel.bulkDelete(numberMessageToDelete);
-      if (del) {
-        commandMessage.reply("Foi apagado " + numberMessageToDelete);
-        const time = await new Promise((f) => setTimeout(f, 1000));
-        channel.bulkDelete(1);
+   data: new SlashCommandBuilder()
+      .setName('cls')
+      .setDescription('apaga mensagem de ate 15 dias')
+      .addIntegerOption((options) =>
+         options
+            .setName('value')
+            .setDescription('valor a ser deletedo')
+            .setRequired(true)
+      ),
+   async executeMessageCommand(commandMessage: Message) {
+      const numberMessageToDelete: number = stringForNumber(
+         commandMessage.content.replace('*cls ', '')
+      );
+      const channel = await channelItsGuildTextChannel(commandMessage.channel);
+      if (channel) {
+         const del = await channel.bulkDelete(numberMessageToDelete);
+         if (del) {
+            commandMessage.reply('Foi apagado ' + numberMessageToDelete);
+            const time = await new Promise((f) => setTimeout(f, 1000));
+            channel.bulkDelete(1);
+         }
       }
-    }
-  },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    if (!commandSlash.isChatInputCommand()) return;
-    const numberMessageToDelete: number = stringForNumber(
-      commandSlash.options.get("value")
-    );
-    const channel = await channelItsGuildTextChannel(commandSlash.channel);
-    if (channel) {
-      const del = await channel.bulkDelete(numberMessageToDelete);
-      if (del) {
-        commandSlash.reply("Foi apagado " + numberMessageToDelete);
-        const time = await new Promise((f) => setTimeout(f, 1000));
-        channel.bulkDelete(1);
+   },
+   async executeSlashCommand(commandSlash: CommandInteraction) {
+      if (!commandSlash.isChatInputCommand()) return;
+      const numberMessageToDelete: number = stringForNumber(
+         commandSlash.options.get('value')
+      );
+      const channel = await channelItsGuildTextChannel(commandSlash.channel);
+      if (channel) {
+         const del = await channel.bulkDelete(numberMessageToDelete);
+         if (del) {
+            commandSlash.reply('Foi apagado ' + numberMessageToDelete);
+            const time = await new Promise((f) => setTimeout(f, 1000));
+            channel.bulkDelete(1);
+         }
       }
-    }
-    return commandSlash.reply({ embeds: [embedBuilder("", "")] });
-  },
+      return commandSlash.reply({ embeds: [embedBuilder('', '')] });
+   },
 };
 
 function stringForNumber(numberString: any) {
-  const number: number = numberString;
-  return number;
+   const number: number = numberString;
+   return number;
 }

@@ -9,13 +9,13 @@ import { embedBuilder } from '../../src/util/getEmbed';
  * @danielguirra
  */
 export const skillchampleagueoflegends = {
-  data: new SlashCommandBuilder()
-    .setName('skillchampleagueoflegends')
-    .setDescription('skillchampleagueoflegends'),
-  async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply({ embeds: [embedBuilder('', '')] });
-  },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    return commandSlash.reply({ embeds: [embedBuilder('', '')] });
-  },
+   data: new SlashCommandBuilder()
+      .setName('skillchampleagueoflegends')
+      .setDescription('skillchampleagueoflegends'),
+   async executeMessageCommand(commandMessage: Message) {
+      return commandMessage.reply({ embeds: [embedBuilder('', '')] });
+   },
+   async executeSlashCommand(commandSlash: CommandInteraction) {
+      return commandSlash.reply({ embeds: [embedBuilder('', '')] });
+   },
 };

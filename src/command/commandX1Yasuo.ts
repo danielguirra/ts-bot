@@ -9,11 +9,11 @@ import { embedBuilder } from '../../src/util/getEmbed';
  * @danielguirra
  */
 export const x1yasuo = {
-  data: new SlashCommandBuilder().setName('x1yasuo').setDescription('x1yasuo'),
-  async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply({ embeds: [embedBuilder('', '')] });
-  },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    return commandSlash.reply({ embeds: [embedBuilder('', '')] });
-  },
+   data: new SlashCommandBuilder().setName('x1yasuo').setDescription('x1yasuo'),
+   async executeMessageCommand(commandMessage: Message) {
+      return commandMessage.reply({ embeds: [embedBuilder('', '')] });
+   },
+   async executeSlashCommand(commandSlash: CommandInteraction) {
+      return commandSlash.reply({ embeds: [embedBuilder('', '')] });
+   },
 };

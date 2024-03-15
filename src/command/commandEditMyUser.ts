@@ -1,8 +1,8 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
+import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
 
-import { embedBuilder } from "../../src/util/getEmbed";
-import { Command } from "./Builder";
-import { UserDB } from "../database/users/user.class";
+import { embedBuilder } from '../../src/util/getEmbed';
+import { UserDB } from '../database/users/user.class';
+import { Command } from './Builder';
 
 /**
  * Don't forget to export
@@ -12,37 +12,33 @@ import { UserDB } from "../database/users/user.class";
  */
 export const editUser: Command = {
    data: new SlashCommandBuilder()
-      .setName("editabanco")
-      .setDescription("edita seu usuário do banco")
+      .setName('editabanco')
+      .setDescription('edita seu usuário do banco')
 
       .addStringOption((options) =>
          options
-            .setName("cidade")
-            .setDescription("sua cidade")
-            .setRequired(true)
-      ).addStringOption((options) =>
-         options
-            .setName("pais")
-            .setDescription("seu pais")
-            .setRequired(true)
-      ).addBooleanOption((options) =>
-         options
-            .setName("clima")
-            .setDescription("quer o clima diário?")
+            .setName('cidade')
+            .setDescription('sua cidade')
             .setRequired(true)
       )
-   ,
+      .addStringOption((options) =>
+         options.setName('pais').setDescription('seu pais').setRequired(true)
+      )
+      .addBooleanOption((options) =>
+         options
+            .setName('clima')
+            .setDescription('quer o clima diário?')
+            .setRequired(true)
+      ),
    async executeMessageCommand(commandMessage: Message) {
-      return commandMessage.reply('usa comando em /')
-
+      return commandMessage.reply('usa comando em /');
    },
    async executeSlashCommand(commandSlash: CommandInteraction) {
       if (!commandSlash.isChatInputCommand()) return;
-      const pais = commandSlash.options.getString("pais");
-      const city = commandSlash.options.getString("cidade");
-      const climateDaily = commandSlash.options.getBoolean("clima");
+      const pais = commandSlash.options.getString('pais');
+      const city = commandSlash.options.getString('cidade');
+      const climateDaily = commandSlash.options.getBoolean('clima');
       const user = commandSlash.user;
-
 
       if (user && pais && city && climateDaily) {
          const result = await UserDB.updateUserInfo({
@@ -52,24 +48,24 @@ export const editUser: Command = {
             city: city,
             country: pais,
             dollarDaily: true,
-            climateDaily
-         })
+            climateDaily,
+         });
          const resultString = `${result}`;
          return commandSlash.reply({
             embeds: [
                embedBuilder(
-                  "Banco de Dados Capivareis",
+                  'Banco de Dados Capivareis',
                   resultString,
-                  "",
-                  "",
-                  "",
-                  "",
-                  "Green"
+                  '',
+                  '',
+                  '',
+                  '',
+                  'Green'
                ),
             ],
-            ephemeral: true
-         },);
+            ephemeral: true,
+         });
       }
       return commandSlash.reply('Erro');
-   }
-}
+   },
+};

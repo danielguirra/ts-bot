@@ -9,13 +9,13 @@ import { embedBuilder } from '../../src/util/getEmbed';
  * @danielguirra
  */
 export const translate = {
-  data: new SlashCommandBuilder()
-    .setName('translate')
-    .setDescription('translate'),
-  async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply({ embeds: [embedBuilder('', '')] });
-  },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    return commandSlash.reply({ embeds: [embedBuilder('', '')] });
-  },
+   data: new SlashCommandBuilder()
+      .setName('translate')
+      .setDescription('translate'),
+   async executeMessageCommand(commandMessage: Message) {
+      return commandMessage.reply({ embeds: [embedBuilder('', '')] });
+   },
+   async executeSlashCommand(commandSlash: CommandInteraction) {
+      return commandSlash.reply({ embeds: [embedBuilder('', '')] });
+   },
 };

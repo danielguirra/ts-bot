@@ -9,13 +9,13 @@ import { embedBuilder } from '../../src/util/getEmbed';
  * @danielguirra
  */
 export const siginificado = {
-  data: new SlashCommandBuilder()
-    .setName('siginificado')
-    .setDescription('siginificado'),
-  async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply({ embeds: [embedBuilder('', '')] });
-  },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    return commandSlash.reply({ embeds: [embedBuilder('', '')] });
-  },
+   data: new SlashCommandBuilder()
+      .setName('siginificado')
+      .setDescription('siginificado'),
+   async executeMessageCommand(commandMessage: Message) {
+      return commandMessage.reply({ embeds: [embedBuilder('', '')] });
+   },
+   async executeSlashCommand(commandSlash: CommandInteraction) {
+      return commandSlash.reply({ embeds: [embedBuilder('', '')] });
+   },
 };

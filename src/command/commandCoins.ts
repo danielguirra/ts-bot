@@ -1,7 +1,7 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
+import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
 
-import { embedBuilder } from "../../src/util/getEmbed";
-import { Command } from "./Builder";
+import { embedBuilder } from '../../src/util/getEmbed';
+import { Command } from './Builder';
 
 /**
  * Don't forget to export
@@ -10,34 +10,34 @@ import { Command } from "./Builder";
  * @danielguirra
  */
 export const coins: Command = {
-  data: new SlashCommandBuilder()
-    .setName("moedas")
-    .setDescription("lista de moedas"),
-  async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply({
-      embeds: [
-        embedBuilder(
-          "Lista de moedas ",
-          `${commandMessage.author}
+   data: new SlashCommandBuilder()
+      .setName('moedas')
+      .setDescription('lista de moedas'),
+   async executeMessageCommand(commandMessage: Message) {
+      return commandMessage.reply({
+         embeds: [
+            embedBuilder(
+               'Lista de moedas ',
+               `${commandMessage.author}
     
     ${moedas}`
-        ),
-      ],
-    });
-  },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    if (!commandSlash.isChatInputCommand()) return;
-    return commandSlash.reply({
-      embeds: [
-        embedBuilder(
-          "Lista de moedas",
-          `${commandSlash.user}
+            ),
+         ],
+      });
+   },
+   async executeSlashCommand(commandSlash: CommandInteraction) {
+      if (!commandSlash.isChatInputCommand()) return;
+      return commandSlash.reply({
+         embeds: [
+            embedBuilder(
+               'Lista de moedas',
+               `${commandSlash.user}
     
     ${moedas}`
-        ),
-      ],
-    });
-  },
+            ),
+         ],
+      });
+   },
 };
 
 const moedas = `  AED	Dirham dos Emirados Árabes Unidos

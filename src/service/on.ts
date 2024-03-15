@@ -6,7 +6,6 @@ import { client } from '../client/client';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { dailySender } from './dailySender';
 import { logDate } from './logDate';
-import { sendClimateToUserDM } from './send/sendClimate';
 import { userCheckSendClimate } from './users/userSender';
 
 dotenv.config();
@@ -31,7 +30,6 @@ export const on = client.on('ready', async () => {
 
          new CronJob(`00 00 10 * * *`, () => {
             userCheckSendClimate().then(() => {});
-
             dailySender({
                channelDolar,
                channelLove,

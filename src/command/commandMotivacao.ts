@@ -10,32 +10,32 @@ import { pensador } from '../util/pensador';
  * @danielguirra
  */
 export const motivacao = {
-  data: new SlashCommandBuilder()
-    .setName('motivacao')
-    .setDescription('motivacao uma mensagem motivacional será enviada'),
-  async executeMessageCommand(commandMessage: Message) {
-    const motivacaoFunc = await pensador.getFromMotivacionais();
-    if (motivacaoFunc) {
-      const embed = await googleImagePensador(
-        embedAux,
-        motivacaoFunc,
-        commandMessage,
-      );
-    }
-  },
-  async executeSlashCommand(commandSlash: Interaction) {
-    if (!commandSlash.isChatInputCommand()) return;
-    const motivacaoFunc = await pensador.getFromMotivacionais();
-    if (motivacaoFunc) {
-      const embed = await googleImagePensador(
-        embedAux,
-        motivacaoFunc,
-        commandSlash,
-      );
-    }
-  },
+   data: new SlashCommandBuilder()
+      .setName('motivacao')
+      .setDescription('motivacao uma mensagem motivacional será enviada'),
+   async executeMessageCommand(commandMessage: Message) {
+      const motivacaoFunc = await pensador.getFromMotivacionais();
+      if (motivacaoFunc) {
+         const embed = await googleImagePensador(
+            embedAux,
+            motivacaoFunc,
+            commandMessage
+         );
+      }
+   },
+   async executeSlashCommand(commandSlash: Interaction) {
+      if (!commandSlash.isChatInputCommand()) return;
+      const motivacaoFunc = await pensador.getFromMotivacionais();
+      if (motivacaoFunc) {
+         const embed = await googleImagePensador(
+            embedAux,
+            motivacaoFunc,
+            commandSlash
+         );
+      }
+   },
 };
 
 const embedAux = {
-  embedTitle: 'Messagem Motivacional',
+   embedTitle: 'Messagem Motivacional',
 };
