@@ -8,9 +8,8 @@ import {
    User,
 } from 'discord.js';
 
-import { loadin } from '../service/send/loadin';
-import { senderSlash } from '../service/send/senderSlash';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadinCreator } from '../util/loadin';
 import { Command } from './Builder';
 
 /**
@@ -39,14 +38,14 @@ export const pdl: Command = {
    async executeSlashCommand(commandSlash: CommandInteraction) {
       if (!commandSlash.isChatInputCommand()) return;
       const user = commandSlash.options.getUser('target');
-      const channel = await channelItsGuildTextChannel(commandSlash.channel);
-      if (user && channel) {
-         return loadin(commandSlash)?.then(async () => {
-            const canvas = await getCanvasPdl(user);
-            if (canvas) {
-               await senderSlash(channel, canvas, user);
-            }
-         });
+      if (user) {
+         return loadinCreator(
+            commandSlash,
+            async () => {
+               return await getCanvasPdl(user);
+            },
+            undefined
+         ).then();
       }
    },
 };

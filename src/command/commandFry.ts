@@ -7,11 +7,11 @@ import {
    SlashCommandBuilder,
 } from 'discord.js';
 
-import { loadin } from '../service/send/loadin';
-import { senderSlash } from '../service/send/senderSlash';
+import * as fs from 'fs';
+import { senderSlash } from '../service/senders/senderSlash';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadinCreator } from '../util/loadin';
 import { Command } from './Builder';
-
 /**
  * Don't forget to export
  * Não esqueça de exportar
@@ -43,14 +43,16 @@ export const fry: Command = {
       const user = commandSlash.options.getUser('target');
       const channel = await channelItsGuildTextChannel(commandSlash.channel);
       if (user && channel) {
-         return loadin(commandSlash)?.then(async () => {
-            const canvas = await canvasCreatorFry(
-               user.displayAvatarURL({ extension: 'png' })
-            );
-            if (canvas) {
-               await senderSlash(channel, canvas, user);
+         return loadinCreator(commandSlash, undefined, 'Carregando').then(
+            async () => {
+               const canvas = await canvasCreatorFry(
+                  user.displayAvatarURL({ extension: 'png' })
+               );
+               if (canvas) {
+                  await senderSlash(channel, canvas, user);
+               }
             }
-         });
+         );
       }
    },
 };
@@ -69,6 +71,7 @@ async function canvasCreatorFry(
    const user = await loadImage(avatarUrl);
    context.drawImage(user, 260, 170, 180, 180);
 
+   fs.writeFileSync('image.jpg', canvas.toBuffer());
    const attachment = new AttachmentBuilder(canvas.toBuffer(), {
       name: 'burgues.png',
    });

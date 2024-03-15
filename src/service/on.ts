@@ -4,9 +4,9 @@ import dotenv from 'dotenv';
 
 import { client } from '../client/client';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
-import { dailySender } from './dailySender';
-import { logDate } from './logDate';
-import { userCheckSendClimate } from './users/userSender';
+import { logDate } from '../util/logDate';
+import { userCheckSendClimate } from './senders/climateDMSender';
+import { dailySender } from './senders/dailySender';
 
 dotenv.config();
 

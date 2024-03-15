@@ -6,9 +6,8 @@ import {
    SlashCommandBuilder,
 } from 'discord.js';
 
-import { loadin } from '../service/send/loadin';
-import { senderSlash } from '../service/send/senderSlash';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadinCreator } from '../util/loadin';
 import { Command } from './Builder';
 
 /**
@@ -51,12 +50,13 @@ export const buzz: Command = {
       const user = commandSlash.options.getUser('target');
       const channel = await channelItsGuildTextChannel(commandSlash.channel);
       if (user1 && user2 && channel && user) {
-         return loadin(commandSlash)?.then(async () => {
-            const canvas = await buzzImageCanvasBuilder(user1, user2);
-            if (canvas) {
-               await senderSlash(channel, canvas, user);
-            }
-         });
+         return loadinCreator(
+            commandSlash,
+            async () => {
+               return await buzzImageCanvasBuilder(user1, user2);
+            },
+            undefined
+         );
       }
 
       return;

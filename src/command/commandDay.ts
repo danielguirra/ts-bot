@@ -6,7 +6,7 @@ import {
 } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
-import { dailySender } from '../service/dailySender';
+import { dailySender } from '../service/senders/dailySender';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { Command } from './Builder';
 

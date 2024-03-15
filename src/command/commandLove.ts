@@ -1,6 +1,6 @@
 import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
-import { sendLoveMessageDaily } from '../service/send/sendLoveMessageDaily';
+import { sendLoveMessageDaily } from '../service/senders/sendLoveMessageDaily';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 
 /**

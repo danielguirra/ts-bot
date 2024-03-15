@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
 
-import { sendClimateCurrentTime } from '../service/send/sendClimate';
+import { sendClimateCurrentTime } from '../service/senders/sendClimate';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { Command } from './Builder';
 

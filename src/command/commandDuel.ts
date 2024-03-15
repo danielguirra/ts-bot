@@ -7,9 +7,8 @@ import {
    User,
 } from 'discord.js';
 
-import { loadin } from '../service/send/loadin';
-import { senderSlash } from '../service/send/senderSlash';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadinCreator } from '../util/loadin';
 import { Command } from './Builder';
 
 /**
@@ -42,12 +41,13 @@ export const duel: Command = {
       const user = commandSlash.user;
       const channel = await channelItsGuildTextChannel(commandSlash.channel);
       if (channel && user2) {
-         return loadin(commandSlash)?.then(async () => {
-            const canvas = await canvasDuel(user, user2);
-            if (canvas) {
-               await senderSlash(channel, canvas, user2);
-            }
-         });
+         return loadinCreator(
+            commandSlash,
+            async () => {
+               return await canvasDuel(user, user2);
+            },
+            undefined
+         );
       }
    },
 };

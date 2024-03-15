@@ -1,34 +1,47 @@
 import {
-  CommandInteraction,
-  GuildTextBasedChannel,
-  Message,
-  MessageCreateOptions,
-  MessagePayload,
-  TextBasedChannel,
+   AttachmentBuilder,
+   ChatInputCommandInteraction,
+   Embed,
+   Message,
 } from 'discord.js';
 
-import { deleter } from './delLastMessageById';
-
 export async function loadinCreator(
-  command: Message | CommandInteraction,
-  exec: func,
-  sender?: any,
+   command: Message | ChatInputCommandInteraction,
+   exec: Function = function () {},
+   sender: Embed | Embed[] | string | AttachmentBuilder | undefined
 ) {
-  command.reply('Carregando...').then(async () => {
-    const last: TextBasedChannel | null = exec.channel;
-    if (last && !sender) {
-      await deleter(last);
-      await exec.func;
-    }
-    if (sender && last) {
-      await deleter(last);
-      const imageSender: string | MessagePayload | MessageCreateOptions = exec.func;
-      sender.send({ attachments: [imageSender] });
-    }
-  });
+   if (command instanceof Message) {
+      command.reply('Carregando...').then((messageToEdit) => {
+         send(messageToEdit, undefined, exec).then(() => {});
+      });
+   }
+   if (command instanceof ChatInputCommandInteraction) {
+      command.reply('carregando').then((interactionResponse) => {
+         interactionResponse.interaction.channel?.messages
+            .fetch()
+            .then((CollectionOfMessages) => {
+               const first = CollectionOfMessages.first();
+               if (first instanceof Message) {
+                  send(first, undefined, exec).then(() => {});
+               }
+            });
+      });
+   }
 }
-
-interface func {
-  channel: GuildTextBasedChannel | TextBasedChannel | null;
-  func: any;
+async function send(
+   message: Message,
+   sender: Embed | Embed[] | string | AttachmentBuilder | undefined,
+   exec: Function
+) {
+   if (!sender) sender = await exec();
+   if (typeof sender == 'string') {
+      return await message.edit(sender);
+   }
+   if (sender instanceof AttachmentBuilder) {
+      return await message.edit({ files: [sender] });
+   }
+   if (sender instanceof Embed) {
+      return await message.edit({ embeds: [sender] });
+   }
+   return await message.edit({ embeds: sender });
 }

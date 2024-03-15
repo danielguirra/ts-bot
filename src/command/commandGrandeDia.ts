@@ -7,9 +7,8 @@ import {
    User,
 } from 'discord.js';
 
-import { loadin } from '../service/send/loadin';
-import { senderSlash } from '../service/send/senderSlash';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadinCreator } from '../util/loadin';
 import { Command } from './Builder';
 
 /**
@@ -40,12 +39,13 @@ export const grandedia: Command = {
       const user = commandSlash.options.getUser('mito');
       const channel = await channelItsGuildTextChannel(commandSlash.channel);
       if (user && channel) {
-         return loadin(commandSlash)?.then(async () => {
-            const canvas = await createCanvasGrandeDia(user);
-            if (canvas) {
-               await senderSlash(channel, canvas, user);
-            }
-         });
+         return loadinCreator(
+            commandSlash,
+            async () => {
+               return await createCanvasGrandeDia(user);
+            },
+            undefined
+         );
       }
    },
 };

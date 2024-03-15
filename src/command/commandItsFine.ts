@@ -6,9 +6,8 @@ import {
    SlashCommandBuilder,
 } from 'discord.js';
 
-import { loadin } from '../service/send/loadin';
-import { senderSlash } from '../service/send/senderSlash';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { loadinCreator } from '../util/loadin';
 import { Command } from './Builder';
 
 /**
@@ -40,13 +39,15 @@ export const itsfine: Command = {
       const user = commandSlash.options.getUser('user');
       const channel = await channelItsGuildTextChannel(commandSlash.channel);
       if (user && channel) {
-         return loadin(commandSlash)?.then(async () => {
-            const avatar = user.displayAvatarURL({ extension: 'png' });
-            const image = await createCanvasItsFine(avatar);
-            if (image) {
-               await senderSlash(channel, image, user);
-            }
-         });
+         return loadinCreator(
+            commandSlash,
+            async () => {
+               return await createCanvasItsFine(
+                  user.displayAvatarURL({ extension: 'jpg' })
+               );
+            },
+            undefined
+         );
       }
    },
 };
