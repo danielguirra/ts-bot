@@ -39,13 +39,13 @@ export const pdl: Command = {
       if (!commandSlash.isChatInputCommand()) return;
       const user = commandSlash.options.getUser('target');
       if (user) {
-         return loadinCreator(
+         return await loadinCreator(
             commandSlash,
             async () => {
                return await getCanvasPdl(user);
             },
             undefined
-         ).then();
+         );
       }
    },
 };

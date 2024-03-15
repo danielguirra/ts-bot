@@ -12,7 +12,7 @@ export async function loadinCreator(
 ) {
    if (command instanceof Message) {
       command.reply('Carregando...').then((messageToEdit) => {
-         send(messageToEdit, undefined, exec).then(() => {});
+         send(messageToEdit, sender, exec).then(() => {});
       });
    }
    if (command instanceof ChatInputCommandInteraction) {
@@ -22,7 +22,7 @@ export async function loadinCreator(
             .then((CollectionOfMessages) => {
                const first = CollectionOfMessages.first();
                if (first instanceof Message) {
-                  send(first, undefined, exec).then(() => {});
+                  send(first, sender, exec).then(() => {});
                }
             });
       });
