@@ -16,7 +16,7 @@ export async function loadinCreator(
       });
    }
    if (command instanceof ChatInputCommandInteraction) {
-      command.reply('carregando').then((interactionResponse) => {
+      command.reply('Carregando').then((interactionResponse) => {
          interactionResponse.interaction.channel?.messages
             .fetch()
             .then((CollectionOfMessages) => {

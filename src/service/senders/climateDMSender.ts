@@ -21,16 +21,18 @@ export async function userCheckSendClimate() {
       const userDiscord = await client.users.fetch(user.idDiscord);
       const dmChannel = await userDiscord.createDM(true);
 
-      const lastMessage = await dmChannel.messages.fetch(
-         dmChannel.lastMessageId!
-      );
+      if (dmChannel.lastMessageId) {
+         const lastMessage = await dmChannel.messages.fetch(
+            dmChannel.lastMessageId
+         );
 
-      itsTimeToSendClimate.push({
-         userDiscord,
-         dmChannel,
-         city: user.city,
-         timeSendClimate: dateLastItsTrue(lastMessage),
-      });
+         itsTimeToSendClimate.push({
+            userDiscord,
+            dmChannel,
+            city: user.city,
+            timeSendClimate: dateLastItsTrue(lastMessage),
+         });
+      }
    }
    const itsOnlyTrue = itsTimeToSendClimate.every(
       (user) => user.timeSendClimate == true

@@ -246,7 +246,7 @@ export async function sendClimateToUserDM(users: UserToSendClimate[]) {
       const embed = await sendClimate(city);
       if (embed && typeof embed == 'object' && 'embeds' in embed) {
          console.log('Clima enviado para ', userDiscord.username);
-         return promises.push(dmChannel.send(embed));
+         promises.push(dmChannel.send(embed));
       }
    }
    return Promise.allSettled(promises);

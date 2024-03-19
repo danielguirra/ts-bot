@@ -1,8 +1,7 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model } from 'sequelize';
 
-
-import { UserDB } from "./user.class";
-import Database from "../config";
+import Database from '../config';
+import { UserDB } from './user.class';
 
 const sequelize = Database.getConnection();
 
@@ -15,9 +14,7 @@ class UserModel extends Model<UserDB> implements UserDB {
    country!: string;
    dollarDaily!: boolean;
    climateDaily!: boolean;
-
 }
-
 
 UserModel.init(
    {
@@ -25,16 +22,16 @@ UserModel.init(
          autoIncrement: true,
          primaryKey: true,
          allowNull: false,
-         type: DataTypes.INTEGER
+         type: DataTypes.INTEGER,
       },
       idDiscord: {
          allowNull: false,
          unique: true,
-         type: DataTypes.STRING
+         type: DataTypes.STRING,
       },
       username: {
          allowNull: false,
-         type: DataTypes.STRING
+         type: DataTypes.STRING,
       },
       nickname: {
          allowNull: false,
@@ -50,18 +47,17 @@ UserModel.init(
       },
       dollarDaily: {
          allowNull: true,
-         type: DataTypes.BOOLEAN
+         type: DataTypes.BOOLEAN,
       },
       climateDaily: {
          allowNull: true,
-         type: DataTypes.BOOLEAN
-      }
+         type: DataTypes.BOOLEAN,
+      },
    },
    {
       sequelize,
-      tableName: "users"
+      tableName: 'users',
    }
-)
+);
 
-
-export default UserModel
+export default UserModel;

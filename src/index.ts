@@ -8,16 +8,12 @@ import { deployCommand } from './util/deployCommands';
 import { verifyUserStatusLeagueofLegends } from './util/verifyUserPlayingGame';
 
 export const run = {
-  on,
-  guildMemberAdd,
-  deployCommand: deployCommand().then(() => { }),
-  interactionCreate,
-  messageCreate,
-  verifyUserStatusLeagueofLegends,
-
-
+   on,
+   guildMemberAdd,
+   deployCommand: deployCommand().then(() => {}),
+   interactionCreate,
+   messageCreate,
+   verifyUserStatusLeagueofLegends,
 };
 
-UserModel.sync().then(() => {
-
-})
+UserModel.sync().then(() => {});

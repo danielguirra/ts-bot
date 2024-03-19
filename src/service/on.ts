@@ -23,7 +23,6 @@ export const on = client.on('ready', async () => {
    const channelDolar: Channel | null = await channelItsGuildTextChannel(
       guildID.channels.resolve(process.env.DOLAR || '')
    );
-
    if (channelDolar && channelLove && channelDaily) {
       try {
          console.log(logDate() + 'Clima diário será enviado');
