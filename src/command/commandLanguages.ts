@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import { Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { Command } from './Builder';
@@ -18,7 +18,7 @@ export const languages: Command = {
          embeds: [embedBuilder('Linguas', languagesObj)],
       });
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       return commandSlash.reply({
          embeds: [embedBuilder('Linguas', languagesObj)],

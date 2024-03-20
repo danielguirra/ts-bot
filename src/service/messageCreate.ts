@@ -1,13 +1,11 @@
 import { Message } from 'discord.js';
-import dotenv from 'dotenv';
 
+import { env } from '../envs';
 import { client } from '../client/client';
-import { Command, commands } from '../command/Builder';
+import { commands } from '../command/Builder';
 import { logDate } from '../util/logDate';
 
-dotenv.config();
-
-const prefix = process.env.PREFIX;
+const prefix = env.PREFIX || '*';
 
 export const messageCreate = client.on(
    'messageCreate',
@@ -16,7 +14,7 @@ export const messageCreate = client.on(
          .slice(prefix?.length)
          .trim()
          .split(/ +/);
-      const command = args[0].toLowerCase() as Command;
+      const command = args[0].toLowerCase() as string;
 
       if (typeof command === 'undefined') return;
       const commandExecutor = commands.get(command);

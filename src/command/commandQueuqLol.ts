@@ -1,5 +1,4 @@
 import {
-   CommandInteraction,
    GuildTextBasedChannel,
    Message,
    SlashCommandBuilder,
@@ -8,6 +7,7 @@ import * as fs from 'fs';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
+import { Command } from './Builder';
 
 /**
  * Don't forget to export
@@ -15,7 +15,7 @@ import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
  * @param Command
  * @danielguirra
  */
-export const queuqlol = {
+export const queuqlol: Command = {
    data: new SlashCommandBuilder()
       .setName('queuqlol')
       .setDescription('queuqlol')
@@ -47,7 +47,7 @@ export const queuqlol = {
       return commandMessage.reply('somente em slash');
    },
 
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const nick = commandSlash.options.getString('nicklol');
       let region = commandSlash.options.getString('region');

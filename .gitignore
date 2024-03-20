@@ -12,6 +12,7 @@
 bin
 dist
 .env
+envs.json
 node_modules
 logs.txt
 database.sqlite

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import { Message, SlashCommandBuilder } from 'discord.js';
 
 import { Command } from './Builder';
 
@@ -23,7 +23,7 @@ export const gif: Command = {
 
       return commandMessage.reply(gif);
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const text = commandSlash.options.getString('text') || undefined;
       const gif = await getGif(text);

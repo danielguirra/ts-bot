@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import { Message, SlashCommandBuilder } from 'discord.js';
 
 import roles from '../../data/json/champRole.json';
 import names from '../../data/json/nameslol.json';
@@ -29,7 +29,7 @@ export const loreleagueoflegends: Command = {
          return commandMessage.reply({ embeds: [lore] });
       }
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const champ: any = commandSlash.options.get('champion');
       if (champ) {

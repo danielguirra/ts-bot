@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import { Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { getLeroLero } from '../util/lerolero';
@@ -17,7 +17,7 @@ export const lerolero: Command = {
    async executeMessageCommand(commandMessage: Message) {
       return commandMessage.reply({ embeds: embed(getLeroLero()).embeds });
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       return commandSlash.reply({ embeds: embed(getLeroLero()).embeds });
    },

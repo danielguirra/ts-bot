@@ -1,7 +1,6 @@
 import { createCanvas, loadImage } from 'canvas';
 import {
    AttachmentBuilder,
-   CommandInteraction,
    Message,
    SlashCommandBuilder,
    User,
@@ -34,7 +33,7 @@ export const grandedia: Command = {
          }
       }
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const user = commandSlash.options.getUser('mito');
       const channel = await channelItsGuildTextChannel(commandSlash.channel);

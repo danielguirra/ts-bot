@@ -1,7 +1,8 @@
-import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
+import { Message, SlashCommandBuilder } from 'discord.js';
 
 import { googleImagePensador } from '../../googleImage';
 import { pensador as uga } from '../util/pensador';
+import { Command } from './Builder';
 
 /**
  * Don't forget to export
@@ -9,7 +10,7 @@ import { pensador as uga } from '../util/pensador';
  * @param Command
  * @danielguirra
  */
-export const pensador = {
+export const pensador: Command = {
    data: new SlashCommandBuilder()
       .setName('pensador')
       .setDescription('pensador'),
@@ -23,7 +24,7 @@ export const pensador = {
          );
       }
    },
-   async executeSlashCommand(commandSlash: Interaction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const soltas = await uga.getFromSoltas();
       if (soltas) {

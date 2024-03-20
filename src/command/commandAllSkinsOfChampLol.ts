@@ -1,4 +1,9 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import {
+   CommandInteraction,
+   Interaction,
+   Message,
+   SlashCommandBuilder,
+} from 'discord.js';
 
 import { Command } from './Builder';
 
@@ -29,8 +34,9 @@ export const allSkinsLol: Command = {
       }
       return;
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
-      const user: any = commandSlash.options.getUser('user');
+   async executeSlashCommand(commandSlash: CommandInteraction | Interaction) {
+      if (!commandSlash.isChatInputCommand()) return;
+      const user = commandSlash.options.getUser('user');
       if (user) {
          return commandSlash.reply(user.displayAvatarURL({ extension: 'png' }));
       }

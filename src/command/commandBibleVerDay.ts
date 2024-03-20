@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import {
+   CommandInteraction,
+   Interaction,
+   Message,
+   SlashCommandBuilder,
+} from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { Command } from './Builder';
@@ -32,7 +37,7 @@ export const bibleverday: Command = {
          ],
       });
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash: CommandInteraction | Interaction) {
       if (!commandSlash.isChatInputCommand()) return;
       const ver = await axios.get(bibleUrl + '/arc/verdia');
       return commandSlash.reply({

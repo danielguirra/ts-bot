@@ -2,6 +2,7 @@ import { createCanvas, loadImage } from 'canvas';
 import {
    AttachmentBuilder,
    CommandInteraction,
+   Interaction,
    Message,
    SlashCommandBuilder,
 } from 'discord.js';
@@ -41,7 +42,7 @@ export const buzz: Command = {
 
       return;
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash: CommandInteraction | Interaction) {
       if (!commandSlash.isChatInputCommand()) return;
       const user1 = commandSlash.options
          .getUser('target')

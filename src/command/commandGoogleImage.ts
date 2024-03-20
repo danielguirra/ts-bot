@@ -17,7 +17,7 @@ export const ime: Command = {
          await sendSearch(text, commandMessage.channel, commandMessage);
       }
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const text = commandSlash.options.getString('text');
       if (text) {

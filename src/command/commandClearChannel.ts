@@ -1,4 +1,9 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import {
+   CommandInteraction,
+   Interaction,
+   Message,
+   SlashCommandBuilder,
+} from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
@@ -34,7 +39,7 @@ export const clearChannel: Command = {
          }
       }
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash: CommandInteraction | Interaction) {
       if (!commandSlash.isChatInputCommand()) return;
       const numberMessageToDelete: number = stringForNumber(
          commandSlash.options.get('value')

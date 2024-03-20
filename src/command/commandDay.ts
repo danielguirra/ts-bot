@@ -1,14 +1,10 @@
-import {
-   Client,
-   CommandInteraction,
-   Message,
-   SlashCommandBuilder,
-} from 'discord.js';
+import { Client, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { dailySender } from '../service/senders/dailySender';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { Command } from './Builder';
+import { env } from '../envs';
 
 /**
  * Don't forget to export
@@ -40,7 +36,7 @@ export const day: Command = {
          });
       }
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const channels = await getChannels(commandSlash.client);
 
@@ -64,20 +60,20 @@ export const day: Command = {
 };
 
 export async function getChannels(client: Client) {
-   const guildID = await client.guilds.fetch(process.env.GUILD || '');
+   const guildID = await client.guilds.fetch(env.GUILD || '');
 
    const climateObjc = {
       channelDaily: await channelItsGuildTextChannel(
-         guildID.channels.resolve(process.env.DIA || '')
+         guildID.channels.resolve(env.DIA || '')
       ),
       channelLove: await channelItsGuildTextChannel(
-         guildID.channels.resolve(process.env.LOVE || '')
+         guildID.channels.resolve(env.LOVE || '')
       ),
       channelDolar: await channelItsGuildTextChannel(
-         guildID.channels.resolve(process.env.DOLAR || '')
+         guildID.channels.resolve(env.DOLAR || '')
       ),
       channelClimate: await channelItsGuildTextChannel(
-         guildID.channels.resolve(process.env.CLIMA || '')
+         guildID.channels.resolve(env.CLIMA || '')
       ),
    };
    return climateObjc;

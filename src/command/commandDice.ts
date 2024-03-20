@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import { Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { Command } from './Builder';
@@ -33,7 +33,7 @@ export const dice: Command = {
          });
       }
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const num: any = commandSlash.options.get('value');
       if (num >= 2) {

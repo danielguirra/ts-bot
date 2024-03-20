@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import { Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { UserDB } from '../database/users/user.class';
@@ -53,7 +53,7 @@ export const deleteUser: Command = {
          });
       }
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const findUserByUserIdDiscord = await UserDB.getUserByUserIdDiscord(
          commandSlash.user.id

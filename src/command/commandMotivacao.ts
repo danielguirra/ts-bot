@@ -1,7 +1,8 @@
-import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
+import { Message, SlashCommandBuilder } from 'discord.js';
 
 import { googleImagePensador } from '../../googleImage';
 import { pensador } from '../util/pensador';
+import { Command } from './Builder';
 
 /**
  * Don't forget to export
@@ -9,7 +10,7 @@ import { pensador } from '../util/pensador';
  * @param Command
  * @danielguirra
  */
-export const motivacao = {
+export const motivacao: Command = {
    data: new SlashCommandBuilder()
       .setName('motivacao')
       .setDescription('motivacao uma mensagem motivacional será enviada'),
@@ -23,7 +24,7 @@ export const motivacao = {
          );
       }
    },
-   async executeSlashCommand(commandSlash: Interaction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const motivacaoFunc = await pensador.getFromMotivacionais();
       if (motivacaoFunc) {

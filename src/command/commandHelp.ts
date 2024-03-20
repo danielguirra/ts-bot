@@ -1,15 +1,9 @@
-import {
-   CommandInteraction,
-   Guild,
-   Message,
-   SlashCommandBuilder,
-} from 'discord.js';
-import dotenv from 'dotenv';
+import { Guild, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { Command } from './Builder';
+import { env } from '../envs';
 
-dotenv.config();
 /**
  * Don't forget to export
  * Não esqueça de exportar
@@ -33,7 +27,7 @@ export const help: Command = {
          ],
       });
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const helpFun = getHelp(commandSlash.guild);
 
@@ -53,14 +47,12 @@ export const help: Command = {
 
 function getHelp(guild: Guild | null) {
    if (guild) {
-      const roleMod = guild.roles.cache.find(
-         (role) => role.id === process.env.ROLEMOD
-      );
+      const roleMod = guild.roles.cache.find((role) => role.id === env.ROLEMOD);
       const channelRoles = guild.channels.cache.find(
-         (channel) => channel.id === process.env.CHANNELROLES
+         (channel) => channel.id === env.CHANNELROLES
       );
       const channelCommands = guild.channels.cache.find(
-         (channel) => channel.id === process.env.CHANNELCOMMANDS
+         (channel) => channel.id === env.CHANNELCOMMANDS
       );
 
       return {

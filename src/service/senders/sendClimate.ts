@@ -1,13 +1,10 @@
 import axios from 'axios';
 import { GuildTextBasedChannel, TextBasedChannel } from 'discord.js';
-import dotenv from 'dotenv';
-
 import weatherCode from '../../../data/json/weatherCode.json';
 import emojis from '../../../data/json/weatherEmoji.json';
 import { embedBuilder } from '../../util/getEmbed';
 import { UserToSendClimate } from './climateDMSender';
-
-dotenv.config();
+import { env } from '../../envs';
 
 export const sendClimate = async (city: string) => {
    try {
@@ -286,7 +283,7 @@ const getNameWeekFunc = (x: number) => {
    ][x];
 };
 function hourNow() {
-   const horaenv: any = process.env.HORA || 3;
+   const horaenv: any = env.HORA || 3;
    var data = new Date();
    var dia = data.getDate(); // 1-31
    var dia_sem = data.getDay(); // 0-6 (zero=domingo)

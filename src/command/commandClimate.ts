@@ -1,4 +1,9 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import {
+   CommandInteraction,
+   Interaction,
+   Message,
+   SlashCommandBuilder,
+} from 'discord.js';
 
 import { sendClimateCurrentTime } from '../service/senders/sendClimate';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
@@ -29,7 +34,7 @@ export const climate: Command = {
    async executeMessageCommand(commandMessage: Message) {
       return;
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash: CommandInteraction | Interaction) {
       if (!commandSlash.isChatInputCommand()) return;
       const city = commandSlash.options.getString('cidade') || 'franca';
       const country =

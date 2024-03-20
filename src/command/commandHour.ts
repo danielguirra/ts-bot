@@ -1,10 +1,7 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
-import dotenv from 'dotenv';
-
+import { Message, SlashCommandBuilder } from 'discord.js';
 import { embedBuilder } from '../../src/util/getEmbed';
 import { Command } from './Builder';
 
-dotenv.config();
 /**
  * Don't forget to export
  * Não esqueça de exportar
@@ -28,7 +25,7 @@ export const hour: Command = {
          ],
       });
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       var { getNameWeek, dia_sem, str_data, str_hora } = hourNow();
       return commandSlash.reply({
@@ -45,7 +42,6 @@ export const hour: Command = {
 };
 
 export function hourNow() {
-   var env: any = process.env.HORA;
    var data = new Date();
    var dia = data.getDate(); // 1-31
    var dia_sem = data.getDay(); // 0-6 (zero=domingo)

@@ -1,6 +1,7 @@
 import {
    Collection,
    CommandInteraction,
+   Interaction,
    InteractionResponse,
    Message,
    SlashCommandBuilder,
@@ -8,26 +9,22 @@ import {
 
 import { allComands } from './allComands';
 
-export const commands = new Collection() as Collection<Command, Command>;
-
-for (const key in allComands) {
-   if (Object.prototype.hasOwnProperty.call(allComands, key)) {
-      const element = allComands[key];
-
-      commands.set(element.data.name, element);
-   }
-}
-
-export type Command = {
-   data:
+export class Command {
+   data!:
       | SlashCommandBuilder
       | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
-   executeMessageCommand: (
+   executeMessageCommand!: (
       message: Message
    ) => Promise<Message<boolean> | void | undefined>;
-   executeSlashCommand: (
-      messcommandSlashage: CommandInteraction
+   executeSlashCommand!: (
+      commandSlash: CommandInteraction | Interaction
    ) => Promise<
-      InteractionResponse<boolean> | void | undefined | Message<boolean>
+      void | Message<boolean> | InteractionResponse<boolean> | undefined
    >;
-};
+}
+
+export const commands = new Collection() as Collection<string, Command>;
+
+for (const key of allComands) {
+   if (key instanceof Command) commands.set(key.data.name, key);
+}

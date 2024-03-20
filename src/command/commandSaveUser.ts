@@ -1,18 +1,8 @@
-import {
-   Guild,
-   Interaction,
-   Message,
-   SlashCommandBuilder,
-   User,
-} from 'discord.js';
-import dotenv from 'dotenv';
+import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
-import { UserDatabase } from '../database/querys/user/user';
 import { UserDB } from '../database/users/user.class';
-import { IUser } from '../interfaces/User';
 
-dotenv.config();
 /**
  * Don't forget to export
  * Não esqueça de exportar
@@ -80,15 +70,3 @@ export const saveUser = {
       return commandSlash.reply('Erro');
    },
 };
-async function saveUserFunc(guild: Guild, user: User, nickLol?: string) {
-   if (!nickLol) nickLol = '';
-   const userObjc: IUser = {
-      id: user.id,
-      guildId: guild.id,
-      username: user.username,
-      nickLol: nickLol,
-   };
-
-   const result = await new UserDatabase().saveNewUser(userObjc);
-   return result;
-}

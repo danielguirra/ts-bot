@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import { Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { UserDB } from '../database/users/user.class';
@@ -33,7 +33,7 @@ export const editUser: Command = {
    async executeMessageCommand(commandMessage: Message) {
       return commandMessage.reply('usa comando em /');
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const pais = commandSlash.options.getString('pais');
       const city = commandSlash.options.getString('cidade');

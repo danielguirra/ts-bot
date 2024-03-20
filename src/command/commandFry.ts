@@ -1,7 +1,6 @@
 import { createCanvas, loadImage } from 'canvas';
 import {
    AttachmentBuilder,
-   CommandInteraction,
    GuildTextBasedChannel,
    Message,
    SlashCommandBuilder,
@@ -36,7 +35,7 @@ export const fry: Command = {
          );
       }
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const user = commandSlash.options.getUser('target');
       const channel = await channelItsGuildTextChannel(commandSlash.channel);

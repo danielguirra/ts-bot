@@ -1,6 +1,7 @@
 import {
    CommandInteraction,
    Guild,
+   Interaction,
    Message,
    SlashCommandBuilder,
    User,
@@ -38,7 +39,8 @@ export const ban: Command = {
          return commandMessage.reply({ content: `não posso banir o :${user}` });
       }
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash: CommandInteraction | Interaction) {
+      if (!commandSlash.isChatInputCommand()) return;
       const guild = commandSlash.guild;
       const user = commandSlash.options.getUser('target') || undefined;
 

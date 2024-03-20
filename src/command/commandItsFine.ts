@@ -1,10 +1,5 @@
 import { createCanvas, loadImage } from 'canvas';
-import {
-   AttachmentBuilder,
-   CommandInteraction,
-   Message,
-   SlashCommandBuilder,
-} from 'discord.js';
+import { AttachmentBuilder, Message, SlashCommandBuilder } from 'discord.js';
 
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { loadinCreator } from '../util/loadin';
@@ -34,7 +29,7 @@ export const itsfine: Command = {
          commandMessage.reply({ files: [image] });
       }
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const user = commandSlash.options.getUser('user');
       const channel = await channelItsGuildTextChannel(commandSlash.channel);

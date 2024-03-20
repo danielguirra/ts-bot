@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import {
+   CommandInteraction,
+   Interaction,
+   Message,
+   SlashCommandBuilder,
+} from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { translateText } from '../util/translate';
@@ -26,7 +31,7 @@ export const advice: Command = {
          embeds: [embedBuilder('Conselho', advice, avatar, tag)],
       });
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash: CommandInteraction | Interaction) {
       if (!commandSlash.isChatInputCommand()) return;
       const avatar = commandSlash.user.displayAvatarURL({ extension: 'png' });
       const tag = commandSlash.user.username;

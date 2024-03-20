@@ -1,14 +1,13 @@
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord.js';
-import dotenv from 'dotenv';
 
 import { commands } from '../command/Builder';
 import { logDate } from './logDate';
+import { env } from '../envs';
 
-dotenv.config();
-const clientId = process.env.CLIENTID;
-const guildId = process.env.GUILD;
-const rest = new REST({ version: '10' }).setToken(process.env.BOTTOKEN || '');
+const clientId = env.CLIENTID;
+const guildId = env.GUILD;
+const rest = new REST({ version: '10' }).setToken(env.BOTTOKEN || '');
 
 const allComands: any[] = [];
 

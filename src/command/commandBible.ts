@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import {
+   CommandInteraction,
+   Interaction,
+   Message,
+   SlashCommandBuilder,
+} from 'discord.js';
 import * as fs from 'fs';
 
 import { embedBuilder } from '../../src/util/getEmbed';
@@ -52,7 +57,7 @@ export const bible: Command = {
    async executeMessageCommand(commandMessage: Message) {
       return commandMessage.reply('Use somente no slash');
    },
-   async executeSlashCommand(commandSlash: CommandInteraction) {
+   async executeSlashCommand(commandSlash: CommandInteraction | Interaction) {
       if (!commandSlash.isChatInputCommand()) return;
       const BibleVersion = commandSlash.options.getString('version');
       const BibleBook = commandSlash.options.getString('book');

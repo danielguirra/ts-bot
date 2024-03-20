@@ -15,7 +15,6 @@ import { dice } from './commandDice';
 import { dolar } from './commandDolar';
 import { duel } from './commandDuel';
 import { editUser } from './commandEditMyUser';
-import { email } from './commandEmail';
 import { fry } from './commandFry';
 import { gif } from './commandGif';
 import { ime } from './commandGoogleImage';
@@ -28,8 +27,7 @@ import { lerolero } from './commandLeroLero';
 import { loreleagueoflegends } from './commandLoreLeagueOfLegends';
 import { love } from './commandLove';
 import { motivacao } from './commandMotivacao';
-import { pass } from './commandPassword';
-import { qrpass } from './commandPasswordByQRCODE';
+
 import { pdl } from './commandPdl';
 import { peace } from './commandPeace';
 import { pensador } from './commandPensador';
@@ -37,16 +35,7 @@ import { ping } from './commandPing';
 import { queuqlol } from './commandQueuqLol';
 import { saveUser } from './commandSaveUser';
 
-import { siginificado } from './commandSiginificado';
-import { sinonimo } from './commandSinonimo';
-import { skillchampleagueoflegends } from './commandSkillChampLeagueOfLegends';
-import { tiltado } from './commandTiltado';
-import { translate } from './commandTranslate';
-import { ugaovo } from './commandUgaOvo';
-import { x1yasuo } from './commandX1Yasuo';
-import { youburro } from './commandYouBurro';
-
-export const allComands: any = {
+export const allComands = [
    ping,
    advice,
    help,
@@ -60,7 +49,6 @@ export const allComands: any = {
    saveUser,
    dice,
    dolar,
-   email,
    fry,
    gif,
    ime,
@@ -74,23 +62,14 @@ export const allComands: any = {
    motivacao,
    peace,
    pensador,
-   siginificado,
-   sinonimo,
-   skillchampleagueoflegends,
-   tiltado,
-   translate,
-   ugaovo,
-   x1yasuo,
-   youburro,
    pdl,
    bible,
    bibleverday,
    duel,
    queuqlol,
-   qrpass,
-   pass,
+
    climate,
    deleteUser,
    editUser,
    climateDaily,
-};
+];

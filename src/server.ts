@@ -1,11 +1,10 @@
-import dotenv from 'dotenv';
 import express from 'express';
 
 import { run } from '.';
 import { logDate } from './util/logDate';
+import { env } from './envs';
 
-dotenv.config();
-const port = process.env.PORT;
+const port = env.PORT;
 const app = express();
 
 app.get('/', (req, res) => res.send('Servidor online'));

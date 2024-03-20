@@ -1,27 +1,25 @@
 import { CronJob } from 'cron';
 import { Channel } from 'discord.js';
-import dotenv from 'dotenv';
 
 import { client } from '../client/client';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { logDate } from '../util/logDate';
 import { userCheckSendClimate } from './senders/climateDMSender';
 import { dailySender } from './senders/dailySender';
+import { env } from '../envs';
 
-dotenv.config();
-
-const token = process.env.BOTTOKEN;
+const token = env.BOTTOKEN;
 
 export const on = client.on('ready', async () => {
-   const guildID = await client.guilds.fetch(process.env.GUILD || '');
+   const guildID = await client.guilds.fetch(env.GUILD || '');
    const channelDaily: Channel | null = await channelItsGuildTextChannel(
-      guildID.channels.resolve(process.env.DIA || '')
+      guildID.channels.resolve(env.DIA || '')
    );
    const channelLove: Channel | null = await channelItsGuildTextChannel(
-      guildID.channels.resolve(process.env.LOVE || '')
+      guildID.channels.resolve(env.LOVE || '')
    );
    const channelDolar: Channel | null = await channelItsGuildTextChannel(
-      guildID.channels.resolve(process.env.DOLAR || '')
+      guildID.channels.resolve(env.DOLAR || '')
    );
    if (channelDolar && channelLove && channelDaily) {
       try {
