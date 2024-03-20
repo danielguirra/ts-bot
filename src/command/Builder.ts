@@ -10,6 +10,10 @@ import {
 import { allComands } from './allComands';
 
 export class Command {
+   constructor(comm: Command) {
+      Object.assign(this, comm);
+   }
+
    data!:
       | SlashCommandBuilder
       | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
@@ -17,7 +21,7 @@ export class Command {
       message: Message
    ) => Promise<Message<boolean> | void | undefined>;
    executeSlashCommand!: (
-      commandSlash: CommandInteraction | Interaction
+      commandSlash: CommandInteraction
    ) => Promise<
       void | Message<boolean> | InteractionResponse<boolean> | undefined
    >;
@@ -26,5 +30,19 @@ export class Command {
 export const commands = new Collection() as Collection<string, Command>;
 
 for (const key of allComands) {
-   if (key instanceof Command) commands.set(key.data.name, key);
+   const command = new Command(key);
+
+   try {
+      commands.set(command.data.name, command);
+   } catch (error) {
+      console.error(error, {
+         command,
+         expected: {
+            data: SlashCommandBuilder,
+            executeMessageCommand: Promise<Function>,
+            executeSlashCommand: Promise<Function>,
+         },
+      });
+      break;
+   }
 }

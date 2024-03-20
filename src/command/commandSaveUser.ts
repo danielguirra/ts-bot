@@ -2,6 +2,7 @@ import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { UserDB } from '../database/users/user.class';
+import { Command } from './Builder';
 
 /**
  * Don't forget to export
@@ -9,7 +10,7 @@ import { UserDB } from '../database/users/user.class';
  * @param Command
  * @danielguirra
  */
-export const saveUser = {
+export const saveUser: Command = {
    data: new SlashCommandBuilder()
       .setName('salvabanco')
       .setDescription('salva o seu usuário no banco de dados do bot')
@@ -34,7 +35,7 @@ export const saveUser = {
       commandMessage.reply('usa de /');
    },
 
-   async executeSlashCommand(commandSlash: Interaction) {
+   async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const pais = commandSlash.options.getString('pais');
       const city = commandSlash.options.getString('cidade');

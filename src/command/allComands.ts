@@ -27,7 +27,6 @@ import { lerolero } from './commandLeroLero';
 import { loreleagueoflegends } from './commandLoreLeagueOfLegends';
 import { love } from './commandLove';
 import { motivacao } from './commandMotivacao';
-
 import { pdl } from './commandPdl';
 import { peace } from './commandPeace';
 import { pensador } from './commandPensador';
@@ -67,7 +66,6 @@ export const allComands = [
    bibleverday,
    duel,
    queuqlol,
-
    climate,
    deleteUser,
    editUser,
