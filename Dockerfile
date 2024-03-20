@@ -47,7 +47,7 @@ FROM node:19.7.0-slim As production
 
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
-COPY --chown=node:node --from=build /usr/src/app/.envs.json ./.envs.json
+COPY --chown=node:node --from=build /usr/src/app/envs.json ./envs.json
 COPY --chown=node:node --from=build /usr/src/app/database.sqlite ./database.sqlite
 COPY --chown=node:node --from=build /usr/src/app/newbible.json ./newbible.json 
 
