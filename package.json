@@ -10,6 +10,7 @@
     "build": "node ./build.js",
     "dev": "npx nodemon ./src/server.ts",
     "start": "node ./build && node ./dist/src/server.js",
+    "test": "node  --import tsx --test ./test/comand.spec.ts",
     "startnotbuild": "npx ts-node ./src/server.ts",
     "commandCreator": "node ./util/commandBaseTs/commandCreatorForName.js"
   },
@@ -30,13 +31,13 @@
   "main": "server.ts",
   "devDependencies": {
     "@types/cheerio": "^0.22.31",
-    "@types/sequelize": "^4.28.20",
     "@types/cron": "^1.7.3",
     "@types/express": "^4.17.13",
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.19.26",
     "@types/nodemailer": "^6.4.4",
     "@types/request": "^2.48.8",
+    "@types/sequelize": "^4.28.20",
     "@types/striptags": "^3.1.1",
     "@types/webtorrent": "^0.109.7",
     "nodemon": "^2.0.13",

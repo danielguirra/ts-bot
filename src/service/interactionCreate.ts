@@ -16,7 +16,11 @@ export const interactionCreate = client.on(
             await command.executeSlashCommand(interaction);
 
             console.log(
-               logDate() + 'Comando Slash: ' + command.data.name + ' foi usado'
+               logDate() +
+                  'Comando Slash: ' +
+                  command.data.name +
+                  ' foi usado pelo : ' +
+                  interaction.user.id
             );
          } catch (error) {
             return;

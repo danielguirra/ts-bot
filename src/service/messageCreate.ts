@@ -26,7 +26,8 @@ export const messageCreate = client.on(
                logDate() +
                   'Comando Message: ' +
                   commandExecutor.data.name +
-                  ' foi usado'
+                  ' foi usado pelo : ' +
+                  message.author.id
             );
          } catch (error) {
             return;

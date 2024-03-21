@@ -25,8 +25,10 @@ export const love: Command = {
       const channel = await channelItsGuildTextChannel(commandSlash.channel);
       if (!commandSlash.isChatInputCommand()) return;
       if (channel) {
-         commandSlash.reply('❤').then(async () => {
-            const loveSend = await sendLoveMessageDaily(channel);
+         commandSlash.reply('❤').then(async (mess) => {
+            const loveSend = await sendLoveMessageDaily();
+            if (loveSend instanceof Message || !loveSend) return;
+            mess.edit({ embeds: [loveSend] });
          });
       }
    },
