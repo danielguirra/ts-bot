@@ -19,6 +19,6 @@ jobs:
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag $DOCKER_URL_IMAGE_TO_PUSH
+        run: docker build . --file Dockerfile --tag  ${{secrets.DOCKER_URL_IMAGE_TO_PUSH}}
       - name: Docker Push
-        run: docker push $DOCKER_URL_IMAGE_TO_PUSH
+        run: docker push  ${{secrets.DOCKER_URL_IMAGE_TO_PUSH}}
