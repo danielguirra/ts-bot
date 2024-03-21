@@ -1,6 +1,5 @@
 const fs = require('fs');
-const base64Data = ''; // Insira sua string base64 aqui
-
+const base64Data = "";
 const arquivoSQLite = 'dump_decodificado.sqlite';
 
 const bufferData = Buffer.from(base64Data, 'base64');

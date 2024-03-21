@@ -1,5 +1,5 @@
 const fs = require('fs');
-const arquivoSQLite = 'database.sqlite';
+const arquivoSQLite = './database.sqlite';
 fs.readFile(arquivoSQLite, (err, data) => {
    if (err) {
       console.error('Erro ao ler o arquivo:', err);
