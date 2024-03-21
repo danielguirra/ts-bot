@@ -3,7 +3,7 @@ import { Client, Message, SlashCommandBuilder } from 'discord.js';
 import { embedBuilder } from '../../src/util/getEmbed';
 import { dailySender } from '../service/senders/dailySender';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 import { env } from '../envs';
 
 /**

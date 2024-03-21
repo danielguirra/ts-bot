@@ -1,15 +1,15 @@
 {
   "name": "ts-bot",
-  "version": "1.0",
+  "version": "1.1",
   "icon": "https://cdn.discordapp.com/avatars/811255307673010246/8f145d7279847a9a6e46efd5ee3df6bf.webp",
   "repository": "https://github.com/danielguirra/ts-bot",
   "description": "DiscordBot in TypeScript",
   "license": "MIT",
   "author": "Daniel Guirra <daniel.guirra777@gmail.com>",
   "scripts": {
-    "build": "node ./build.js",
+    "build": "node ./util/build.js",
     "dev": "npx nodemon ./src/server.ts",
-    "start": "node ./build && node ./dist/src/server.js",
+    "start": "npm run build && node ./dist/src/server.js",
     "test": "node  --import tsx --test ./test/comand.spec.ts",
     "startnotbuild": "npx ts-node ./src/server.ts",
     "commandCreator": "node ./util/commandBaseTs/commandCreatorForName.js"

@@ -7,7 +7,7 @@ import {
 } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 
 const bibleUrl = process.env.URLBIBLE;
 /**

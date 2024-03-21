@@ -1,8 +1,8 @@
 import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
 
-import { googleImage } from '../../googleImage';
+import { googleImage } from '../util/googleImage';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 
 export const ime: Command = {
    data: new SlashCommandBuilder()

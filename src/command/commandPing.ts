@@ -1,7 +1,7 @@
 import { Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../util/getEmbed';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 
 export const ping: Command = {
    data: new SlashCommandBuilder()

@@ -1,7 +1,7 @@
 import { Guild, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 import { env } from '../envs';
 
 /**

@@ -19,27 +19,27 @@ Token TenorGif [Offical TenorApi website](https://tenor.com/gifapi)
 
 NodeJS
 
-- #### Windows
+-  #### Windows
 
-  [Official Node.js website](https://nodejs.org/) and download the installer.
+   [Official Node.js website](https://nodejs.org/) and download the installer.
 
-- #### Node installation on Ubuntu
+-  #### Node installation on Ubuntu
 
-      $ sudo apt install nodejs
-      $ sudo apt install npm
+       $ sudo apt install nodejs
+       $ sudo apt install npm
 
-- #### Other Operating Systems
-  You can find more information about the installation on the [official Node.js website](https://nodejs.org/) and the [official NPM website](https://npmjs.org/).
+-  #### Other Operating Systems
+   You can find more information about the installation on the [official Node.js website](https://nodejs.org/) and the [official NPM website](https://npmjs.org/).
 
 ---
 
 I used this version of NodeJS, I don't guarantee it will work on older versions
 
     $ node --version
-    v16.16.0
+    v20.11.1
 
     $ npm --version
-    v8.15.1
+    v10.2.4
 
 ## Deploy
 
@@ -73,6 +73,17 @@ You can deploy to Heroku or Replit or install locally yourself.
 
     $ yarn dev
     $ npm run dev
+
+## Can't Use Sure Docker or Docker Compose
+
+#### Docker
+
+    $ docker build . --f ./Dockerfile --tag ts-bot-image
+    $ docker run -p 4040:4040 --name ts-bot ts-bot-image
+
+#### Compose
+
+    $ docker-compose -up -d
 
 ## License
 

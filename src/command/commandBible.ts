@@ -8,7 +8,7 @@ import {
 import * as fs from 'fs';
 
 import { embedBuilder } from '../../src/util/getEmbed';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 
 /**
  * Don't forget to export
@@ -103,7 +103,7 @@ export class Bible {
    verse: number | undefined;
 
    static json: BibleJson = JSON.parse(
-      fs.readFileSync('./newbible.json', 'utf-8')
+      fs.readFileSync('./data/json/newbible.json', 'utf-8')
    );
 
    static verifylengthOfBookBasedInName = (bookName: string) => {

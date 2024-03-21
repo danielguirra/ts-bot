@@ -1,6 +1,6 @@
 import { GuildTextBasedChannel } from 'discord.js';
 
-import { googleImagePensador } from '../../../googleImage';
+import { googleImagePensador } from '../../util/googleImage';
 import { IPensador } from '../../interfaces/PensadorMessage';
 import { pensador } from '../../util/pensador';
 import { embedBuilder } from '../../util/getEmbed';
@@ -17,7 +17,7 @@ export const sendDaily = async (channelDaily: GuildTextBasedChannel) => {
          data.author,
          undefined,
          undefined,
-         'DarkVividPink',
+         'Random',
          url.href
       );
 

@@ -2,7 +2,7 @@ import { Message, SlashCommandBuilder } from 'discord.js';
 
 import { sendDolarDaily } from '../service/senders/sendDolarDaily';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 
 /**
  * Don't forget to export

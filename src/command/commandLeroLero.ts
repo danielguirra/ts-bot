@@ -2,7 +2,7 @@ import { Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { getLeroLero } from '../util/lerolero';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 
 /**
  * Don't forget to export

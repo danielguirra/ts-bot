@@ -2,7 +2,7 @@ import { Interaction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { UserDB } from '../database/users/user.class';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 
 /**
  * Don't forget to export

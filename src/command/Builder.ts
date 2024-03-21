@@ -8,24 +8,7 @@ import {
 } from 'discord.js';
 
 import { allComands } from './allComands';
-
-export class Command {
-   constructor(comm: Command) {
-      Object.assign(this, comm);
-   }
-
-   data!:
-      | SlashCommandBuilder
-      | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
-   executeMessageCommand!: (
-      message: Message
-   ) => Promise<Message<boolean> | void | undefined>;
-   executeSlashCommand!: (
-      commandSlash: CommandInteraction
-   ) => Promise<
-      void | Message<boolean> | InteractionResponse<boolean> | undefined
-   >;
-}
+import { Command } from '../interfaces/Command';
 
 export const commands = new Collection() as Collection<string, Command>;
 

@@ -4,7 +4,7 @@ import { Message, SlashCommandBuilder } from 'discord.js';
 import roles from '../../data/json/champRole.json';
 import names from '../../data/json/nameslol.json';
 import { embedBuilder } from '../../src/util/getEmbed';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 
 /**
  * Don't forget to export

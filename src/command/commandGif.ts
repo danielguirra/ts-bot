@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Message, SlashCommandBuilder } from 'discord.js';
 
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 
 const tenor = process.env.TENORKEY;
 /**

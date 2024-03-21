@@ -9,7 +9,7 @@ import {
 
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { loadinCreator } from '../util/loadin';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 
 /**
  * Don't forget to export

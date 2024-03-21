@@ -10,6 +10,8 @@
 !.yarn/cache
 #.pnp.*
 bin
+docker-compose.yml
+.vscode
 dist
 .env
 envs.json

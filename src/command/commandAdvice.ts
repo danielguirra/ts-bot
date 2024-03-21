@@ -8,7 +8,7 @@ import {
 
 import { embedBuilder } from '../../src/util/getEmbed';
 import { translateText } from '../util/translate';
-import { Command } from './Builder';
+import { Command } from '../interfaces/Command';
 
 /**
  * Don't forget to export
