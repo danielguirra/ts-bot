@@ -47,7 +47,7 @@ COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 COPY --chown=node:node --from=build /usr/src/app/envs.json ./envs.json
 COPY --chown=node:node --from=build /usr/src/app/database.sqlite ./database.sqlite
-COPY --chown=node:node --from=build /usr/src/app/data/json/newbible.json ./newbible.json 
+COPY --chown=node:node --from=build /usr/src/app/data ./data
 
 EXPOSE 4040
 
