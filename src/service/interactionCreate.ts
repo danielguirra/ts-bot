@@ -10,7 +10,7 @@ export const interactionCreate = client.on(
    async (interaction) => {
       if (interaction.type === InteractionType.ApplicationCommand) {
          if (!interaction.isChatInputCommand()) return;
-         const command = commands.get(interaction.commandName as any);
+         const command = commands.get(interaction.commandName);
          if (!command) return;
          try {
             await command.executeSlashCommand(interaction);

@@ -26,7 +26,7 @@ export const clearChannel: Command = {
             .setRequired(true)
       ),
    async executeMessageCommand(commandMessage: Message) {
-      const numberMessageToDelete: number = stringForNumber(
+      const numberMessageToDelete: number = parseInt(
          commandMessage.content.replace('*cls ', '')
       );
       const channel = await channelItsGuildTextChannel(commandMessage.channel);
@@ -41,11 +41,10 @@ export const clearChannel: Command = {
    },
    async executeSlashCommand(commandSlash: CommandInteraction | Interaction) {
       if (!commandSlash.isChatInputCommand()) return;
-      const numberMessageToDelete: number = stringForNumber(
-         commandSlash.options.get('value')
-      );
+      const numberMessageToDelete = commandSlash.options.getInteger('value');
+
       const channel = await channelItsGuildTextChannel(commandSlash.channel);
-      if (channel) {
+      if (channel && numberMessageToDelete) {
          const del = await channel.bulkDelete(numberMessageToDelete);
          if (del) {
             commandSlash.reply('Foi apagado ' + numberMessageToDelete);
@@ -56,8 +55,3 @@ export const clearChannel: Command = {
       return commandSlash.reply({ embeds: [embedBuilder('', '')] });
    },
 };
-
-function stringForNumber(numberString: any) {
-   const number: number = numberString;
-   return number;
-}

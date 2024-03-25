@@ -10,12 +10,7 @@ import * as fs from 'fs';
 import { embedBuilder } from '../../src/util/getEmbed';
 import { Command } from '../interfaces/Command';
 
-/**
- * Don't forget to export
- * Não esqueça de exportar
- * @param Command
- * @danielguirra
- */
+
 export const bible: Command = {
    data: new SlashCommandBuilder()
       .setName('bible')
@@ -53,10 +48,14 @@ export const bible: Command = {
             .setName('verse')
             .setRequired(true)
             .setDescription('verse for search')
-      ),
+    ),
+
+
    async executeMessageCommand(commandMessage: Message) {
       return commandMessage.reply('Use somente no slash');
-   },
+    },
+
+
    async executeSlashCommand(commandSlash: CommandInteraction | Interaction) {
       if (!commandSlash.isChatInputCommand()) return;
       const BibleVersion = commandSlash.options.getString('version');
@@ -95,12 +94,11 @@ export const bible: Command = {
 };
 
 export class Bible {
-   private urlForGet: string | undefined =
-      'https://raw.githubusercontent.com/danielguirra/bible-json/main';
-   version: string | undefined;
-   book: string | undefined;
-   chapter: number | undefined;
-   verse: number | undefined;
+   private urlForGet: string = 'https://raw.githubusercontent.com/danielguirra/bible-json/main';
+   version!: string;
+   book!: string ;
+   chapter!: number ;
+   verse!: number ;
 
    static json: BibleJson = JSON.parse(
       fs.readFileSync('./data/json/newbible.json', 'utf-8')

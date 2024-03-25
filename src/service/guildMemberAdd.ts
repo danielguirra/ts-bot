@@ -1,9 +1,6 @@
-import { RoleResolvable } from 'discord.js';
-
 import { client } from '../client/client';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
 import { embedBuilder } from '../util/getEmbed';
-import { env } from '../envs';
 
 export const guildMemberAdd = client.on('guildMemberAdd', async (newMember) => {
    const bem = await channelItsGuildTextChannel(

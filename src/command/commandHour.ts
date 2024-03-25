@@ -47,7 +47,7 @@ export function hourNow() {
    var dia_sem = data.getDay(); // 0-6 (zero=domingo)
    var mes = data.getMonth(); // 0-11 (zero=janeiro)
    var ano4 = data.getFullYear(); // 4 dígitos
-   var hora: any = data.getHours();
+   var hora = data.getHours();
    var min = data.getMinutes(); // 0-59
    var seg = data.getSeconds(); // 0-59
 
@@ -57,7 +57,7 @@ export function hourNow() {
    return { getNameWeek, dia_sem, str_data, str_hora };
 }
 
-export const getNameWeek = (x: any) => {
+export const getNameWeek = (x: number) => {
    return [
       'Domingo',
       'Segunda-Feira',

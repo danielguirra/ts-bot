@@ -1,21 +1,15 @@
 import axios from 'axios';
 import {
-   CommandInteraction,
-   Interaction,
-   Message,
-   SlashCommandBuilder,
+    CommandInteraction,
+    Interaction,
+    Message,
+    SlashCommandBuilder,
 } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
-import { translateText } from '../util/translate';
 import { Command } from '../interfaces/Command';
+import { translateText } from '../util/translate';
 
-/**
- * Don't forget to export
- * Não esqueça de exportar
- * @param Command
- * @danielguirra
- */
 export const advice: Command = {
    data: new SlashCommandBuilder()
       .setName('conselho')
@@ -42,14 +36,11 @@ export const advice: Command = {
       });
    },
 };
-/**
- *
- * @returns Conselho um em portugues
- */
+
 async function getRandomAdvice() {
    const url = `https://api.adviceslip.com/advice`;
    const advice = await axios.get(url);
    const text = advice.data.slip.advice;
-   const result: any = (await translateText(text)).text || '';
+   const result = (await translateText(text)).text || '';
    return result;
 }

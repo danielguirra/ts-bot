@@ -43,7 +43,7 @@ export const on = client.on('ready', async () => {
                });
          }).start();
       } catch (error) {
-         console.log(error);
+         console.error(error);
          try {
             await userCheckSendClimate();
 
@@ -53,7 +53,7 @@ export const on = client.on('ready', async () => {
                channelDaily,
             });
          } catch (error) {
-            console.log(logDate + `Erro ao enviar novamente`);
+            console.error(logDate + `Erro ao enviar novamente`);
          }
          console.log(logDate());
       }

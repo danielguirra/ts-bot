@@ -31,19 +31,22 @@ export const loreleagueoflegends: Command = {
    },
    async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
-      const champ: any = commandSlash.options.get('champion');
+      const champ = commandSlash.options.getString('champion');
       if (champ) {
-         const lore = await getLoreChampionLeagueOfLegends(
-            champ.value.toLowerCase()
-         );
+         const lore = await getLoreChampionLeagueOfLegends(champ.toLowerCase());
          return commandSlash.reply({ embeds: [lore] });
       }
    },
 };
 
-async function getLoreChampionLeagueOfLegends(champ: string) {
-   const nameChamp: any = names;
-   const x = nameChamp[champ];
+async function getLoreChampionLeagueOfLegends(champName: any) {
+   const nameChamp = names;
+   let x;
+   if (champName in names) {
+      let finder: keyof typeof names = champName;
+      x = nameChamp[finder];
+   }
+
    function capitalizeFirstLetter(inputString: string) {
       if (typeof inputString !== 'string' || inputString.length === 0) {
          return inputString;
@@ -55,7 +58,7 @@ async function getLoreChampionLeagueOfLegends(champ: string) {
       );
    }
 
-   champ = capitalizeFirstLetter(champ);
+   let champ = capitalizeFirstLetter(champName);
    if (x) {
       champ = x;
    }

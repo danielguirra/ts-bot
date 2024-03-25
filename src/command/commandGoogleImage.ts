@@ -1,4 +1,9 @@
-import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
+import {
+   CommandInteraction,
+   Message,
+   SlashCommandBuilder,
+   TextBasedChannel,
+} from 'discord.js';
 
 import { googleImage } from '../util/googleImage';
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
@@ -20,7 +25,7 @@ export const ime: Command = {
    async executeSlashCommand(commandSlash) {
       if (!commandSlash.isChatInputCommand()) return;
       const text = commandSlash.options.getString('text');
-      if (text) {
+      if (text && commandSlash.channel) {
          await sendSearch(text, commandSlash.channel, commandSlash);
       }
    },
@@ -28,7 +33,7 @@ export const ime: Command = {
 
 async function sendSearch(
    text: string,
-   channel: any,
+   channel: TextBasedChannel,
    command: CommandInteraction | Message
 ) {
    const channela = await channelItsGuildTextChannel(channel);

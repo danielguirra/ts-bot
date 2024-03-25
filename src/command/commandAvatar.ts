@@ -1,8 +1,8 @@
 import {
-   CommandInteraction,
-   Interaction,
-   Message,
-   SlashCommandBuilder,
+    CommandInteraction,
+    Interaction,
+    Message,
+    SlashCommandBuilder,
 } from 'discord.js';
 
 import { Command } from '../interfaces/Command';

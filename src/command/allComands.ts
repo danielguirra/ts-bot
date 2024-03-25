@@ -1,4 +1,5 @@
 import { advice } from './commandAdvice';
+import { allSkinsLol } from './commandAllSkinsOfChampLol';
 import { avatar } from './commandAvatar';
 import { ban } from './commandBan';
 import { bible } from './commandBible';
@@ -70,4 +71,5 @@ export const allComands = [
    deleteUser,
    editUser,
    climateDaily,
+   allSkinsLol,
 ];
