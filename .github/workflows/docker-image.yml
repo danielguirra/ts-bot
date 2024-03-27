@@ -46,6 +46,6 @@ jobs:
               SSH_PUB_KEY: ${{secrets.SSH_PUB_KEY}}
               SSH_USER: ${{secrets.SSH_USER}}
 
-           run: echo "${{ secrets.SSH_PUB_KEY }}" > ~/.ssh/id_rsa.pub
-              ssh $SSH_USER@SSH_IP
+           run: echo "${{ secrets.SSH_PUB_KEY }}" > ~/.ssh/id_rsa.pub &&
+              ssh $SSH_USER@SSH_IP &&
               touch uga.txt
