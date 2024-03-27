@@ -14,31 +14,31 @@ jobs:
          - name: Checkout repository
            uses: actions/checkout@v3
 
-         #  - name: Decode secrets
-         #    env:
-         #       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-         #       DOCKER_URL_IMAGE_TO_PUSH: ${{secrets.DOCKER_URL_IMAGE_TO_PUSH}}
-         #       DOCKER_USER: ${{secrets.DOCKER_USER}}
-         #       ENVS_JSON: ${{secrets.ENVS_JSON}}
-         #       SQLITE_DUMP: ${{secrets.SQLITE_DUMP}}
-         #    run: |
-         #       echo "$ENVS_JSON" | base64 -d > envs.json
-         #       echo "$SQLITE_DUMP" | base64 -d > database.sqlite
+         - name: Decode secrets
+           env:
+              DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+              DOCKER_URL_IMAGE_TO_PUSH: ${{secrets.DOCKER_URL_IMAGE_TO_PUSH}}
+              DOCKER_USER: ${{secrets.DOCKER_USER}}
+              ENVS_JSON: ${{secrets.ENVS_JSON}}
+              SQLITE_DUMP: ${{secrets.SQLITE_DUMP}}
+           run: |
+              echo "$ENVS_JSON" | base64 -d > envs.json
+              echo "$SQLITE_DUMP" | base64 -d > database.sqlite
 
-         #  - name: Docker login and build
-         #    env:
-         #       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-         #       DOCKER_URL_IMAGE_TO_PUSH: ${{secrets.DOCKER_URL_IMAGE_TO_PUSH}}
-         #       DOCKER_USER: ${{secrets.DOCKER_USER}}
-         #    run: |
-         #       docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-         #       docker build . --file Dockerfile --tag $DOCKER_URL_IMAGE_TO_PUSH
+         - name: Docker login and build
+           env:
+              DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+              DOCKER_URL_IMAGE_TO_PUSH: ${{secrets.DOCKER_URL_IMAGE_TO_PUSH}}
+              DOCKER_USER: ${{secrets.DOCKER_USER}}
+           run: |
+              docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+              docker build . --file Dockerfile --tag $DOCKER_URL_IMAGE_TO_PUSH
 
-         #  - name: Docker push
-         #    env:
-         #       DOCKER_URL_IMAGE_TO_PUSH: ${{secrets.DOCKER_URL_IMAGE_TO_PUSH}}
-         #    run: |
-         #       docker push $DOCKER_URL_IMAGE_TO_PUSH
+         - name: Docker push
+           env:
+              DOCKER_URL_IMAGE_TO_PUSH: ${{secrets.DOCKER_URL_IMAGE_TO_PUSH}}
+           run: |
+              docker push $DOCKER_URL_IMAGE_TO_PUSH
 
          - name: SSH into VPS and run Docker Compose commands
            uses: appleboy/ssh-action@master
@@ -47,5 +47,6 @@ jobs:
               username: ${{ secrets.SSH_USER }}
               key: ${{ secrets.SSH_PRIVATE }}
               script: |
-                 sudo -i
-                 touch banana.txt
+                 sudo docker-compose pull
+                 sudo docker-compose down
+                 sudo docker-compose up -d
