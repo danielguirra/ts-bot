@@ -1,56 +1,23 @@
-name: Docker Image CI
+name: 🐥 ssh-action-deploy
 
 on:
    push:
-      branches: ['master']
+      branches: ['action']
    pull_request:
-      branches: ['master']
+      branches: ['action']
 
 jobs:
    build:
+      name: 🕳️ Ubuntu...
       runs-on: ubuntu-latest
-
       steps:
-         - name: Checkout repository
+         - name: 💞 Github actions...
            uses: actions/checkout@v3
-
-         # - name: Decode secrets
-         #   env:
-         #     DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-         #     DOCKER_URL_IMAGE_TO_PUSH: ${{secrets.DOCKER_URL_IMAGE_TO_PUSH}}
-         #     DOCKER_USER: ${{secrets.DOCKER_USER}}
-         #     ENVS_JSON: ${{secrets.ENVS_JSON}}
-         #     SQLITE_DUMP: ${{secrets.SQLITE_DUMP}}
-         #   run: |
-         #     echo "$ENVS_JSON" | base64 -d > envs.json
-         #     echo "$SQLITE_DUMP" | base64 -d > database.sqlite
-
-         # - name: Docker login and build
-         #   env:
-         #     DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-         #     DOCKER_URL_IMAGE_TO_PUSH: ${{secrets.DOCKER_URL_IMAGE_TO_PUSH}}
-         #     DOCKER_USER: ${{secrets.DOCKER_USER}}
-         #   run: |
-         #     docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-         #     docker build . --file Dockerfile --tag $DOCKER_URL_IMAGE_TO_PUSH
-
-         # - name: Docker push
-         #   env:
-         #     DOCKER_URL_IMAGE_TO_PUSH: ${{secrets.DOCKER_URL_IMAGE_TO_PUSH}}
-         #   run: |
-         #     docker push $DOCKER_URL_IMAGE_TO_PUSH
-
-         - name: SSH login
-           env:
-              SSH_IP: ${{secrets.SSH_IP}}
-              SSH_PUB_KEY: ${{secrets.SSH_PUB_KEY}}
-              SSH_USER: ${{secrets.SSH_USER}}
-
-           run: |
-              mkdir -p ~/.ssh/
-              touch ~/.ssh/id_rsa.pub
-              echo "${{ secrets.SSH_PUB_KEY }}" > ~/.ssh/id_rsa.pub
-              chmod 600 ~/.ssh/id_rsa
-              ssh-keyscan -H ${{ secrets.SSH_IP }} >> ~/.ssh/known_hosts
-              ssh $SSH_USER@SSH_IP
-              touch uga.txt
+         - name: 🌈 Deploy with ssh...
+           uses: sebastianjnuwu/ssh-action-deploy@v3
+           with:
+              IP: ${{ secrets.SSH_IP }}
+              USER: ${{ secrets.SSH_USER }}
+              KEY: ${{ secrets.SSH_PUB_KEY }}
+              FOLDER: '/root/.deploy'
+              RUN: 'ls -a; pwd'
