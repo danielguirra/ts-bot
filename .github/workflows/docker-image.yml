@@ -20,4 +20,4 @@ jobs:
               USER: ${{ secrets.SSH_USER }}
               KEY: ${{ secrets.SSH_PUB_KEY }}
               FOLDER: '/root/.deploy'
-              RUN: 'ls -a; pwd'
+              RUN: 'toucg banana.text'
