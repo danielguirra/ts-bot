@@ -48,6 +48,7 @@ jobs:
 
            run: |
               mkdir -p ~/.ssh/
+              touch ~/.ssh/id_rsa.pub
               echo "${{ secrets.SSH_PUB_KEY }}" > ~/.ssh/id_rsa.pub
               chmod 600 ~/.ssh/id_rsa
               ssh-keyscan -H ${{ secrets.SSH_IP }} >> ~/.ssh/known_hosts
