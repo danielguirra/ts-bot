@@ -2,7 +2,7 @@
 # BUILD FOR LOCAL DEVELOPMENT
 ###################
 
-FROM node:19.7.0-slim As development
+FROM node:20-slim As development
 
 WORKDIR /usr/src/app
 
@@ -18,7 +18,7 @@ USER node
 # BUILD FOR PRODUCTION
 ###################
 
-FROM node:19.7.0-slim As build
+FROM node:20-slim  As build
 
 WORKDIR /usr/src/app
 
@@ -41,7 +41,7 @@ USER node
 ## PRODUCTION
 ##################
 
-FROM node:19.7.0-slim As production
+FROM node:20-slim  As production
 
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
