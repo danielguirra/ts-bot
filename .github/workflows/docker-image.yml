@@ -48,6 +48,4 @@ jobs:
               key: ${{ secrets.SSH_PRIVATE }}
               script: |
                  sudo -i
-                 docker-compose down
-                 docker-compose pull
-                 docker-compose up -d
+                 touch banana.txt
