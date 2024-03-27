@@ -1,10 +1,10 @@
 import { GuildTextBasedChannel } from 'discord.js';
 
-import { googleImagePensador } from '../../util/googleImage';
 import { IPensador } from '../../interfaces/PensadorMessage';
 import { pensador } from '../../util/pensador';
 import { embedBuilder } from '../../util/getEmbed';
 import { URL } from 'url';
+import { googleImage } from '../../util/googleImage';
 
 export const sendLoveMessageDaily = async (
    channelLove?: GuildTextBasedChannel
@@ -13,13 +13,13 @@ export const sendLoveMessageDaily = async (
       const data: IPensador = await pensador.getFromAmor();
 
       const url = new URL('https://www.google.com/search?q=' + data.author);
-
+      const image = (await googleImage(data.author)) as string;
       const embed = embedBuilder(
          '💕 Por ' + data.author + ' 💕',
          data.message,
-         undefined,
+         image,
          data.author,
-         undefined,
+         image,
          undefined,
          'DarkVividPink',
          url.href

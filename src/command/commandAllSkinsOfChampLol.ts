@@ -28,10 +28,16 @@ export const allSkinsLol: Command = {
             .setRequired(true)
       ),
    async executeMessageCommand(commandMessage: Message) {
-      const user = commandMessage.mentions.users.first();
-      if (user) {
-         return commandMessage.reply(
-            user.displayAvatarURL({ extension: 'png' })
+      const championName = commandMessage.content.replace('*skinlol', '');
+      if (championName) {
+         return loadinCreator(
+            commandMessage,
+            async () => {
+               return await LeagueOfLegendsSkins.SkinsBasedInChampName(
+                  championName
+               );
+            },
+            undefined
          );
       }
       return;

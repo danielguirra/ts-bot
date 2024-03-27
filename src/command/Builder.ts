@@ -1,11 +1,4 @@
-import {
-   Collection,
-   CommandInteraction,
-   Interaction,
-   InteractionResponse,
-   Message,
-   SlashCommandBuilder,
-} from 'discord.js';
+import { Collection, SlashCommandBuilder } from 'discord.js';
 
 import { allComands } from './allComands';
 import { Command } from '../interfaces/Command';

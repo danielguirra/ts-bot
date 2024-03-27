@@ -18,6 +18,7 @@ export const love: Command = {
       const love = commandMessage.content.replace('*love ', '');
       const channel = await channelItsGuildTextChannel(commandMessage.channel);
       if (love && channel) {
+         commandMessage.react('❤');
          const loveSend = await sendLoveMessageDaily(channel);
       }
    },

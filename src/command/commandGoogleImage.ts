@@ -38,11 +38,11 @@ async function sendSearch(
 ) {
    const channela = await channelItsGuildTextChannel(channel);
    if (channela) {
-      const men = command.reply('Pesquisando ...').then(async () => {
+      command.reply('Pesquisando ...').then(async () => {
          const id = channela.lastMessageId;
          if (id) {
             const mensage = await channela.messages.fetch(id);
-            googleImage(text, channela, mensage);
+            await googleImage(text, channela, mensage);
          }
       });
    }
