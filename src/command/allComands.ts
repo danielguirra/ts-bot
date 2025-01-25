@@ -2,6 +2,7 @@ import { advice } from './commandAdvice';
 import { allSkinsLol } from './commandAllSkinsOfChampLol';
 import { avatar } from './commandAvatar';
 import { ban } from './commandBan';
+import { ot } from './commandOt';
 import { bible } from './commandBible';
 import { bibleverday } from './commandBibleVerDay';
 import { buzz } from './commandBuzz';
@@ -72,4 +73,5 @@ export const allComands = [
    editUser,
    climateDaily,
    allSkinsLol,
+   ot,
 ];
