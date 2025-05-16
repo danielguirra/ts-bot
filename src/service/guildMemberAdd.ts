@@ -19,10 +19,10 @@ export const guildMemberAdd = client.on('guildMemberAdd', async (newMember) => {
       )
    );
    if (bem) {
-      const sender = bem.send({
+      await bem.send({
          embeds: [
             embedBuilder(
-               `Seja Bem vindo ${newMember.displayName}`,
+               `Seja Bem vindo ${newMember.user.username}`,
                `${newMember}
     Nossa regras estão aqui:${regras}
     Precisar de ajuda digite *ajuda ou use /ajuda

@@ -1,2 +1,2 @@
 language = "nodejs"
-run = "npx node bin/src/server.js"
+run = " node ./dist/src/server.js"

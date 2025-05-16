@@ -1,5 +1,5 @@
-import axios from "axios";
-import { Activity, Channel, User } from "discord.js";
+import axios from 'axios';
+import { Activity, Channel, User } from 'discord.js';
 
 // import names from "../../data/json/nameslol.json";
 // import { client } from "../client/client";
@@ -37,5 +37,3 @@ import { Activity, Channel, User } from "discord.js";
 //       }
 //    }
 // );
-
-

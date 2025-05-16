@@ -1,6 +1,7 @@
 import { CommandInteraction, Message, SlashCommandBuilder } from 'discord.js';
 
 import { embedBuilder } from '../../src/util/getEmbed';
+import { Command } from '../../src/interfaces/Command';
 
 /**
  * Don't forget to export
@@ -8,12 +9,12 @@ import { embedBuilder } from '../../src/util/getEmbed';
  * @param Command
  * @danielguirra
  */
-export const newCommand = {
-  data: new SlashCommandBuilder().setName('').setDescription(''),
-  async executeMessageCommand(commandMessage: Message) {
-    return commandMessage.reply({ embeds: [embedBuilder('', '')] });
-  },
-  async executeSlashCommand(commandSlash: CommandInteraction) {
-    return commandSlash.reply({ embeds: [embedBuilder('', '')] });
-  },
+export const newCommand: Command = {
+   data: new SlashCommandBuilder().setName('').setDescription(''),
+   async executeMessageCommand(commandMessage: Message) {
+      return commandMessage.reply({ embeds: [embedBuilder('', '')] });
+   },
+   async executeSlashCommand(commandSlash: CommandInteraction) {
+      return commandSlash.reply({ embeds: [embedBuilder('', '')] });
+   },
 };
