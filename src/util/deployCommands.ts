@@ -4,7 +4,7 @@ import {
    Routes,
 } from 'discord.js';
 
-import { commands } from '../command/builder';
+import { commands } from '../command/build';
 import { env } from '../envs';
 import { logDate } from './logDate';
 
