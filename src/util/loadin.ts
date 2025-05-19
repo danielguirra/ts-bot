@@ -5,19 +5,13 @@ import {
    EmbedBuilder,
    Message,
 } from 'discord.js';
-import { SkinChampToEmbed } from '../command/commandAllSkinsOfChampLol';
+// import { SkinChampToEmbed } from '../command/commandAllSkinsOfChampLol';
 import { embedBuilder } from './getEmbed';
 
 export async function loadinCreator(
    command: Message | ChatInputCommandInteraction,
    exec: Function = function () {},
-   sender:
-      | Embed
-      | Embed[]
-      | string
-      | AttachmentBuilder
-      | undefined
-      | SkinChampToEmbed
+   sender: Embed | Embed[] | string | AttachmentBuilder | undefined
 ) {
    if (command instanceof Message) {
       command.reply('Carregando...').then((messageToEdit) => {
@@ -37,17 +31,7 @@ export async function loadinCreator(
       });
    }
 }
-async function send(
-   message: Message,
-   sender:
-      | Embed
-      | Embed[]
-      | string
-      | AttachmentBuilder
-      | undefined
-      | SkinChampToEmbed,
-   exec: Function
-) {
+async function send(message: Message, sender: any, exec: Function) {
    if (!sender) sender = await exec();
 
    if (typeof sender == 'string') {
@@ -68,7 +52,7 @@ async function send(
    return await message.edit({ embeds: sender });
 }
 
-async function embedChunk(skinChamp: SkinChampToEmbed, message?: Message) {
+async function embedChunk(skinChamp: any, message?: Message) {
    const response: { total: number; embeds: EmbedBuilder[] } = {
       total: skinChamp.skinsArray.length,
       embeds: [],

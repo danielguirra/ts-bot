@@ -1,8 +1,8 @@
 import {
-   SlashCommandBuilder,
-   Message,
    CommandInteraction,
    InteractionResponse,
+   Message,
+   SlashCommandBuilder,
 } from 'discord.js';
 
 type SlashResponse = Promise<
@@ -15,12 +15,7 @@ type DataTypeForCommand =
    | SlashCommandBuilder
    | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
 
-export class Command {
-   constructor(comm: Command) {
-      if (comm instanceof Command) Object.assign(this, comm);
-   }
-
-   data!: DataTypeForCommand;
+export class Command extends SlashCommandBuilder {
    executeMessageCommand!: (message: Message) => MessageResponse;
    executeSlashCommand!: (commandSlash: CommandInteraction) => SlashResponse;
 }

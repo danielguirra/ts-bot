@@ -1,19 +1,5 @@
 {
-  "name": "ts-bot",
-  "version": "1.1",
-  "icon": "https://cdn.discordapp.com/avatars/811255307673010246/8f145d7279847a9a6e46efd5ee3df6bf.webp",
-  "repository": "https://github.com/danielguirra/ts-bot",
-  "description": "DiscordBot in TypeScript",
-  "license": "MIT",
   "author": "Daniel Guirra <daniel.guirra777@gmail.com>",
-  "scripts": {
-    "build": "node ./util/build.js",
-    "dev": "npx nodemon ./src/server.ts",
-    "start": "npm run build && node ./dist/src/server.js",
-    "test": "node  --import tsx --test ./test/comand.spec.ts",
-    "startnotbuild": "npx ts-node ./src/server.ts",
-    "commandCreator": "node ./util/commandBaseTs/commandCreatorForName.js"
-  },
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
     "@vitalets/google-translate-api": "^7.0.0",
@@ -29,7 +15,7 @@
     "sqlite3": "^5.1.7",
     "striptags": "^3.2.0"
   },
-  "main": "server.ts",
+  "description": "DiscordBot in TypeScript",
   "devDependencies": {
     "@types/cron": "^1.7.3",
     "@types/express": "^4.17.13",
@@ -40,5 +26,18 @@
     "nodemon": "^2.0.22",
     "prompt": "^1.3.0",
     "ts-node": "^10.9.2"
-  }
+  },
+  "icon": "https://cdn.discordapp.com/avatars/811255307673010246/8f145d7279847a9a6e46efd5ee3df6bf.webp",
+  "license": "MIT",
+  "main": "server.ts",
+  "name": "ts-bot",
+  "repository": "https://github.com/danielguirra/ts-bot",
+  "scripts": {
+    "build": "node ./util/build.js",
+    "dev": "npx nodemon ./src/server.ts",
+    "start": "npm run build && node ./dist/src/server.js",
+    "startnotbuild": "npx ts-node ./src/server.ts",
+    "test": "node  --import tsx --test ./test/comand.spec.ts"
+  },
+  "version": "2.0"
 }

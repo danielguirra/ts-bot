@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
 
-import { env } from '../envs';
 import { client } from '../client/client';
-import { commands } from '../command/Builder';
+import { commands } from '../command/builder';
+import { env } from '../envs';
 import { logDate } from '../util/logDate';
 
 const prefix = env.PREFIX || '*';
@@ -10,25 +10,29 @@ const prefix = env.PREFIX || '*';
 export const messageCreate = client.on(
    'messageCreate',
    async (message: Message) => {
-      const args = message.content.slice(prefix?.length).trim().split(/ +/);
-      const command = (args[0].toLowerCase() as string) || undefined;
+      if (message.author.bot || !message.content.startsWith(prefix)) return;
 
-      if (typeof command === 'string') {
-         const commandExecutor = commands.get(command);
-         if (commandExecutor) {
-            try {
-               commandExecutor.executeMessageCommand(message);
+      const args = message.content.slice(prefix.length).trim().split(/ +/);
+      const commandName = args.shift()?.toLowerCase(); // Pega o nome do comando
 
-               console.log(
-                  logDate() +
-                     'Comando Message: ' +
-                     commandExecutor.data.name +
-                     ' foi usado pelo : ' +
-                     message.author.id
-               );
-            } catch (error) {
-               return;
-            }
+      if (!commandName) return;
+
+      const command = commands.get(commandName);
+
+      if (command && typeof command.executeMessageCommand === 'function') {
+         try {
+            await command.executeMessageCommand(message);
+
+            console.log(
+               `${logDate()}\x1b[35m[MSG]\x1b[0m \x1b[31m${command.name.toUpperCase()}\x1b[0m usado por \x1b[35m${
+                  message.author.tag
+               }\x1b[0m \x1b[34m(${message.author.id})\x1b[0m`
+            );
+         } catch (error) {
+            console.error(
+               `${logDate()}\x1b[31m[ERRO]\x1b[0m Falha ao executar ${commandName}:`,
+               error
+            );
          }
       }
    }

@@ -4,9 +4,9 @@ import {
    Routes,
 } from 'discord.js';
 
-import { commands } from '../command/Builder';
-import { logDate } from './logDate';
+import { commands } from '../command/builder';
 import { env } from '../envs';
+import { logDate } from './logDate';
 
 const clientId = env.CLIENTID;
 const guildId = env.GUILD;
@@ -15,7 +15,7 @@ const rest = new REST({ version: '10' }).setToken(env.BOTTOKEN || '');
 const allComands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
 
 for (const key of commands) {
-   allComands.push(key[1].data.toJSON());
+   allComands.push(key[1].toJSON());
 }
 
 export const deployCommand = async () => {
