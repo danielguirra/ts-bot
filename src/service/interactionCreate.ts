@@ -2,7 +2,7 @@ import { InteractionType } from 'discord.js';
 
 import { client } from '../client/client';
 
-import { commands } from '../command/build';
+import { commands } from '../command/builder';
 import { logDate } from '../util/logDate';
 
 export const interactionCreate = client.on(

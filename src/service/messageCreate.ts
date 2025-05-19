@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
 
 import { client } from '../client/client';
-import { commands } from '../command/build';
+import { commands } from '../command/builder';
 import { env } from '../envs';
 import { logDate } from '../util/logDate';
 
