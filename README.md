@@ -1,90 +1,121 @@
-# TS-BOT
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-<p align="center">
-  <a href="https://discord.gg/QujfHqdUDg" target="blank"><img src= "https://images-ext-1.discordapp.net/external/KZkH03XWnjo0CHXPEksMx3cRhz0eD0ZHFkgLwOGPLEs/https/cdn.discordapp.com/avatars/811255307673010246/8f145d7279847a9a6e46efd5ee3df6bf.webp?format=webp" width="200" alt="Nest Logo" /></a>
-</p>
-## Summary
+<body>
 
-A bot that does server administration like banning, creating important tags with embed's, welcome message and much more.
+  <h1 class="center">TS-BOT</h1>
 
-### Requirements
+  <div class="center">
+    <a href="https://discord.gg/QujfHqdUDg" target="_blank" rel="noopener noreferrer">
+      <img src="https://cdn.discordapp.com/avatars/811255307673010246/8f145d7279847a9a6e46efd5ee3df6bf.webp?format=webp" alt="TS-Bot Logo" width="200" />
+    </a>
+  </div>
 
-For development, you will only need Node.js and a node global package, installed in your environement, use .envexemple.
+  <h2>Resumo</h2>
+  <p>Bot para administração de servidores Discord com funcionalidades como banimento, criação de tags importantes com embeds, mensagens de boas-vindas, e muito mais.</p>
 
-Token Discord [Offical Discord Developer website](https://discord.com/developers)
+  <hr />
 
-Token TenorGif [Offical TenorApi website](https://tenor.com/gifapi)
+  <h2>Requisitos</h2>
+  <p>Para desenvolvimento, você precisa apenas do Node.js e do gerenciador de pacotes (npm ou yarn). Use o arquivo <code>.envexample</code> como modelo para suas variáveis de ambiente.</p>
 
----
+  <h3>Tokens necessários</h3>
+  <ul>
+    <li><strong>Token Discord</strong>: Obtenha no <a href="https://discord.com/developers" target="_blank" rel="noopener noreferrer">Discord Developer Portal oficial</a></li>
+    <li><strong>Token TenorGif</strong>: Obtenha no <a href="https://tenor.com/gifapi" target="_blank" rel="noopener noreferrer">Tenor API oficial</a></li>
+  </ul>
 
-NodeJS
+  <hr />
 
--  #### Windows
+  <h2>Instalação do Node.js</h2>
 
-   [Official Node.js website](https://nodejs.org/) and download the installer.
+  <h3>Windows</h3>
+  <p>Baixe o instalador no <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer">site oficial do Node.js</a>.</p>
 
--  #### Node installation on Ubuntu
+  <h3>Ubuntu</h3>
+  <pre><code>sudo apt install nodejs
+sudo apt install npm
+</code></pre>
 
-       $ sudo apt install nodejs
-       $ sudo apt install npm
+  <h3>Outros sistemas</h3>
+  <p>Consulte os sites oficiais do <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer">Node.js</a> e do <a href="https://npmjs.org/" target="_blank" rel="noopener noreferrer">npm</a>.</p>
 
--  #### Other Operating Systems
-   You can find more information about the installation on the [official Node.js website](https://nodejs.org/) and the [official NPM website](https://npmjs.org/).
+  <hr />
 
----
+  <h2>Versões utilizadas</h2>
+  <pre><code>node --version
+v20.11.1
 
-I used this version of NodeJS, I don't guarantee it will work on older versions
+npm --version
+v10.2.4
+</code></pre>
 
-    $ node --version
-    v20.11.1
+  <p>Recomendo usar essas versões para evitar incompatibilidades.</p>
 
-    $ npm --version
-    v10.2.4
+  <hr />
 
-## Deploy
+  <h2>Deploy</h2>
+  <p>Você pode fazer deploy em plataformas como Heroku, Replit ou executar localmente.</p>
 
----
+<a href="https://heroku.com/deploy?template=https://github.com/danielguirra/ts-bot/" target="_blank" rel="noopener noreferrer" class="button">Deploy no Heroku</a>
+<a href="https://replit.com/github.com/danielguirra/ts-bot/" target="_blank" rel="noopener noreferrer" class="button">Deploy no Replit</a>
 
-You can deploy to Heroku or Replit or install locally yourself.
+  <hr />
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/danielguirra/ts-bot/)Heroku
+  <h2>Instalação do projeto</h2>
+  <pre><code>git clone https://github.com/danielguirra/ts-bot.git
+cd ts-bot
+npm install
+# ou
+yarn install
+</code></pre>
 
-[![Deploy](https://avatars.githubusercontent.com/u/983194?s=50&v=4)](https://replit.com/github.com/danielguirra/ts-bot/)Replit
+  <hr />
 
-## Install
+  <h2>Build</h2>
+  <pre><code>npm run build
+# ou
+yarn build
+</code></pre>
 
-    $ git clone https://github.com/danielguirra/ts-bot/
-    $ cd ts-bot
-    $ npm install
-    or
-    $ yarn install
+  <hr />
 
-## Build
+  <h2>Execução</h2>
+  <pre><code>npm run start
+# ou
+yarn start
+</code></pre>
 
-    $ yarn build
-    $ npm run build
+  <hr />
 
-## Running the project
+  <h2>Desenvolvimento</h2>
+  <pre><code>npm run dev
+# ou
+yarn dev
+</code></pre>
 
-    $ yarn start
-    $ npm run start
+  <hr />
 
-## Dev
+  <h2>Docker</h2>
 
-    $ yarn dev
-    $ npm run dev
+  <h3>Build da imagem</h3>
+  <pre><code>docker build . -f ./Dockerfile -t ts-bot-image
+</code></pre>
 
-## Can't Use Sure Docker or Docker Compose
+  <h3>Executar container</h3>
+  <pre><code>docker run -p 4040:4040 --name ts-bot ts-bot-image
+</code></pre>
 
-#### Docker
+  <hr />
 
-    $ docker build . --f ./Dockerfile --tag ts-bot-image
-    $ docker run -p 4040:4040 --name ts-bot ts-bot-image
+  <h2>Docker Compose</h2>
+  <pre><code>docker-compose up -d
+</code></pre>
 
-#### Compose
+  <hr />
 
-    $ docker-compose -up -d
+  <h2>Licença</h2>
+  <p><a href="https://choosealicense.com/licenses/mit/" target="_blank" rel="noopener noreferrer">MIT</a></p>
 
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+</body>
+</html>
