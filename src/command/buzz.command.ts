@@ -5,6 +5,7 @@ import {
    Interaction,
    Message,
    SlashCommandBuilder,
+   TextChannel,
 } from 'discord.js';
 
 import { channelItsGuildTextChannel } from '../util/channelItsGuildTextChannel';
@@ -34,7 +35,7 @@ export class BuzzCommand extends SlashCommandBuilder {
 
       if (user1 && user2) {
          const image = await this.buzzImageCanvasBuilder(user1, user2);
-         if (image) {
+         if (image && channel instanceof TextChannel) {
             await channel.send({ files: [image] });
          }
       }

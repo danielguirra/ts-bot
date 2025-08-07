@@ -2,9 +2,9 @@ import axios from 'axios';
 import { GuildTextBasedChannel, TextBasedChannel } from 'discord.js';
 import weatherCode from '../../../data/json/weatherCode.json';
 import emojis from '../../../data/json/weatherEmoji.json';
+import { env } from '../../envs';
 import { embedBuilder } from '../../util/getEmbed';
 import { UserToSendClimate } from './climateDMSender';
-import { env } from '../../envs';
 
 export const sendClimate = async (city: string) => {
    try {
@@ -57,12 +57,11 @@ export const sendClimate = async (city: string) => {
                temperaturaMediaC: clim.data.weather[0].avgtempC,
                porHora: climatePorHora,
             };
-            return (
-               {
-                  embeds: [
-                     embedBuilder(
-                        `Clima de ${cityNameToReturnInEmbed} Hoje`,
-                        `
+            return {
+               embeds: [
+                  embedBuilder(
+                     `Clima de ${cityNameToReturnInEmbed} Hoje`,
+                     `
 	        Temperatura média : ${climate.temperaturaMediaC}C°
 	
 	        Hora:**${climate.porHora[0].hora}**
@@ -131,14 +130,13 @@ export const sendClimate = async (city: string) => {
 	        ----------------------------------------------------
 	        
 	        `,
-                        '',
-                        '',
-                        'https://static.escolakids.uol.com.br/conteudo_legenda/4e3d738c244f4c5f3b56f46260402cc4.jpg',
-                        ''
-                     ),
-                  ],
-               } || ''
-            );
+                     '',
+                     '',
+                     'https://static.escolakids.uol.com.br/conteudo_legenda/4e3d738c244f4c5f3b56f46260402cc4.jpg',
+                     ''
+                  ),
+               ],
+            };
          } catch (err) {
             console.log(err);
             return false;

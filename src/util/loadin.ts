@@ -19,16 +19,26 @@ export async function loadinCreator(
       });
    }
    if (command instanceof ChatInputCommandInteraction) {
-      command.reply('Carregando').then((interactionResponse) => {
-         interactionResponse.interaction.channel?.messages
-            .fetch()
-            .then((CollectionOfMessages) => {
-               const first = CollectionOfMessages.first();
-               if (first instanceof Message) {
-                  send(first, sender, exec).then(() => {});
-               }
-            });
+      const intereactionResponse = await command.reply({
+         content: 'Carregando',
+         ephemeral: false,
       });
+
+      const channel = intereactionResponse.interaction.channel;
+
+      if (channel) {
+         const collectionOfMessages = await channel.messages.fetch();
+         if (collectionOfMessages) {
+            const first = collectionOfMessages.first();
+            if (first && first instanceof Message) {
+               await send(first, sender, exec);
+               if (command.commandName == 'news') await first.react('👎');
+               return first;
+            }
+         }
+         return;
+      }
+      return;
    }
 }
 async function send(message: Message, sender: any, exec: Function) {
@@ -40,8 +50,8 @@ async function send(message: Message, sender: any, exec: Function) {
    if (sender instanceof AttachmentBuilder) {
       return await message.edit({ files: [sender] });
    }
-   if (sender instanceof Embed) {
-      return await message.edit({ embeds: [sender] });
+   if (sender instanceof EmbedBuilder) {
+      return (await message.edit({ embeds: [sender] })).react('👍');
    }
    if (sender && 'icon' in sender) {
       if (sender.skinsArray.length > 10) {
@@ -52,7 +62,7 @@ async function send(message: Message, sender: any, exec: Function) {
    return await message.edit({ embeds: sender });
 }
 
-async function embedChunk(skinChamp: any, message?: Message) {
+async function embedChunk(skinChamp: any, message?: any) {
    const response: { total: number; embeds: EmbedBuilder[] } = {
       total: skinChamp.skinsArray.length,
       embeds: [],

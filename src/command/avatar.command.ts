@@ -1,6 +1,7 @@
 import {
    CommandInteraction,
    Interaction,
+   InteractionContextType,
    Message,
    SlashCommandBuilder,
 } from 'discord.js';
@@ -10,6 +11,10 @@ export class AvatarCommand extends SlashCommandBuilder {
       super();
       this.setName('avatar')
          .setDescription('Pega o Avatar do Usuario')
+         .setContexts([
+            InteractionContextType.Guild,
+            InteractionContextType.BotDM,
+         ])
          .addUserOption((userOption) =>
             userOption
                .setName('user')

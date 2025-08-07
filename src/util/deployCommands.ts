@@ -4,31 +4,41 @@ import {
    Routes,
 } from 'discord.js';
 
+import { console } from 'inspector';
 import { commands } from '../command/builder';
 import { env } from '../envs';
 import { logDate } from './logDate';
 
-const clientId = env.CLIENTID;
-const guildId = env.GUILD;
-const rest = new REST({ version: '10' }).setToken(env.BOTTOKEN || '');
+export class Deploy {
+   private _clientId: string = env.CLIENTID;
+   private _guildId: string = env.GUILD;
+   private _rest: REST = new REST({ version: '10' }).setToken(
+      env.BOTTOKEN || ''
+   );
+   private _commandsToDeployOnJSON: RESTPostAPIChatInputApplicationCommandsJSONBody[] =
+      [];
 
-const allComands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
-
-for (const key of commands) {
-   allComands.push(key[1].toJSON());
-}
-
-export const deployCommand = async () => {
-   if (typeof clientId !== 'string' || typeof guildId !== 'string') {
-      throw new Error('verify envs');
+   constructor() {
+      if (!this._clientId) throw new Error('Verify Envs');
+      this.ListCommands();
+      this.PostCommands()
+         .then(() => {
+            console.log(
+               logDate() + 'Comandos globais registrados (disponíveis em DMs)'
+            );
+         })
+         .catch((err) => console.error(err));
    }
 
-   try {
-      await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
-         body: allComands,
+   ListCommands() {
+      for (const commad of commands) {
+         this._commandsToDeployOnJSON.push(commad[1].toJSON());
+      }
+   }
+
+   async PostCommands() {
+      await this._rest.put(Routes.applicationCommands(this._clientId), {
+         body: this._commandsToDeployOnJSON,
       });
-      return console.log(logDate() + 'Os Comandos Foram Atualizados');
-   } catch (message_2) {
-      return console.error(message_2);
    }
-};
+}
